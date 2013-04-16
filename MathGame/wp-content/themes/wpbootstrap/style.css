@@ -1,0 +1,27 @@
+@import url('bootstrap/css/bootstrap.css');
+@import url('bootstrap/css/bootstrap-responsive.css');
+@import url('jRating.jquery.css');
+@media (min-width: 979px) {
+	body {
+		padding-bottom: 40px;
+	}
+}
+
+.navbar-fixed-top,
+.navbar-fixed-bottom {
+	position: static;
+	right: 0;
+	left: 0;
+	z-index: 10;
+	margin-bottom: 19px;
+}
+
+#appendedPrependedInput {
+	margin-right: 5px;
+}
+
+
+#level-rate {
+	margin-top: 50px;
+	margin-left: 30px;
+}
