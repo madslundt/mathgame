@@ -6,16 +6,17 @@ function addScoreToLevelFunction() {
 		"
 			INSERT INTO $wpdb->_score
 			( errors, points, finished, time, user_ID, level_ID )
-			VALUES ( %d, %d, %d, %f, %d, %d, %d )
+			VALUES ( %d, %d, %d, %f, %d, %d )
 		", array( 
-		       	$_POST['errors'],
-		       	$_POST['points'],
-		       	$_POST['finished'],
+		       	$_POST['error'],
+		       	$_POST['point'],
+		       	$_POST['finish'],
 		       	$_POST['time'],
 		       	get_current_user_id(),
 		       	$_POST['level']
 			)
 	) );
+	die();
 }
 add_action('wp_ajax_addScoreToLevel', 'addScoreToLevelFunction');  // Only logged in users
 

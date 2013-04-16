@@ -99,13 +99,12 @@
 				// Send to NumberBubble min_number, max_number, min_speed, max_speed
 
 				u.getUnity().SendMessage("MainCamera", "getLevel", <?php echo $level ?>);
-				u.getUnity().SendMessage("MainCamera", "getUserId", <?php echo $current_user->ID; ?>);
-			}
+				u.getUnity().SendMessage("MainCamera", "getUserId", <?php echo get_current_user_id(); ?>);
+			
+}
+			function UnityFinished(points, errors, playtime, finished) {
 
-			function UnityFinished(points, errors, time, finished) {
-				console.log("test: " + points);
-				console.log("test2: " + errors);
-				console.log("test3: " + time);
+				console.log("Points: " + points + "\nErrors: " + errors + "\nTime: " + playtime + "\nFinished: " + finished);
 				jQuery.ajax({  
 					type: 'POST',
 					cache: false,  
@@ -113,16 +112,16 @@
 					data: {  
 						action: 'addScoreToLevel',  
 						level: <?php echo $level; ?>,
-						points: points,
-						errors: errors,
-						time: time,
-						finished: finished
+						point: points,
+						error: errors,
+						time: playtime,
+						finish: finished
 					},
 					success: function(data, textStatus, XMLHttpRequest) {
 					
 					},  
 					error: function(MLHttpRequest, textStatus, errorThrown) {
-						alert("<?php _e('Could not rate the level.', 'wpbootstrap'); ?>");  
+						alert("<?php _e('Could not upload score.', 'wpbootstrap'); ?>");  
 					}  
 				 });
 				if (!rated)
@@ -192,5 +191,6 @@
 				</div>
 			</div>
 		</div>
+
 		<p class="header"><span>Unity Web Player | </span>MathGame</p>
 		<p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
