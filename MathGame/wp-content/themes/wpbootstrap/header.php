@@ -44,15 +44,15 @@
           <a class="brand" href="<?php echo site_url(); ?>"><?php bloginfo('name'); ?></a>
           <div class="nav-collapse collapse">
             <ul class="nav" style="z-index: 10;">
-				<?php //wp_list_pages(array('title_li' => '', 'exclude' => 4));
-				$menu = 'Visitor';
+				<?php
+				$menu = 'guest';
 				if (is_user_logged_in()) {
 					switch ($current_user->user_level)
 					{
 						case 0:
 						case 1:
 						case 2:
-							$menu = 'User';
+							$menu = 'user';
 							break;
 						case 3:
 						case 4:
@@ -63,11 +63,12 @@
 						case 9:
 						case 10:
 						default:
-							$menu = 'Teacher';
+							$menu = 'teacher';
 							break;
 					}					
 				}
-				wp_nav_menu(array('title_li' => '', 'items_wrap' => '<li class="%2$s">%3$s</li>', 'container' => 'li', 'menu' => $menu, 'walker' => new Bootstrap_Walker()));
+				wp_nav_menu(array('title_li' => '', 'items_wrap' => '<li class="%2$s">%3$s</li>', 'container' => 'li', 'theme_location' => $menu, 'walker' => new Bootstrap_Walker()));
+				
 				?>
 			</ul>
 			<ul class="nav pull-right">

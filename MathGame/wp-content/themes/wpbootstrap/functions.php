@@ -119,6 +119,16 @@ function wpbootstrap_scripts_with_jquery()
 }
 add_action( 'wp_enqueue_scripts', 'wpbootstrap_scripts_with_jquery' );
 
+function register_my_menus() {
+	register_nav_menus(array(
+		'teacher' => __('Teacher menu', 'wpbootstrap'),
+		'user' => __('User menu', 'wpbootstrap'),
+		'guest' => __('Guest menu', 'wpbootstrap')
+	));
+}
+add_action('init', 'register_my_menus');
+
+
 function get_ID_by_slug($page_slug) {
     $page = get_page_by_path($page_slug);
     if ($page) {
