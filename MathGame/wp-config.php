@@ -19,10 +19,10 @@
 define('DB_NAME', 'MathGame');
 
 /** MySQL database username */
-define('DB_USER', 'root');
+define('DB_USER', 'xxx');
 
 /** MySQL database password */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'xxx');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
