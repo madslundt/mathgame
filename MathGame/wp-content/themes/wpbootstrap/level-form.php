@@ -26,7 +26,7 @@
 			exit();
 		}
 		// GET LEVEL DATA
-		$postids = $wpdb->get_results( $wpdb->prepare( 
+		$postids = $wpdb->get_row( $wpdb->prepare( 
 							"
 							SELECT *
 							FROM  $wpdb->_level
@@ -42,25 +42,25 @@
 							", $level
 						) );
 						
-		$cur_name = $postids[0]->name;
+		$cur_name = $postids->name;
 		
-		$cur_carSpeed = $postids[0]->car_speed;	
+		$cur_carSpeed = $postids->car_speed;	
 		
-		$cur_carTimer = $postids[0]->car_time;
+		$cur_carTimer = $postids->car_time;
 		
-		$cur_buildTimer = $postids[0]->build_time;
+		$cur_buildTimer = $postids->build_time;
 		
 		$cur_bridgePillar = count($postids2);
 		
-		$cur_numberBubbles = $postids[0]->number_bubbles;
+		$cur_numberBubbles = $postids->number_bubbles;
 		
-		$cur_numberRange1 = $postids[0]->min_number;
-		$cur_numberRange2 = $postids[0]->max_number;
+		$cur_numberRange1 = $postids->min_number;
+		$cur_numberRange2 = $postids->max_number;
 		
-		$cur_minSpeed = $postids[0]->min_speed;
-		$cur_maxSpeed = $postids[0]->max_speed;
+		$cur_minSpeed = $postids->min_speed;
+		$cur_maxSpeed = $postids->max_speed;
 		
-		$cur_bonusNumber = $postids[0]->bonus_number;
+		$cur_bonusNumber = $postids->bonus_number;
 		
 		$cur_bridgePoints = array();
 		

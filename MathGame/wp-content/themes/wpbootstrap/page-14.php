@@ -163,7 +163,6 @@ $.fn.jRating = function(op) {
 						data: {  
 							action: 'addRatingToLevel',  
 							level: <?php echo $level; ?>,
-							user: <?php echo get_current_user_id(); ?>,
 							rating: rate
 						},
 						success: function(data, textStatus, XMLHttpRequest) {

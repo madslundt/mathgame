@@ -10,6 +10,21 @@
 	$level = 0;
 	if ($_GET['level']) {
 		$level = $_GET['level'];
+		$curlevel = $wpdb->get_row( $wpdb->prepare( 
+			"
+			SELECT *
+			FROM $wpdb->_level
+			WHERE ID = %d
+			", $level
+		) );
+		$curlevelBridge = $wpdb->get_col( $wpdb->prepare( 
+			"
+			SELECT points
+			FROM $wpdb->_bridge
+			WHERE level_ID = %d
+			ORDER BY number_pillar
+			", $level
+		) );
 	}
 ?>
 	<script type="text/javascript">
@@ -21,7 +36,6 @@
 		-->
 		</script>
 		<script type="text/javascript">
-		console.log(window.innerWidth);
 		<!--
 			var config = {
 				width: window.innerWidth * 0.8, 
@@ -32,6 +46,9 @@
 			var u = new UnityObject2(config);
 			jQuery(function() {
 
+				if (!rated)
+					$('#level-rate').hide();
+				
 				var $missingScreen = jQuery("#unityPlayer").find(".missing");
 				var $brokenScreen = jQuery("#unityPlayer").find(".broken");
 				$missingScreen.hide();
@@ -69,8 +86,47 @@
 			});
 			function UnityIsReady()
 			{
+				// Send to MainCamera car_time, build_time, bonus_number, number_bubbles, bridge
+				u.getUnity().SendMessage("MainCamera", "getCarTime", <?php echo $curlevel->car_time ?>);
+				u.getUnity().SendMessage("MainCamera", "getBuildTime", <?php echo $curlevel->build_time ?>);
+				u.getUnity().SendMessage("MainCamera", "getBonusNumber", <?php echo $curlevel->bonus_number ?>);
+				u.getUnity().SendMessage("MainCamera", "getNumberBubbles", <?php echo $curlevel->number_bubbles ?>);
+				u.getUnity().SendMessage("MainCamera", "setBridgeLength", <?php echo count($curlevelBridge); ?>);
+				<?php foreach ($curlevelBridge as $b) { ?>
+					u.getUnity().SendMessage("MainCamera", "addBridgePillar", <?php echo $b; ?>);
+				<?php } ?>
+				
+				// Send to NumberBubble min_number, max_number, min_speed, max_speed
+
 				u.getUnity().SendMessage("MainCamera", "getLevel", <?php echo $level ?>);
 				u.getUnity().SendMessage("MainCamera", "getUserId", <?php echo $current_user->ID; ?>);
+			}
+
+			function UnityFinished(points, errors, time, finished) {
+				console.log("test: " + points);
+				console.log("test2: " + errors);
+				console.log("test3: " + time);
+				jQuery.ajax({  
+					type: 'POST',
+					cache: false,  
+					url: "<?php echo home_url() . '/wp-admin/admin-ajax.php'; ?>",  
+					data: {  
+						action: 'addScoreToLevel',  
+						level: <?php echo $level; ?>,
+						points: points,
+						errors: errors,
+						time: time,
+						finished: finished
+					},
+					success: function(data, textStatus, XMLHttpRequest) {
+					
+					},  
+					error: function(MLHttpRequest, textStatus, errorThrown) {
+						alert("<?php _e('Could not rate the level.', 'wpbootstrap'); ?>");  
+					}  
+				 });
+				if (!rated)
+					$('#level-rate').show();
 			}
 		-->
 		</script>

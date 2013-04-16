@@ -1,5 +1,24 @@
 <?php
 
+function addScoreToLevelFunction() {
+	global $wpdb;
+	$wpdb->query( $wpdb->prepare( 
+		"
+			INSERT INTO $wpdb->_score
+			( errors, points, finished, time, user_ID, level_ID )
+			VALUES ( %d, %d, %d, %f, %d, %d, %d )
+		", array( 
+		       	$_POST['errors'],
+		       	$_POST['points'],
+		       	$_POST['finished'],
+		       	$_POST['time'],
+		       	get_current_user_id(),
+		       	$_POST['level']
+			)
+	) );
+}
+add_action('wp_ajax_addScoreToLevel', 'addScoreToLevelFunction');  // Only logged in users
+
 function addRatingToLevelFunction() {
 	global $wpdb;
 	$wpdb->query( $wpdb->prepare( 
@@ -9,7 +28,7 @@ function addRatingToLevelFunction() {
 		VALUES ( %d, %d, %d )
 		", array(
 			$_POST['rating'],
-	        $_POST['user'],
+	        get_current_user_id(),
 	        $_POST['level']
        	)
 	) );
