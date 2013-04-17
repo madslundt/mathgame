@@ -41,7 +41,7 @@
 				foreach ($levels as $level) {
 					$revisions = $wpdb->get_results( $wpdb->prepare( 
 						"
-						SELECT l.* 
+						SELECT l.*, r.*
 						FROM $wpdb->_level_revision r
 						INNER JOIN $wpdb->_level l ON r.level_ID = l.ID
 						WHERE r.level_revision = %d
@@ -59,7 +59,7 @@
 					
 					$count = count($revisions) + 1;
 					echo '<tr>';
-						echo '<td rowspan="' . $count . '"><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $level->ID . '">' . $level->ID . '</a></p></td>';
+						echo '<td><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $level->ID . '">' . $level->ID . '</a></p></td>';
 						echo '<td>' . $level->name . '</td>';
 						echo '<td>' . $level->car_time . '</td>';
 						echo '<td>' . $level->build_time . '</td>';
@@ -79,8 +79,9 @@
 							WHERE level_ID = %d
 							", $revision->ID
 						) );
-						
+
 						echo '<tr>';
+							echo '<td><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '">' . $revision->level_revision . 'r</a></p></td>';
 							echo '<td>' . $revision->name . '</td>';
 							echo '<td>' . $revision->car_time . '</td>';
 							echo '<td>' . $revision->build_time . '</td>';
