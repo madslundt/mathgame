@@ -201,8 +201,8 @@ $(function() {
         $( "#carTimerLabel" ).text( ui.value + ' <?php _e('seconds', 'wpbootstrap'); ?>');
       }
     });
-    $( "#carTimer" ).val($( "#slider-car-timer" ).slider( "value" ) + ' <?php _e('second', 'wpbootstrap'); ?>' + 's');
-	$( "#carTimerLabel" ).text($( "#slider-car-timer" ).slider( "value" ) + ' <?php _e('second', 'wpbootstrap'); ?>' + 's');
+    $( "#carTimer" ).val($( "#slider-car-timer" ).slider( "value" ) + ' <?php _e('seconds', 'wpbootstrap'); ?>');
+	$( "#carTimerLabel" ).text($( "#slider-car-timer" ).slider( "value" ) + ' <?php _e('seconds', 'wpbootstrap'); ?>');
 	
   $( "#slider-build-timer" ).slider({
       value: <?php echo $cur_buildTimer; ?>,
@@ -213,8 +213,8 @@ $(function() {
         $( "#buildTimerLabel" ).text( ui.value + ' <?php _e('seconds', 'wpbootstrap'); ?>');
       }
     });
-    $( "#buildTimer" ).val($( "#slider-build-timer" ).slider( "value" ) + ' <?php _e('second', 'wpbootstrap'); ?>' + 's' );
-	$( "#buildTimerLabel" ).text($( "#slider-build-timer" ).slider( "value" ) + ' <?php _e('second', 'wpbootstrap'); ?>' + 's' );
+    $( "#buildTimer" ).val($( "#slider-build-timer" ).slider( "value" ) + ' <?php _e('seconds', 'wpbootstrap'); ?>');
+	$( "#buildTimerLabel" ).text($( "#slider-build-timer" ).slider( "value" ) + ' <?php _e('seconds', 'wpbootstrap'); ?>');
 	
   $( "#slider-bridge-pillar" ).slider({
       value: <?php echo $cur_bridgePillar; ?>,

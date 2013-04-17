@@ -17,7 +17,7 @@
 		<?php if ($_GET['view'] == 'group') { 
 			$view = 'group';
 		?>
-			<h3><?php _e('Group highscore', 'wpboostrap'); ?></h3>
+			<h3><?php _e('Group highscore', 'wpbootstrap'); ?></h3>
 			<div class="row">
 				<div class="span2">
 					<?php
@@ -32,7 +32,7 @@
 		<?php } else if ($_GET['view'] == 'user') { 
 			$view = 'user';	
 		?>
-			<h3><?php _e('User highscore', 'wpboostrap'); ?></h3>
+			<h3><?php _e('User highscore', 'wpbootstrap'); ?></h3>
 			<div class="row">
 				<div class="span2">
 					<?php
@@ -59,7 +59,7 @@
 		<?php } else { 
 			$view = 'level';	
 		?>
-			<h3><?php _e('Level highscore', 'wpboostrap'); ?></h3>
+			<h3><?php _e('Level highscore', 'wpbootstrap'); ?></h3>
 			<div class="row">
 				<div class="span2">
 					<?php	
@@ -114,9 +114,9 @@
 	</fieldset>
 </form>
 	<div class="row">
-		<div class="span2 pull-right">
+		<div class="span3 pull-right">
 			<div class="row">
-				<div class="span2">
+				<div class="span3">
 					<ul id="myTab" class="nav nav-tabs">
 		            <li class="active"><a href="#table" data-toggle="tab"><i class="icon-align-justify"></i><?php _e('Table', 'wpbootstrap'); ?></a></li>
 		            <li><a href="#chart" data-toggle="tab"><i class="icon-tasks"></i><?php _e('Chart', 'wpbootstrap'); ?></a></li>

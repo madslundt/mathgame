@@ -148,6 +148,15 @@ function register_my_menus() {
 }
 add_action('init', 'register_my_menus');
 
+function custom_theme_setup() {
+     // Retrieve the directory for the localization files
+    $lang_dir = get_template_directory() . '/languages';
+     
+    // Set the theme's text domain using the unique identifier from above
+    load_theme_textdomain('wpbootstrap', $lang_dir);
+ 
+} // end custom_theme_setup
+add_action('after_setup_theme', 'custom_theme_setup');
 
 function get_ID_by_slug($page_slug) {
     $page = get_page_by_path($page_slug);
