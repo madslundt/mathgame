@@ -22,7 +22,7 @@
 				<div class="span2">
 					<?php
 						echo '<select class="span2" name="find">';
-							echo '<option value="-1">' . __('All groups', 'wpbootstrap') . '</option>';
+							echo '<option value="">' . __('All groups', 'wpbootstrap') . '</option>';
 							foreach ($groups as $group) {
 								echo '<option value="' . $group->term_id . '">' . $group->name . '</option>';
 							}
@@ -37,7 +37,7 @@
 				<div class="span2">
 					<?php
 						echo '<select class="span2" name="find">';
-							echo '<option value="-1">' . __('All users', 'wpbootstrap') . '</option>';
+							echo '<option value="">' . __('All users', 'wpbootstrap') . '</option>';
 							foreach ($groups as $group) {
 								$users = $wpdb->get_results( $wpdb->prepare( 
 									"
@@ -64,7 +64,7 @@
 				<div class="span2">
 					<?php	
 						echo '<select class="span2" name="find">';
-							echo '<option value="-1">' . __('All levels', 'wpbootstrap') . '</option>';
+							echo '<option value="">' . __('All levels', 'wpbootstrap') . '</option>';
 							foreach ($groups as $group) {
 								$levels = $wpdb->get_results( $wpdb->prepare( 
 									"
@@ -97,10 +97,10 @@
 				</div>
 		<?php } ?>
 				<div class="span2">
-					<select class="span2" name="highscoreby">
+					<!--<select class="span2" name="highscoreby">
 						<option value="points"><?php _e('Points', 'wpbootstrap'); ?></option>
 						<option value="errors"><?php _e('Errors', 'wpbootstrap'); ?></option>
-					</select>
+					</select>-->
 				</div>
 				
 				<div class="span1 pull-right">

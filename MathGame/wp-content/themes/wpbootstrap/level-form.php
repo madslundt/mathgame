@@ -7,8 +7,8 @@
 		$groups = $wpdb->get_results( $wpdb->prepare( 
 							"
 							SELECT t.term_id, t.name
-							FROM wp_mathgame_group_level gl
-							INNER JOIN wp_mathgameterms t ON gl.relationships_term_taxonomy_id = t.term_id
+							FROM $wpdb->_group_level gl
+							INNER JOIN $wpdb->terms t ON gl.relationships_term_taxonomy_id = t.term_id
 							WHERE level_ID = %d
 							", $level
 						) );
@@ -502,6 +502,10 @@ $(function() {
 		
 		if ($level == -1 && count($_POST['groups']) < 1) {
 			$error = true;	
+		}
+
+		if (strlen($_POST['levelName']) < 1) {
+			$error = true;
 		}
 		
 		if ($error) {
