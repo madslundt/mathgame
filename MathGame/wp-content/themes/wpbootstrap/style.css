@@ -1,6 +1,6 @@
 @import url('bootstrap/css/bootstrap.css');
 @import url('bootstrap/css/bootstrap-responsive.css');
-@import url('jRating.jquery.css');
+@import url('Styles/jRating.jquery.css');
 @media (min-width: 979px) {
 	body {
 		padding-bottom: 40px;
@@ -24,4 +24,8 @@
 #level-rate {
 	margin-top: 50px;
 	margin-left: 30px;
+}
+
+thead {
+	cursor:pointer;
 }

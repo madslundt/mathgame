@@ -129,13 +129,15 @@ function deleteLevelFunction() {
 function jqueryui_script() {
 	wp_register_script( 'jqueryui', get_template_directory_uri() . '/Scripts/jquery-ui.js' );
 	wp_enqueue_script( 'jqueryui' );
+	wp_register_script('tablesorter', get_template_directory_uri() . '/Scripts/jquery.tablesorter.min.js');
+	wp_enqueue_script('tablesorter');	
 }
 add_action( 'wp_enqueue_scripts', 'jqueryui_script');
 
 function wpbootstrap_scripts_with_jquery()
 {
 	wp_register_script( 'custom-script', get_template_directory_uri() . '/bootstrap/js/bootstrap.js', array( 'jquery' ) );
-	wp_enqueue_script( 'custom-script' );	
+	wp_enqueue_script( 'custom-script' );
 }
 add_action( 'wp_enqueue_scripts', 'wpbootstrap_scripts_with_jquery' );
 

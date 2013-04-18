@@ -1,3 +1,8 @@
+<script>
+	$(function() {
+		$('#tablesorter').tablesorter();
+	});
+</script>
 <?php
 	if ($_GET['view'] == 'group') {
 		if ($_POST['find'] > -1) { // Specified group
@@ -11,6 +16,7 @@
 		if ($_POST['find']) { // Specified user
 			
 		} else { // ALL users
+			$today = time();
 			$users = $wpdb->get_results( $wpdb->prepare(
 				"
 				SELECT s.*, u.user_login AS uname, l.name AS lname
@@ -23,7 +29,7 @@
 				)
 			); 
 
-			echo '<table class="table table-hover">';
+			echo '<table class="table table-hover" id="tablesorter">';
 				echo '<thead>';
 					echo '<th>#</th>';
 					echo '<th>' . __('Name','wpbootstrap') . '</th>';
@@ -32,6 +38,7 @@
 					echo '<th>' . __('Time','wpbootstrap') . '</th>';
 					echo '<th>' . __('Level no.','wpbootstrap') . '</th>';
 					echo '<th>' . __('Level name','wpbootstrap') . '</th>';
+					echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
 				echo '</thead/>';
 				echo '<tbody>';
 					$c = 1;
@@ -44,6 +51,7 @@
 							echo '<td>' . $u->time . '</td>';
 							echo '<td>' . $u->level_ID . '</td>';
 							echo '<td>' . $u->lname . '</td>';
+							echo '<td>' . date(__('Y-m-d','wpbootstrap'), strtotime($u->date)) . '</td>';
 						echo '</tr>';
 						$c++;	
 					}

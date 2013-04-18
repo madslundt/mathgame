@@ -1,5 +1,9 @@
+<script>
+	$(function() {
+		$('#tablesorter').tablesorter();
+	});
+</script>
 <?php
-
 	$groups = $wpdb->get_results( $wpdb->prepare( 
 		"
 		SELECT t.name, t.term_id
@@ -24,7 +28,7 @@
 		) );
 		
 		echo '<h3>' . $group->name . '</h3>';
-		echo '<table class="table table-hover">';
+		echo '<table class="table table-hover" id="tablesorter">';
 			echo '<thead>';
 				echo '<th>#</th>';
 				echo '<th>' . __('Name','wpbootstrap') . '</th>';
