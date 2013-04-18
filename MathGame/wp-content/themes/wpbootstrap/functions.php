@@ -231,7 +231,6 @@ function user_level ($atts) {
 }
 add_shortcode('user_level', 'user_level' );
 
-
 /**
  * Extended Walker class for use with the
  * Twitter Bootstrap toolkit Dropdown menus in Wordpress.
