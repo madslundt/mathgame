@@ -28,7 +28,7 @@ foreach ($groups as $group) {
 		) );
 	
 	echo '<h3>' . $group->name . '</h3>';
-	echo '<table class="table table-hover" id="tablesorter">';
+	echo '<table class="table table-hover">';
 	echo '<thead>';
 	echo '<th>#</th>';
 	echo '<th>' . __('Name','wpbootstrap') . '</th>';

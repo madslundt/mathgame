@@ -76,20 +76,24 @@
 					'walker'	 => new BootstrapNavMenuWalker()
 				);
  
-				wp_nav_menu($args);
-				//wp_nav_menu(array('title_li' => '', 'items_wrap' => '<li class="%2$s">%3$s</li>', 'container' => 'li', 'theme_location' => $menu, 'walker' => new Bootstrap_Walker()));
-				
+				wp_nav_menu($args);				
 				?>
 			</ul>
 			<ul class="nav pull-right">
 				<?php if (is_user_logged_in()) : ?>
 					<?php  ?>
 					<p class="navbar-form pull-right">
-						<a type="submit" class="btn" href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><i class="icon-user"></i><?php echo $current_user->user_login; ?></a>.  
+						<a type="submit" class="btn" href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><i class="icon-user"></i><?php echo $current_user->user_login; ?></a>.
 						<a type="submit" class="btn" href="<?php echo wp_logout_url(get_option('siteurl')); ?>"><?php _e('Log out','wpbootstrap'); ?></a>
 					</p>
 				<?php else : ?>
-					<?php echo header_login_form(); ?>
+					<form name="loginform" id="loginform" class="navbar-form pull-right" action="<?php echo get_option('home'); ?>/wp-login.php" method="post">
+					    <input type="text" class="input" name="log" id="user_login" placeholder="<?php _e('Name', 'wpbootstrap'); ?>" value="" size="20"/> 
+					    <input type="password" class="input" name="pwd" id="user_pass" placeholder="Password" value="" size="20"/>
+					    <input type="submit" name="wp-submit" id="wp-submit" class="btn" value="<?php _e('Log in', 'wpbootstrap'); ?>" />
+					    <input type="hidden" name="redirect_to" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
+					    <input type="hidden" name="testcookie" value="1" />
+					</form>
 				<?php endif; ?>
 			</ul>
           </div><!--/.nav-collapse -->
@@ -98,15 +102,20 @@
     </div>
 	
 	<?php
-		$access = true;
+		$access = false;
 		$menu_items = wp_get_nav_menu_items($menu);
-		foreach ( (array) $menu_items as $key => $menu_item ) {
-			$tmpmenu = explode('://', $menu_item->url);
-			/*if (preg_match($tmpmenu[1], $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . '/[&|?]?[a-zA-Z=0-9]+/i')) {
-				$access = true;
-				break;
-			}*/
-		}
+		//foreach ( (array) $menu_items as $key => $menu_item ) {
+			if ( ( $locations = get_nav_menu_locations() ) && isset( $locations[ $menu ] ) ) {
+				$menus = wp_get_nav_menu_object( $locations[ $menu ] );
+
+				$menu_items = wp_get_nav_menu_items($menus->term_id);
+				foreach ( (array) $menu_items as $key => $menu_item ) {
+					if ($_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] == explode('://', $menu_item->url)[1]) {
+						$access = true;
+						//break;
+					}
+				}
+			}
 		
 		if (!$access && !is_front_page()) {
 			_e('No access!', 'wpbootstrap');

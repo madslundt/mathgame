@@ -43,6 +43,11 @@
 				echo '<tbody>';
 					$c = 1;
 					foreach ($users as $u) {
+						if (strtotime($u->date) < strtotime('-5 days')) {
+							$date = date(__('Y-m-d', 'bootstrap'), $u->date);
+						} else {
+							$date = human_time_diff( strtotime($u->date)) . ' ' . __('ago', 'wpbootstrap');
+						}
 						echo '<tr>';
 							echo '<td><p class="lead">' . $c . '</p></td>';
 							echo '<td>' . $u->uname . '</td>';
@@ -51,7 +56,7 @@
 							echo '<td>' . $u->time . '</td>';
 							echo '<td>' . $u->level_ID . '</td>';
 							echo '<td>' . $u->lname . '</td>';
-							echo '<td>' . human_time_diff( strtotime($u->date)) . ' ' . __('ago', 'wpbootstrap') . '</td>';
+							echo '<td>' . $date . '</td>';
 						echo '</tr>';
 						$c++;	
 					}

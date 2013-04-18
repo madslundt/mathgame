@@ -298,40 +298,6 @@ function wp_login_form( $args = array() ) {
 		return $form;
 }
 
-function header_login_form( $args = array() ) {
-	$defaults = array( 'echo' => true,
-						'redirect' => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], // Default redirect is back to the current page
-	 					'form_id' => 'loginform',
-						'label_username' => __( 'Username' ),
-						'label_password' => __( 'Password' ),
-						'label_remember' => __( 'Remember Me' ),
-						'label_log_in' => __( 'Log In' ),
-						'id_username' => 'user_login',
-						'id_password' => 'user_pass',
-						'id_remember' => 'rememberme',
-						'id_submit' => 'wp-submit',
-						'remember' => true,
-						'value_username' => '',
-						'value_remember' => false, // Set this to true to default the "Remember me" checkbox to checked
-					);
-	$args = wp_parse_args( $args, apply_filters( 'login_form_defaults', $defaults ) );
-	
-	
-	
-	$form = '
-		<form class="navbar-form pull-right" name="' . $args['form_id'] . '" id="' . $args['form_id'] . '" action="' . esc_url( site_url( 'wp-login.php?action=loginheader', 'login_post' ) ) . '" method="post">
-				<input type="text" name="log" id="' . esc_attr( $args['id_username'] ) . '" placeholder="Name" value="' . esc_attr( $args['value_username'] ) . '" size="20"/> 
-				<input type="password" name="pwd" id="' . esc_attr( $args['id_password'] ) . '" placeholder="Password" value="" size="20"/>
-				<input type="submit" name="wp-submit" id="' . esc_attr( $args['id_submit'] ) . '" class="btn" value="' . esc_attr( $args['label_log_in'] ) . '" />
-				<input type="hidden" name="redirect_to" value="' . esc_url( $args['redirect'] ) . '" />
-		</form>';
-
-	if ( $args['echo'] )
-		echo $form;
-	else
-		return $form;
-}
-
 /**
  * Returns the Lost Password URL.
  *

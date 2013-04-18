@@ -1,5 +1,6 @@
 <?php
 
+// AJAX calls
 function addScoreToLevelFunction() {
 	global $wpdb;
 	$wpdb->query( $wpdb->prepare( 
@@ -139,7 +140,12 @@ function addRatingToLevelFunction() {
   //add_action('wp_ajax_nopriv_deleteLevel', 'deleteLevelFunction'); // For all
   add_action('wp_ajax_deleteLevel', 'deleteLevelFunction');  // Only logged in users
 
-  function jqueryui_script() {
+function redirect_login() {
+	wp_redirect(home_url());
+}
+add_action( 'login_form_login', 'redirect_login' );
+
+  function custom_scripts() {
   	wp_register_script( 'bootstrap', get_template_directory_uri() . '/bootstrap/js/bootstrap.js', array( 'jquery' ) );
   	wp_enqueue_script( 'bootstrap' );
   	wp_register_script( 'jqueryui', get_template_directory_uri() . '/Scripts/jquery-ui.js', array( 'jquery' )  );
@@ -147,7 +153,7 @@ function addRatingToLevelFunction() {
   	wp_register_script('tablesorter', get_template_directory_uri() . '/Scripts/jquery.tablesorter.min.js', array( 'jquery' ) );
   	wp_enqueue_script('tablesorter');	
   }
-  add_action( 'wp_enqueue_scripts', 'jqueryui_script');
+  add_action( 'wp_enqueue_scripts', 'custom_scripts');
 
   function register_my_menus() {
   	register_nav_menus(array(
