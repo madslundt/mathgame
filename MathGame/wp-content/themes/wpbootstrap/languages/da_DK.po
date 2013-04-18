@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MathGame\n"
-"POT-Creation-Date: 2013-04-17 00:40+0100\n"
-"PO-Revision-Date: 2013-04-17 00:51+0100\n"
+"POT-Creation-Date: 2013-04-18 08:35+0100\n"
+"PO-Revision-Date: 2013-04-18 08:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <madslundt@live.dk>\n"
 "Language: Danish\n"
@@ -40,7 +40,7 @@ msgstr "Bruger menu"
 msgid "Guest menu"
 msgstr "Gæste menu"
 
-#: ../functions.php:197 ../page-57.php:6
+#: ../functions.php:206 ../page-57.php:6
 msgid "Level"
 msgstr "Bane"
 
@@ -57,42 +57,42 @@ msgid "You need javascript to access the rest of the homepage."
 msgstr ""
 "Du skal have Javascript slået til for, at få adgang til resten af siden."
 
-#: ../level-choose.php:30 ../level-choose.php:106 ../level-edit.php:30
-#: ../level-edit.php:106 ../level-form.php:298
+#: ../level-choose.php:30 ../level-choose.php:107 ../level-edit.php:30
+#: ../level-edit.php:106 ../level-form.php:298 ../view-score-table.php:29
 msgid "Name"
 msgstr "Navn"
 
-#: ../level-choose.php:31 ../level-choose.php:107 ../level-edit.php:31
+#: ../level-choose.php:31 ../level-choose.php:108 ../level-edit.php:31
 #: ../level-edit.php:107
 msgid "Car time"
 msgstr "Bil tid"
 
-#: ../level-choose.php:32 ../level-choose.php:108 ../level-edit.php:32
+#: ../level-choose.php:32 ../level-choose.php:109 ../level-edit.php:32
 #: ../level-edit.php:108
 msgid "Build time"
 msgstr "Bygge tid"
 
-#: ../level-choose.php:33 ../level-choose.php:109 ../level-edit.php:33
+#: ../level-choose.php:33 ../level-choose.php:110 ../level-edit.php:33
 #: ../level-edit.php:109
 msgid "Min. number"
 msgstr "Min. nummer"
 
-#: ../level-choose.php:34 ../level-choose.php:110 ../level-edit.php:34
+#: ../level-choose.php:34 ../level-choose.php:111 ../level-edit.php:34
 #: ../level-edit.php:110
 msgid "Max. number"
 msgstr "Max. nummer"
 
-#: ../level-choose.php:35 ../level-choose.php:111 ../level-edit.php:35
+#: ../level-choose.php:35 ../level-choose.php:112 ../level-edit.php:35
 #: ../level-edit.php:111
 msgid "Car speed"
 msgstr "Bil hastighed"
 
-#: ../level-choose.php:36 ../level-choose.php:112 ../level-edit.php:36
+#: ../level-choose.php:36 ../level-choose.php:113 ../level-edit.php:36
 #: ../level-edit.php:112 ../level-form.php:324
 msgid "Bonus number"
 msgstr "Bonus tal"
 
-#: ../level-choose.php:37 ../level-choose.php:113 ../level-edit.php:37
+#: ../level-choose.php:37 ../level-choose.php:114 ../level-edit.php:37
 #: ../level-edit.php:113
 msgid "No. of bubbles"
 msgstr "Antal af bobler"
@@ -109,15 +109,11 @@ msgstr "Du er ikke en del af den gruppe, denne bane er lavet til"
 msgid "There was an error deleting the level. Level was not removed."
 msgstr "Der opstod en fejl vedr. sletning af banen. Banen er ikke fjernet."
 
-#: ../level-form.php:200 ../level-form.php:201 ../level-form.php:212
-#: ../level-form.php:213
+#: ../level-form.php:200 ../level-form.php:201 ../level-form.php:204
+#: ../level-form.php:205 ../level-form.php:212 ../level-form.php:213
+#: ../level-form.php:216 ../level-form.php:217
 msgid "seconds"
 msgstr "sekunder"
-
-#: ../level-form.php:204 ../level-form.php:205 ../level-form.php:216
-#: ../level-form.php:217
-msgid "second"
-msgstr "sekund"
 
 #: ../level-form.php:308
 msgid "Speed of the car"
@@ -186,15 +182,15 @@ msgstr "Annuller"
 msgid "Delete"
 msgstr "Slet"
 
-#: ../level-form.php:508
+#: ../level-form.php:512
 msgid "There was an error creating the level. Please try again"
 msgstr "Der opstod en fejl vedr. oprettelse af banen. Forsøg venligst igen"
 
-#: ../level-form.php:559
+#: ../level-form.php:563
 msgid "Level created"
 msgstr "Bane oprettet"
 
-#: ../level-form.php:619
+#: ../level-form.php:623
 #, php-format
 msgid "An revision of level %d was added."
 msgstr "En version af bane %d blev tilføjet."
@@ -243,11 +239,11 @@ msgstr "Bane pointfordeling"
 msgid "All levels"
 msgstr "Alle baner"
 
-#: ../view-score-chart.php:95 ../view-score.php:101
+#: ../view-score-chart.php:95 ../view-score-table.php:30 ../view-score.php:101
 msgid "Points"
 msgstr "Point"
 
-#: ../view-score-chart.php:96 ../view-score.php:102
+#: ../view-score-chart.php:96 ../view-score-table.php:31 ../view-score.php:102
 msgid "Errors"
 msgstr "Fejl"
 
@@ -267,6 +263,21 @@ msgstr "Tabel"
 msgid "Graph"
 msgstr "Diagram"
 
+#: ../view-score-table.php:32
+msgid "Time"
+msgstr "Tid"
+
+#: ../view-score-table.php:33
+msgid "Level no."
+msgstr "Bane nr."
+
+#: ../view-score-table.php:34
+msgid "Level name"
+msgstr "Bane navn"
+
 #: ../view-score.php:122
 msgid "Chart"
 msgstr "Diagram"
+
+#~ msgid "second"
+#~ msgstr "sekund"
