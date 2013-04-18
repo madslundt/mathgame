@@ -29,10 +29,10 @@
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
                     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
                                    <link rel="shortcut icon" href="../assets/ico/favicon.png">
+
   </head>
 
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -110,9 +110,10 @@
 
 				$menu_items = wp_get_nav_menu_items($menus->term_id);
 				foreach ( (array) $menu_items as $key => $menu_item ) {
-					if ($_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] == explode('://', $menu_item->url)[1]) {
+
+					if ($_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] == explode('://', $menu_item->url)[1] . preg_split('/page_id=[0-9]+/', $_SERVER['QUERY_STRING'])[1]) {
 						$access = true;
-						//break;
+						break;
 					}
 				}
 			}

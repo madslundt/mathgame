@@ -140,31 +140,38 @@ function addRatingToLevelFunction() {
   //add_action('wp_ajax_nopriv_deleteLevel', 'deleteLevelFunction'); // For all
   add_action('wp_ajax_deleteLevel', 'deleteLevelFunction');  // Only logged in users
 
+function disableTopToolBar() {
+	if (!current_user_can('administrator')) { 
+    	show_admin_bar(false); 
+    }    
+}
+add_action('init', 'disableTopToolBar', 9);
+
 function redirect_login() {
 	wp_redirect(home_url());
 }
 add_action( 'login_form_login', 'redirect_login' );
 
-  function custom_scripts() {
+function custom_scripts() {
   	wp_register_script( 'bootstrap', get_template_directory_uri() . '/bootstrap/js/bootstrap.js', array( 'jquery' ) );
   	wp_enqueue_script( 'bootstrap' );
   	wp_register_script( 'jqueryui', get_template_directory_uri() . '/Scripts/jquery-ui.js', array( 'jquery' )  );
   	wp_enqueue_script( 'jqueryui' );
   	wp_register_script('tablesorter', get_template_directory_uri() . '/Scripts/jquery.tablesorter.min.js', array( 'jquery' ) );
   	wp_enqueue_script('tablesorter');	
-  }
-  add_action( 'wp_enqueue_scripts', 'custom_scripts');
+}
+add_action( 'wp_enqueue_scripts', 'custom_scripts');
 
-  function register_my_menus() {
+function register_my_menus() {
   	register_nav_menus(array(
   		'teacher' => __('Teacher menu', 'wpbootstrap'),
   		'user' => __('User menu', 'wpbootstrap'),
   		'guest' => __('Guest menu', 'wpbootstrap')
   		));
-  }
-  add_action('init', 'register_my_menus');
+}
+add_action('init', 'register_my_menus');
 
-  function custom_theme_setup() {
+function custom_theme_setup() {
      // Retrieve the directory for the localization files
   	$lang_dir = get_template_directory() . '/languages';
 
@@ -183,19 +190,20 @@ function get_ID_by_slug($page_slug) {
 	}
 }
 
-if (function_exists('register_sidebar'))
-{
-	register_sidebar(array(
-		'before_widget' => '',
-		'after_widget' => '',
-		'before_title' => '<h3>',
-		'after_title' => '</h3>',
+	if (function_exists('register_sidebar'))
+	{
+		register_sidebar(array(
+			'before_widget' => '',
+			'after_widget' => '',
+			'before_title' => '<h3>',
+			'after_title' => '</h3>',
 		));
-}
+	}
+
 
 // Testing shortcodes
-function foobar_func( $atts ){
-	return "foo and bar";
+function foobar_func( $atts ) {
+	return 'foo and bar';
 }
 add_shortcode( 'foobar', 'foobar_func' );
 
