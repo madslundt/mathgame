@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MathGame\n"
-"POT-Creation-Date: 2013-04-18 08:35+0100\n"
-"PO-Revision-Date: 2013-04-18 08:36+0100\n"
+"POT-Creation-Date: 2013-04-18 16:30+0100\n"
+"PO-Revision-Date: 2013-04-18 16:31+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <madslundt@live.dk>\n"
 "Language: Danish\n"
@@ -28,76 +28,76 @@ msgstr "Denne side eksiterer ikke."
 msgid "Sorry, no posts matched your criteria."
 msgstr "Ingen indlæg passer med dine kriterier."
 
-#: ../functions.php:144
+#: ../functions.php:146
 msgid "Teacher menu"
 msgstr "Lære menu"
 
-#: ../functions.php:145
+#: ../functions.php:147
 msgid "User menu"
 msgstr "Bruger menu"
 
-#: ../functions.php:146
+#: ../functions.php:148
 msgid "Guest menu"
 msgstr "Gæste menu"
 
-#: ../functions.php:206 ../page-57.php:6
+#: ../functions.php:208 ../page-57.php:6
 msgid "Level"
 msgstr "Bane"
 
-#: ../header.php:79
+#: ../header.php:89
 msgid "Log out"
 msgstr "Log ud"
 
-#: ../header.php:102
+#: ../header.php:112
 msgid "No access!"
 msgstr "Ingen adgang!"
 
-#: ../header.php:110
+#: ../header.php:120
 msgid "You need javascript to access the rest of the homepage."
 msgstr ""
 "Du skal have Javascript slået til for, at få adgang til resten af siden."
 
-#: ../level-choose.php:30 ../level-choose.php:107 ../level-edit.php:30
-#: ../level-edit.php:106 ../level-form.php:298 ../view-score-table.php:29
+#: ../level-choose.php:30 ../level-choose.php:107 ../level-edit.php:34
+#: ../level-edit.php:110 ../level-form.php:298 ../view-score-table.php:35
 msgid "Name"
 msgstr "Navn"
 
-#: ../level-choose.php:31 ../level-choose.php:108 ../level-edit.php:31
-#: ../level-edit.php:107
+#: ../level-choose.php:31 ../level-choose.php:108 ../level-edit.php:35
+#: ../level-edit.php:111
 msgid "Car time"
 msgstr "Bil tid"
 
-#: ../level-choose.php:32 ../level-choose.php:109 ../level-edit.php:32
-#: ../level-edit.php:108
+#: ../level-choose.php:32 ../level-choose.php:109 ../level-edit.php:36
+#: ../level-edit.php:112
 msgid "Build time"
 msgstr "Bygge tid"
 
-#: ../level-choose.php:33 ../level-choose.php:110 ../level-edit.php:33
-#: ../level-edit.php:109
+#: ../level-choose.php:33 ../level-choose.php:110 ../level-edit.php:37
+#: ../level-edit.php:113
 msgid "Min. number"
 msgstr "Min. nummer"
 
-#: ../level-choose.php:34 ../level-choose.php:111 ../level-edit.php:34
-#: ../level-edit.php:110
+#: ../level-choose.php:34 ../level-choose.php:111 ../level-edit.php:38
+#: ../level-edit.php:114
 msgid "Max. number"
 msgstr "Max. nummer"
 
-#: ../level-choose.php:35 ../level-choose.php:112 ../level-edit.php:35
-#: ../level-edit.php:111
+#: ../level-choose.php:35 ../level-choose.php:112 ../level-edit.php:39
+#: ../level-edit.php:115
 msgid "Car speed"
 msgstr "Bil hastighed"
 
-#: ../level-choose.php:36 ../level-choose.php:113 ../level-edit.php:36
-#: ../level-edit.php:112 ../level-form.php:324
+#: ../level-choose.php:36 ../level-choose.php:113 ../level-edit.php:40
+#: ../level-edit.php:116 ../level-form.php:324
 msgid "Bonus number"
 msgstr "Bonus tal"
 
-#: ../level-choose.php:37 ../level-choose.php:114 ../level-edit.php:37
-#: ../level-edit.php:113
+#: ../level-choose.php:37 ../level-choose.php:114 ../level-edit.php:41
+#: ../level-edit.php:117
 msgid "No. of bubbles"
 msgstr "Antal af bobler"
 
-#: ../level-choose.php:38 ../level-edit.php:38
+#: ../level-choose.php:38 ../level-edit.php:42
 msgid "Bridge length"
 msgstr "Bro længde"
 
@@ -239,11 +239,11 @@ msgstr "Bane pointfordeling"
 msgid "All levels"
 msgstr "Alle baner"
 
-#: ../view-score-chart.php:95 ../view-score-table.php:30 ../view-score.php:101
+#: ../view-score-chart.php:95 ../view-score-table.php:36 ../view-score.php:101
 msgid "Points"
 msgstr "Point"
 
-#: ../view-score-chart.php:96 ../view-score-table.php:31 ../view-score.php:102
+#: ../view-score-chart.php:96 ../view-score-table.php:37 ../view-score.php:102
 msgid "Errors"
 msgstr "Fejl"
 
@@ -263,17 +263,25 @@ msgstr "Tabel"
 msgid "Graph"
 msgstr "Diagram"
 
-#: ../view-score-table.php:32
+#: ../view-score-table.php:38
 msgid "Time"
 msgstr "Tid"
 
-#: ../view-score-table.php:33
+#: ../view-score-table.php:39
 msgid "Level no."
 msgstr "Bane nr."
 
-#: ../view-score-table.php:34
+#: ../view-score-table.php:40
 msgid "Level name"
 msgstr "Bane navn"
+
+#: ../view-score-table.php:41
+msgid "Date"
+msgstr "Dato"
+
+#: ../view-score-table.php:54
+msgid "ago"
+msgstr "siden"
 
 #: ../view-score.php:122
 msgid "Chart"

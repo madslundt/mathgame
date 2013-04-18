@@ -67,7 +67,17 @@
 							break;
 					}					
 				}
-				wp_nav_menu(array('title_li' => '', 'items_wrap' => '<li class="%2$s">%3$s</li>', 'container' => 'li', 'theme_location' => $menu, 'walker' => new Bootstrap_Walker()));
+				$args = array(
+					'theme_location' => 'top-bar',
+					'depth'		 => 0,
+					'container'	 => false,
+					'menu_class'	 => 'nav',
+					'theme_location' => $menu,
+					'walker'	 => new BootstrapNavMenuWalker()
+				);
+ 
+				wp_nav_menu($args);
+				//wp_nav_menu(array('title_li' => '', 'items_wrap' => '<li class="%2$s">%3$s</li>', 'container' => 'li', 'theme_location' => $menu, 'walker' => new Bootstrap_Walker()));
 				
 				?>
 			</ul>

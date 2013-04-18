@@ -1,6 +1,6 @@
 <script>
 	$(function() {
-		$('#tablesorter').tablesorter();
+		$('.table').tablesorter();
 	});
 </script>
 <?php
@@ -51,7 +51,7 @@
 							echo '<td>' . $u->time . '</td>';
 							echo '<td>' . $u->level_ID . '</td>';
 							echo '<td>' . $u->lname . '</td>';
-							echo '<td>' . date(__('Y-m-d','wpbootstrap'), strtotime($u->date)) . '</td>';
+							echo '<td>' . human_time_diff( strtotime($u->date)) . ' ' . __('ago', 'wpbootstrap') . '</td>';
 						echo '</tr>';
 						$c++;	
 					}
@@ -72,9 +72,5 @@
 <?php function getUserTable() {
 
 ?>
-	
-
-
 	<p>TEST</p>
-
 <?php } ?>
