@@ -13,14 +13,14 @@
 		$curlevel = $wpdb->get_row( $wpdb->prepare( 
 			"
 			SELECT *
-			FROM $wpdb->_level
+			FROM $wpdb->level
 			WHERE ID = %d
 			", $level
 		) );
 		$curlevelBridge = $wpdb->get_col( $wpdb->prepare( 
 			"
 			SELECT points
-			FROM $wpdb->_bridge
+			FROM $wpdb->bridge
 			WHERE level_ID = %d
 			ORDER BY number_pillar
 			", $level

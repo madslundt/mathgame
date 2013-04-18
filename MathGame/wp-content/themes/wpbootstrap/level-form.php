@@ -7,7 +7,7 @@ if ($level > 0) {
 	$groups = $wpdb->get_results( $wpdb->prepare( 
 		"
 		SELECT t.term_id, t.name
-		FROM $wpdb->_group_level gl
+		FROM $wpdb->group_level gl
 		INNER JOIN $wpdb->terms t ON gl.relationships_term_taxonomy_id = t.term_id
 		WHERE level_ID = %d
 		", $level
@@ -17,7 +17,7 @@ if ($level > 0) {
 		"
 		SELECT DISTINCT rs.term_taxonomy_id
 		FROM $wpdb->term_relationships rs
-		INNER JOIN $wpdb->_group_level gl ON rs.term_taxonomy_id = gl.relationships_term_taxonomy_id AND gl.level_ID = %d
+		INNER JOIN $wpdb->group_level gl ON rs.term_taxonomy_id = gl.relationships_term_taxonomy_id AND gl.level_ID = %d
 		WHERE rs.object_id = %d
 		", $level, get_current_user_id()
 		) );
@@ -29,14 +29,14 @@ if ($level > 0) {
 	$postids = $wpdb->get_row( $wpdb->prepare( 
 		"
 		SELECT *
-		FROM  $wpdb->_level
+		FROM  $wpdb->level
 		WHERE ID = %d
 		", $level
 		) );
 	$postids2 = $wpdb->get_results( $wpdb->prepare( 
 		"
 		SELECT number_pillar, points
-		FROM $wpdb->_bridge
+		FROM $wpdb->bridge
 		WHERE level_ID = %d
 		ORDER BY number_pillar
 		", $level
@@ -340,7 +340,7 @@ $( "#numberBubblesLabel" ).text($( "#slider-number-bubbles" ).slider( "value" ))
 				$fractions = $wpdb->get_col( $wpdb->prepare( 
 					"
 					SELECT denominator
-					FROM $wpdb->_fraction
+					FROM $wpdb->fraction
 					"
 					) );
 				
@@ -356,7 +356,7 @@ $( "#numberBubblesLabel" ).text($( "#slider-number-bubbles" ).slider( "value" ))
 				$group_ids = $wpdb->get_col( $wpdb->prepare( 
 					"
 					SELECT relationships_term_taxonomy_id
-					FROM $wpdb->_group_level
+					FROM $wpdb->group_level
 					WHERE level_ID = %d
 					", $level
 					) );
@@ -514,7 +514,7 @@ if (isset($_POST['submit'])) {
 	} else if ($level == -1) {
 		$wpdb->query( $wpdb->prepare( 
 			"
-			INSERT INTO $wpdb->_level
+			INSERT INTO $wpdb->level
 			( name, car_time, build_time, min_number, max_number, min_speed, max_speed, car_speed, bonus_number, number_bubbles )
 			VALUES ( %s, %d, %d, %d, %d, %d, %d, %d, %d, %d )
 			", array( 
@@ -536,7 +536,7 @@ if (isset($_POST['submit'])) {
 		for ($i = 1; $i <= $_POST['bridgePillar']; $i++) {		
 			$wpdb->query( $wpdb->prepare( 
 				"
-				INSERT INTO $wpdb->_bridge
+				INSERT INTO $wpdb->bridge
 				( level_ID, number_pillar, points )
 				VALUES ( %d, %d, %d )
 				", array(
@@ -550,7 +550,7 @@ if (isset($_POST['submit'])) {
 		foreach ($_POST['groups'] as $group) {
 			$wpdb->query( $wpdb->prepare( 
 				"
-				INSERT INTO $wpdb->_group_level
+				INSERT INTO $wpdb->group_level
 				( relationships_object_id, relationships_term_taxonomy_id, level_ID )
 				VALUES ( %d, %d, %d )
 				", array(
@@ -565,7 +565,7 @@ if (isset($_POST['submit'])) {
 	} else {
 		$wpdb->query( $wpdb->prepare( 
 			"
-			INSERT INTO $wpdb->_level
+			INSERT INTO $wpdb->level
 			( name, car_time, build_time, min_number, max_number, car_speed, bonus_number, number_bubbles )
 			VALUES ( %s, %d, %d, %d, %d, %d, %d, %d )
 			", array( 
@@ -584,7 +584,7 @@ if (isset($_POST['submit'])) {
 		
 		$wpdb->query( $wpdb->prepare( 
 			"
-			INSERT INTO $wpdb->_level_revision
+			INSERT INTO $wpdb->level_revision
 			( level_revision, level_ID )
 			VALUES ( %d, %d )
 			", array( 
@@ -596,7 +596,7 @@ if (isset($_POST['submit'])) {
 		for ($i = 1; $i <= $_POST['bridgePillar']; $i++) {		
 			$wpdb->query( $wpdb->prepare( 
 				"
-				INSERT INTO $wpdb->_bridge
+				INSERT INTO $wpdb->bridge
 				( level_ID, number_pillar, points )
 				VALUES ( %d, %d, %d )
 				", array(
@@ -610,7 +610,7 @@ if (isset($_POST['submit'])) {
 		foreach ($group_ids as $group) {
 			$wpdb->query( $wpdb->prepare( 
 				"
-				INSERT INTO $wpdb->_group_level
+				INSERT INTO $wpdb->group_level
 				( relationships_object_id, relationships_term_taxonomy_id, level_ID )
 				VALUES ( %d, %d, %d )
 				", array(

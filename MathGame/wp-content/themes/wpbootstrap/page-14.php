@@ -220,7 +220,7 @@ $.fn.jRating = function(op) {
 				$avgRating = $wpdb->get_var( $wpdb->prepare(
 					"
 					SELECT AVG(rating)
-					FROM $wpdb->_level_rating
+					FROM $wpdb->level_rating
 					WHERE level_ID = %d
 					", $level
 				) );
@@ -228,7 +228,7 @@ $.fn.jRating = function(op) {
 				$userRating = $wpdb->get_var( $wpdb->prepare(
 					"
 					SELECT rating
-					FROM $wpdb->_level_rating
+					FROM $wpdb->level_rating
 					WHERE level_ID = %d AND user_ID = %d
 					", $level, get_current_user_id()
 				) );

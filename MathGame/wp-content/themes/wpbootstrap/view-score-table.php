@@ -8,7 +8,7 @@
 		if ($_POST['find'] > -1) { // Specified group
 		
 		} else { // ALL groups
-		
+			
 		}
 		
 		
@@ -20,8 +20,8 @@
 			$users = $wpdb->get_results( $wpdb->prepare(
 				"
 				SELECT s.*, u.user_login AS uname, l.name AS lname
-				FROM $wpdb->_score s
-				INNER JOIN $wpdb->_level l ON s.level_ID = l.ID
+				FROM $wpdb->score s
+				INNER JOIN $wpdb->level l ON s.level_ID = l.ID
 				INNER JOIN $wpdb->users u ON s.user_ID = u.ID
 				ORDER BY s.points DESC, s.errors, s.time
 				LIMIT 10
@@ -64,7 +64,7 @@
 		if ($_POST['find'] > -1) { // Specified level
 			echo 'test1';
 		} else { // All levels
-			echo 'test2';
+			echo $table_prefix;
 		}
 	}
 ?>

@@ -15,9 +15,9 @@
 		$levels = $wpdb->get_results( $wpdb->prepare( 
 			"
 			SELECT l . * 
-			FROM $wpdb->_group_level gl
-			INNER JOIN $wpdb->_level l ON gl.level_ID = l.ID
-			LEFT JOIN $wpdb->_level_revision r ON l.ID = r.level_ID
+			FROM $wpdb->group_level gl
+			INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
+			LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
 			WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
 			ORDER BY l.ID	
 			", $group->term_id
@@ -42,8 +42,8 @@
 					$revisions = $wpdb->get_results( $wpdb->prepare( 
 						"
 						SELECT l.*, r.*
-						FROM $wpdb->_level_revision r
-						INNER JOIN $wpdb->_level l ON r.level_ID = l.ID
+						FROM $wpdb->level_revision r
+						INNER JOIN $wpdb->level l ON r.level_ID = l.ID
 						WHERE r.level_revision = %d
 						ORDER BY level_ID	
 						", $level->ID
@@ -52,7 +52,7 @@
 					$bridgeCount = $wpdb->get_var( $wpdb->prepare( 
 							"
 							SELECT COUNT(*)
-							FROM $wpdb->_bridge
+							FROM $wpdb->bridge
 							WHERE level_ID = %d
 							", $level->ID
 						) );
@@ -75,7 +75,7 @@
 						$bridgeCountr = $wpdb->get_var( $wpdb->prepare( 
 							"
 							SELECT COUNT(*)
-							FROM $wpdb->_bridge
+							FROM $wpdb->bridge
 							WHERE level_ID = %d
 							", $revision->ID
 						) );
