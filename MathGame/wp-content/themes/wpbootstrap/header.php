@@ -104,19 +104,19 @@
 	<?php
 		$access = false;
 		$menu_items = wp_get_nav_menu_items($menu);
-		//foreach ( (array) $menu_items as $key => $menu_item ) {
-			if ( ( $locations = get_nav_menu_locations() ) && isset( $locations[ $menu ] ) ) {
-				$menus = wp_get_nav_menu_object( $locations[ $menu ] );
+		if ( ( $locations = get_nav_menu_locations() ) && isset( $locations[ $menu ] ) ) {
+			$menus = wp_get_nav_menu_object( $locations[ $menu ] );
 
-				$menu_items = wp_get_nav_menu_items($menus->term_id);
-				foreach ( (array) $menu_items as $key => $menu_item ) {
-
-					if ($_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] == explode('://', $menu_item->url)[1] . preg_split('/page_id=[0-9]+/', $_SERVER['QUERY_STRING'])[1]) {
-						$access = true;
-						break;
-					}
+			$menu_items = wp_get_nav_menu_items($menus->term_id);
+			foreach ( (array) $menu_items as $key => $menu_item ) {
+				$query = preg_split('/page_id=[0-9]+/', $_SERVER['QUERY_STRING']);
+				$url = explode('://', $menu_item->url);
+				if ($_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] == $url[1] . $query[1]) {
+					$access = true;
+					break;
 				}
 			}
+		}
 		
 		if (!$access && !is_front_page()) {
 			_e('No access!', 'wpbootstrap');
