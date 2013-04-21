@@ -87,16 +87,23 @@
 			function UnityIsReady()
 			{
 				// Send to MainCamera car_time, build_time, bonus_number, number_bubbles, bridge
-				u.getUnity().SendMessage("MainCamera", "getCarTime", <?php echo $curlevel->car_time ?>);
-				u.getUnity().SendMessage("MainCamera", "getBuildTime", <?php echo $curlevel->build_time ?>);
-				u.getUnity().SendMessage("MainCamera", "getBonusNumber", <?php echo $curlevel->bonus_number ?>);
-				u.getUnity().SendMessage("MainCamera", "getNumberBubbles", <?php echo $curlevel->number_bubbles ?>);
+				u.getUnity().SendMessage("MainCamera", "getCarTime", <?php echo $curlevel->car_time; ?>);
+				u.getUnity().SendMessage("MainCamera", "getBuildTime", <?php echo $curlevel->build_time; ?>);
+				u.getUnity().SendMessage("MainCamera", "getBonusNumber", <?php echo $curlevel->bonus_number; ?>);
+				u.getUnity().SendMessage("MainCamera", "getNumberBubbles", <?php echo $curlevel->number_bubbles; ?>);
 				u.getUnity().SendMessage("MainCamera", "setBridgeLength", <?php echo count($curlevelBridge); ?>);
 				<?php foreach ($curlevelBridge as $b) { ?>
 					u.getUnity().SendMessage("MainCamera", "addBridgePillar", <?php echo $b; ?>);
 				<?php } ?>
 				
 				// Send to NumberBubble min_number, max_number, min_speed, max_speed
+				u.getUnity().SendMessage("NumberBubble", "setMinSpeed", <?php echo $curlevel->min_speed / 10; ?>);
+				u.getUnity().SendMessage("NumberBubble", "setMaxSpeed", <?php echo $curlevel->max_speed / 10; ?>);
+				u.getUnity().SendMessage("NumberBubble", "setMinNumber", <?php echo $curlevel->min_number; ?>);
+				u.getUnity().SendMessage("NumberBubble", "setMaxNumber", <?php echo $curlevel->max_number; ?>);				
+
+				// Car speed
+				u.getUnity().SendMessage("CustomCar", "setCarSpeed", <?php echo $curlevel->car_speed + 2; ?>);
 
 				u.getUnity().SendMessage("MainCamera", "getLevel", <?php echo $level ?>);
 				u.getUnity().SendMessage("MainCamera", "getUserId", <?php echo get_current_user_id(); ?>);
