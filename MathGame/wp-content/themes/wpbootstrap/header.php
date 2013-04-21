@@ -80,21 +80,36 @@
 				?>
 			</ul>
 			<ul class="nav pull-right">
+
 				<?php if (is_user_logged_in()) : ?>
-					<?php  ?>
+				<div class="btn-group">
+				  <a class="btn btn-small" href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><i class="icon-user"></i><?php echo $current_user->user_login; ?></a>
+				  <button class="btn dropdown-toggle btn-small" data-toggle="dropdown">
+				  	<i class="icon-chevron-down"></i>
+				  </button>
+				  <ul class="dropdown-menu pull-right">
+				  		<li><a href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><i class="icon-user"></i><?php echo $current_user->user_login; ?></a></li>
+				  		<li class="divider"></li>
+				  		<li><a href="<?php echo wp_logout_url(get_option('siteurl')); ?>"><?php _e('Log out','wpbootstrap'); ?></a></li>
+				    	<!--<a type="submit" class="btn btn-small" href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><i class="icon-user"></i><?php echo $current_user->user_login; ?></a>.
+						<a type="submit" class="btn btn-small" href="<?php echo wp_logout_url(get_option('siteurl')); ?>"><?php _e('Log out','wpbootstrap'); ?></a>-->
+				  </ul>
+				</div>
 					<p class="navbar-form pull-right">
-						<a type="submit" class="btn" href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><i class="icon-user"></i><?php echo $current_user->user_login; ?></a>.
-						<a type="submit" class="btn" href="<?php echo wp_logout_url(get_option('siteurl')); ?>"><?php _e('Log out','wpbootstrap'); ?></a>
+						
 					</p>
 				<?php else : ?>
 					<form name="loginform" id="loginform" class="navbar-form pull-right" action="<?php echo get_option('home'); ?>/wp-login.php" method="post">
-					    <input type="text" class="input" name="log" id="user_login" placeholder="<?php _e('Name', 'wpbootstrap'); ?>" value="" size="20"/> 
-					    <input type="password" class="input" name="pwd" id="user_pass" placeholder="Password" value="" size="20"/>
-					    <input type="submit" name="wp-submit" id="wp-submit" class="btn" value="<?php _e('Log in', 'wpbootstrap'); ?>" />
+					    <input type="text" class="input span2" name="log" id="user_login" placeholder="<?php _e('Name', 'wpbootstrap'); ?>" value="" size="20"/> 
+					    <input type="password" class="input span2" name="pwd" id="user_pass" placeholder="Password" value="" size="20"/>
+					    <input type="submit" name="wp-submit" id="wp-submit" class="btn btn-small" value="<?php _e('Log in', 'wpbootstrap'); ?>" />
 					    <input type="hidden" name="redirect_to" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 					    <input type="hidden" name="testcookie" value="1" />
 					</form>
 				<?php endif; ?>
+				<div id="warn">
+
+				</div>
 			</ul>
           </div><!--/.nav-collapse -->
         </div>

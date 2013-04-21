@@ -1,9 +1,10 @@
 <script>
 	$(function() {
-		$('.table').tablesorter();
+		$('#tablesorter').tablesorter();
 	});
 </script>
 <?php
+	$today = time();
 	if ($_GET['view'] == 'group') {
 		if ($_POST['find'] > -1) { // Specified group
 		
@@ -16,7 +17,6 @@
 		if ($_POST['find']) { // Specified user
 			
 		} else { // ALL users
-			$today = time();
 			$users = $wpdb->get_results( $wpdb->prepare(
 				"
 				SELECT s.*, u.user_login AS uname, l.name AS lname
@@ -39,7 +39,7 @@
 					echo '<th>' . __('Level no.','wpbootstrap') . '</th>';
 					echo '<th>' . __('Level name','wpbootstrap') . '</th>';
 					echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
-				echo '</thead/>';
+				echo '</thead>';
 				echo '<tbody>';
 					$c = 1;
 					foreach ($users as $u) {
@@ -63,8 +63,6 @@
 				echo '</tbody>';
 			echo '</table>';
 		}
-		
-		
 	} else {
 		if ($_POST['find'] > -1) { // Specified level
 			echo 'test1';

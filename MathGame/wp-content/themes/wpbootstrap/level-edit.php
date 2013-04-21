@@ -40,7 +40,7 @@ foreach ($groups as $group) {
 	echo '<th>' . __('Bonus number','wpbootstrap') . '</th>';
 	echo '<th>' . __('No. of bubbles','wpbootstrap') . '</th>';
 	echo '<th>' . __('Bridge length','wpbootstrap') . '</th>';
-	echo '</thead/>';
+	echo '</thead>';
 	echo '<tbody>';
 	foreach ($levels as $level) {
 		$revisions = $wpdb->get_results( $wpdb->prepare( 
