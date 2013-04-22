@@ -62,7 +62,48 @@
 			echo '</table>';
 
 		} else { // ALL groups
-			
+			// List all groups max point
+			/*$groups = $wpdb->get_results( $wpdb->prepare( 
+				"
+				SELECT t.name, t.term_id
+				FROM $wpdb->term_taxonomy taxo
+				INNER JOIN $wpdb->terms t ON taxo.term_id = t.term_id
+				INNER JOIN $wpdb->term_relationships rs ON t.term_id = rs.term_taxonomy_id
+				WHERE taxo.taxonomy = 'user-group' AND rs.object_id = %d
+				ORDER BY t.term_id
+				", get_current_user_id()
+			) );
+			echo '<table class="table table-hover" id="tablesorter">';
+				echo '<thead>';
+					echo '<th>#</th>';
+					echo '<th>' . __('Points','wpbootstrap') . '</th>';
+					echo '<th>' . __('Errors','wpbootstrap') . '</th>';
+					echo '<th>' . __('Time','wpbootstrap') . '</th>';
+					echo '<th>' . __('Level no.','wpbootstrap') . '</th>';
+					echo '<th>' . __('Level name','wpbootstrap') . '</th>';
+					echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
+					echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
+				echo '</thead>';
+				echo '<tbody>';
+					$c = 1;			
+			foreach ($groups as $g) {
+				if (strtotime($u->date) < strtotime('-5 days')) {
+					$date = date(__('Y-m-d', 'bootstrap'), $u->date);
+				} else {
+					$date = human_time_diff( strtotime($u->date)) . ' ' . __('ago', 'wpbootstrap');
+				}
+				echo '<tr>';
+					echo '<td><p class="lead">' . $c . '</p></td>';
+					echo '<td>' . $u->points . '</td>';
+					echo '<td>' . $u->errors . '</td>';
+					echo '<td>' . $u->time . '</td>';
+					echo '<td>' . $u->level_ID . '</td>';
+					echo '<td>' . $u->lname . '</td>';
+					echo '<td>' . $date . '</td>';
+					echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '') . '</td>';
+				echo '</tr>';
+				$c++;					
+			}*/			
 		}		
 	} else if ($_GET['view'] == 'user') {
 		if ($_POST['find']) { // Specified user
@@ -211,6 +252,7 @@
 				echo '</tbody>';
 			echo '</table>';
 		} else { // All levels
+			// List each level max point
 			echo $table_prefix;
 		}
 	}

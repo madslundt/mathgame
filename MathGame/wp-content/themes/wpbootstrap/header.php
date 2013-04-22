@@ -117,6 +117,10 @@
     </div>
 	
 	<?php
+		if (isset($_POST['wp-submit'])) {
+			echo "teeeest";
+		}
+
 		$access = false;
 		$menu_items = wp_get_nav_menu_items($menu);
 		if ( ( $locations = get_nav_menu_locations() ) && isset( $locations[ $menu ] ) ) {
@@ -140,9 +144,10 @@
 	?>
 	
 <noscript>
-	<meta http-equiv="refresh" content="0; URL=<?php echo home_url() . '/404' ?>">
+	
 		<?php 
 			_e('You need javascript to access the rest of the homepage.', 'wpbootstrap');
 		?>
+		<meta http-equiv="refresh" content="3; URL=<?php echo home_url() . '/404' ?>">
 </noscript>
 <div class="container">
