@@ -108,7 +108,7 @@ $groups = $wpdb->get_results( $wpdb->prepare(
 				</div>
 				
 				<div class="span2 pull-right">
-					<p class="span2"><input type="checkbox" id="onlyfinished" checked> <?php _e('Only finished games', 'wpbootstrap'); ?></p>
+					<p class="span2"><input type="checkbox" id="onlyfinished" name="onlyfinished" checked> <?php _e('Only finished games', 'wpbootstrap'); ?></p>
 				</div>
 			</div>
 		</fieldset>
