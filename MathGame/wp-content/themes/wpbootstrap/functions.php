@@ -40,19 +40,6 @@ function addRatingToLevelFunction() {
   //add_action('wp_ajax_nopriv_deleteLevel', 'deleteLevelFunction'); // For all
   add_action('wp_ajax_addRatingToLevel', 'addRatingToLevelFunction');  // Only logged in users
 
-  function addTables() {
-  	global $wpdb;
-  	$wpdb->level = $wpdb->prefix . '_level';
-  	$wpdb->bridge = $wpdb->prefix . '_bridge';
-  	$wpdb->group_level = $wpdb->prefix . '_group_level';
-  	$wpdb->level_revision = $wpdb->prefix . '_level_revision';
-  	$wpdb->fraction = $wpdb->prefix .  '_fraction';
-  	$wpdb->level_fraction = $wpdb->prefix .  '_level_fraction';
-  	$wpdb->level_rating = $wpdb->prefix .  '_level_rating';
-  	$wpdb->score = $wpdb->prefix .  '_score';
-  }
-  add_action('init', 'addTables');
-
   function deleteLevelFunction() {
 	global $wpdb; // Access to database $level
 	$rev = $wpdb->get_col( 
@@ -134,11 +121,24 @@ function addRatingToLevelFunction() {
 			WHERE ID = %d
 			", $_POST['level']     
 			) );	
-	die();
+	die();	
 }  
   // creating Ajax call for WordPress
   //add_action('wp_ajax_nopriv_deleteLevel', 'deleteLevelFunction'); // For all
   add_action('wp_ajax_deleteLevel', 'deleteLevelFunction');  // Only logged in users
+
+function addTables() {
+  	global $wpdb;
+  	$wpdb->level = $wpdb->prefix . '_level';
+  	$wpdb->bridge = $wpdb->prefix . '_bridge';
+  	$wpdb->group_level = $wpdb->prefix . '_group_level';
+  	$wpdb->level_revision = $wpdb->prefix . '_level_revision';
+  	$wpdb->fraction = $wpdb->prefix .  '_fraction';
+  	$wpdb->level_fraction = $wpdb->prefix .  '_level_fraction';
+  	$wpdb->level_rating = $wpdb->prefix .  '_level_rating';
+  	$wpdb->score = $wpdb->prefix .  '_score';
+  }
+  add_action('init', 'addTables');
 
 function disableTopToolBar() {
 	if (!current_user_can('administrator')) { 
