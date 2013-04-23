@@ -95,7 +95,7 @@
 						) );
 
 						echo '<tr>';
-							echo '<td><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '">' . $revision->level_revision . 'r</a></p></td>';
+							echo '<td><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '">' . $revision->level_revision . ' <strong>r</strong>' . $revision->level_ID . '</a></p></td>';
 							echo '<td>' . $revision->name . '</td>';
 							echo '<td>' . $revision->car_time . '</td>';
 							echo '<td>' . $revision->build_time . '</td>';
