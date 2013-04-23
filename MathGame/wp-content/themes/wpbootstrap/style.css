@@ -1,5 +1,6 @@
-@import url('bootstrap/css/bootstrap.css');
-@import url('bootstrap/css/bootstrap-responsive.css');
+@import url('bootstrap/css/bootstrap.min.css');
+@import url('bootstrap/css/bootstrap-responsive.min.css');
+@import url('Styles/jquery-ui.css');
 @import url('Styles/jRating.jquery.css');
 @media (min-width: 979px) {
 	body {

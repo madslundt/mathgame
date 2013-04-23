@@ -153,7 +153,7 @@ function redirect_login() {
 add_action( 'login_form_login', 'redirect_login' );
 
 function custom_scripts() {
-  	wp_register_script( 'bootstrap', get_template_directory_uri() . '/bootstrap/js/bootstrap.js', array( 'jquery' ) );
+  	wp_register_script( 'bootstrap', get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js', array( 'jquery' ) );
   	wp_enqueue_script( 'bootstrap' );
   	wp_register_script( 'jqueryui', get_template_directory_uri() . '/Scripts/jquery-ui.js', array( 'jquery' )  );
   	wp_enqueue_script( 'jqueryui' );

@@ -114,6 +114,8 @@ $groups = $wpdb->get_results( $wpdb->prepare(
 		</fieldset>
 	</form>
 	<div class="row">
+		<div class="span4">
+		</div>
 		<div class="span3 pull-right">
 			<div class="row">
 				<div class="span3">
