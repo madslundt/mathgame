@@ -4,6 +4,10 @@ $(function() {
 });
 </script>
 <?php
+$page = isset($_GET['page']) ? absint($_GET['page']) : 1;
+$limit = 5;
+$offset = ($page - 1) * $limit;
+
 $groups = $wpdb->get_results( $wpdb->prepare( 
 	"
 	SELECT t.name, t.term_id
@@ -23,9 +27,20 @@ foreach ($groups as $group) {
 		INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
 		LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
 		WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
-		ORDER BY l.ID	
+		ORDER BY l.ID
+		LIMIT %d, %d	
+		", $group->term_id, $offset, $limit
+	) );
+
+	$total = $wpdb->get_var( $wpdb->prepare( 
+		"
+		SELECT COUNT( l.ID ) 
+		FROM $wpdb->group_level gl
+		INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
+		LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
+		WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
 		", $group->term_id
-		) );
+	) );
 	
 	echo '<h3>' . $group->name . '</h3>';
 	echo '<table class="table table-hover">';
@@ -51,7 +66,7 @@ foreach ($groups as $group) {
 			WHERE r.level_revision = %d
 			ORDER BY level_ID	
 			", $level->ID
-			) );
+		) );
 		
 		$bridgeCount = $wpdb->get_var( $wpdb->prepare( 
 			"
@@ -59,7 +74,7 @@ foreach ($groups as $group) {
 			FROM $wpdb->bridge
 			WHERE level_ID = %d
 			", $level->ID
-			) );
+		) );
 		
 		$count = count($revisions) + 1;
 		echo '<tr>';
@@ -95,10 +110,30 @@ foreach ($groups as $group) {
 			echo '<td>' . $revision->number_bubbles . '</td>';
 			echo '<td>' . $bridgeCountr . '</td>';
 			echo '</tr>';	
-		}
+		}		
 	}
 	echo '</tbody>';
-	echo '</table>';	
+	echo '</table>';
+	$num_of_pages = ceil( $total / $limit );
+	$page_links = paginate_links( array(
+	    'base' => add_query_arg('page', '%#%'),
+		'format' => '',
+		'prev_next' => True,
+		'prev_text' => __('&laquo;', 'wpbootstrap'),
+		'next_text' => __('&raquo;', 'wpbootstrap'),
+		'type' => 'list',
+	    'total' => $num_of_pages,
+	    'current' => $page
+	) );
+
+	if ( $page_links ) {
+		echo '<div class="pagination pagination-right">';
+ 		echo '<ul>';	
+		echo $page_links;
+		echo '</ul>';
+ 		echo '</div>';	
+	}
+	
 }
 ?>
 

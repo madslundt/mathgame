@@ -54,7 +54,7 @@
 							echo '<td>' . $g->level_ID . '</td>';
 							echo '<td>' . $g->lname . '</td>';
 							echo '<td>' . $date . '</td>';
-							echo '<td>' . (($g->finished) ? '<i class="icon-ok"></i>' : '') . '</td>';
+							echo '<td>' . (($g->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
 						echo '</tr>';
 						$c++;	
 					}
@@ -100,7 +100,7 @@
 					echo '<td>' . $u->level_ID . '</td>';
 					echo '<td>' . $u->lname . '</td>';
 					echo '<td>' . $date . '</td>';
-					echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '') . '</td>';
+					echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
 				echo '</tr>';
 				$c++;					
 			}*/			
@@ -146,7 +146,7 @@
 							echo '<td>' . $u->level_ID . '</td>';
 							echo '<td>' . $u->lname . '</td>';
 							echo '<td>' . $date . '</td>';
-							echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '') . '</td>';
+							echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
 						echo '</tr>';
 						$c++;	
 					}
@@ -195,7 +195,7 @@
 							echo '<td>' . $u->level_ID . '</td>';
 							echo '<td>' . $u->lname . '</td>';
 							echo '<td>' . $date . '</td>';
-							echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '') . '</td>';
+							echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
 						echo '</tr>';
 						$c++;	
 					}
@@ -245,7 +245,7 @@
 							echo '<td>' . $l->time . '</td>';
 							echo '<td>' . $l->gname . '</td>';
 							echo '<td>' . $date . '</td>';
-							echo '<td>' . (($l->finished) ? '<i class="icon-ok"></i>' : '') . '</td>';
+							echo '<td>' . (($l->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
 						echo '</tr>';
 						$c++;	
 					}

@@ -1,8 +1,10 @@
 <?php
 $level = -1;
+$page = 1;
 if ($_GET['level']) {
 	$level = $_GET['level'];		
 }
+
 if ($level > 0) {
 	$groups = $wpdb->get_results( $wpdb->prepare( 
 		"

@@ -30,3 +30,18 @@
 thead {
 	cursor:pointer;
 }
+
+.pagination .dots {
+	float: left;
+	padding: 0 14px;
+	line-height: 40px;
+	text-decoration: none;
+	background-color: white;
+	border: 1px solid #dddddd;
+	border-left-width: 0; 
+}
+
+.pagination ul > .current > a,
+.pagination ul > .current > span {
+	.disabled;
+}
