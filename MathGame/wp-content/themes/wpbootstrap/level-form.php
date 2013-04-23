@@ -527,8 +527,14 @@ if (isset($_POST['submit'])) {
 	}
 	
 	if ($_POST['bridgePillar'] < $min_bridgePillar || $_POST['bridgePillar'] > $max_bridgePillar) {
-		echo $_POST['bridgePillar'];
 		$error = true;	
+	}
+
+	for($i = 1; $i <= $_POST['bridgePillar']; $i++) {
+		if (!preg_match('/^\d+$/', $_POST['bridgePointName' . $i]) || $_POST['bridgePointName' . $i] < $min_points || $_POST['bridgePointName' . $i] > $max_points) {
+			$error = true;
+			break;
+		}
 	}
 	
 	if ($level == -1 && count($_POST['groups']) < 1) {
