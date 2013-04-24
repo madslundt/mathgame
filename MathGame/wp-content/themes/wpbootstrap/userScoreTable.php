@@ -12,6 +12,6 @@
             $this->WP_Widget( 'userscore-widget', __('User score Widget', 'wpbootstrap'), $widget_ops, $control_ops );  
 
             get_template_part(overall-user-highscore); 
-        }  
+        }
     }  
 ?>

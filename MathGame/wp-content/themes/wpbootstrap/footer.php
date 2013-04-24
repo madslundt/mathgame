@@ -1,9 +1,9 @@
-<hr>    
-	<footer>
-        <p>&copy; Company 2013</p>
-      </footer>
+		<hr>    
+		<footer>
+		    <p>&copy; Company 2013</p>
+		</footer>
 
-    </div> <!-- /container -->
-	<?php wp_footer(); ?>
-  </body>
+		</div> <!-- /container -->
+		<?php wp_footer(); ?>
+	</body>
 </html>
