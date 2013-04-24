@@ -47,27 +47,27 @@ if ($level > 0)
         ", $level
             ));
 
-    $cur_name = $levelData->name;
+    $cur_name           = $levelData->name;
 
-    $cur_carSpeed = $levelData->car_speed;
+    $cur_carSpeed       = $levelData->car_speed;
 
-    $cur_carTimer = $levelData->car_time;
+    $cur_carTimer       = $levelData->car_time;
 
-    $cur_buildTimer = $levelData->build_time;
+    $cur_buildTimer     = $levelData->build_time;
 
-    $cur_bridgePillar = count($brigePillarPoint);
+    $cur_bridgePillar   = count($brigePillarPoint);
 
-    $cur_numberBubbles = $levelData->number_bubbles;
+    $cur_numberBubbles  = $levelData->number_bubbles;
 
-    $cur_numberRange1 = $levelData->min_number;
-    $cur_numberRange2 = $levelData->max_number;
+    $cur_numberRange1   = $levelData->min_number;
+    $cur_numberRange2   = $levelData->max_number;
 
-    $cur_minSpeed = $levelData->min_speed;
-    $cur_maxSpeed = $levelData->max_speed;
+    $cur_minSpeed       = $levelData->min_speed;
+    $cur_maxSpeed       = $levelData->max_speed;
 
-    $cur_bonusNumber = $levelData->bonus_number;
+    $cur_bonusNumber    = $levelData->bonus_number;
 
-    $cur_bridgePoints = array();
+    $cur_bridgePoints   = array();
 
     for ($i = 0; $i < $cur_bridgePillar; $i++)
     {
@@ -76,31 +76,31 @@ if ($level > 0)
 }
 else
 {
-    $cur_name = $_POST['levelName'];
+    $cur_name           = $_POST['levelName'];
 
-    $cur_carSpeed = absint($_POST['carSpeed']);
+    $cur_carSpeed       = absint($_POST['carSpeed']);
 
-    $cur_carTimer = absint($_POST['carTimer']);
+    $cur_carTimer       = absint($_POST['carTimer']);
 
-    $cur_buildTimer = absint($_POST['buildTimer']);
+    $cur_buildTimer     = absint($_POST['buildTimer']);
 
-    $cur_bridgePillar = ($_POST['bridgePillar'] < 2) ? 2 : absint($_POST['bridgePillar']);
+    $cur_bridgePillar   = ($_POST['bridgePillar'] < 2) ? 2 : absint($_POST['bridgePillar']);
 
-    $cur_numberBubbles = absint($_POST['numberBubbles']);
+    $cur_numberBubbles  = absint($_POST['numberBubbles']);
 
-    $numberRange = explode(':', $_POST['numbersBetween']);
+    $numberRange        = explode(':', $_POST['numbersBetween']);
 
-    $cur_numberRange1 = absint($numberRange[0]);
-    $cur_numberRange2 = ($numberRange[0] == $numberRange[1]) ? absint($numberRange[1] + 10) : absint($numberRange[1]);
+    $cur_numberRange1   = absint($numberRange[0]);
+    $cur_numberRange2   = ($numberRange[0] == $numberRange[1]) ? absint($numberRange[1] + 10) : absint($numberRange[1]);
 
-    $speedRange = explode(':', $_POST['bubbleSpeed']);
+    $speedRange         = explode(':', $_POST['bubbleSpeed']);
 
-    $cur_minSpeed = absint($speedRange[0]);
-    $cur_maxSpeed = ($speedRange[0] == $speedRange[1]) ? absint($speedRange[1] + 3) : absint($speedRange[1]);
+    $cur_minSpeed       = absint($speedRange[0]);
+    $cur_maxSpeed       = ($speedRange[0] == $speedRange[1]) ? absint($speedRange[1] + 3) : absint($speedRange[1]);
 
-    $cur_bonusNumber = absint($_POST['bonusNumber']);
+    $cur_bonusNumber    = absint($_POST['bonusNumber']);
 
-    $cur_bridgePoints = array();
+    $cur_bridgePoints   = array();
 
     for ($i = 0; $i < $cur_bridgePillar; $i++)
     {
@@ -108,29 +108,29 @@ else
     }
 }
 
-$min_carSpeed = 1;
-$max_carSpeed = 10;
+$min_carSpeed       = 1;
+$max_carSpeed       = 10;
 
-$min_carTimer = 3;
-$max_carTimer = 90;
+$min_carTimer       = 3;
+$max_carTimer       = 90;
 
-$min_buildTimer = 3;
-$max_buildTimer = 30;
+$min_buildTimer     = 3;
+$max_buildTimer     = 30;
 
-$min_bridgePillar = 2;
-$max_bridgePillar = 20;
+$min_bridgePillar   = 2;
+$max_bridgePillar   = 20;
 
-$min_numberBubbles = 1;
-$max_numberBubbles = 10;
+$min_numberBubbles  = 1;
+$max_numberBubbles  = 10;
 
-$min_numberRange = -30;
-$max_numberRange = 30;
+$min_numberRange    = -30;
+$max_numberRange    = 30;
 
-$min_points = 0;
-$max_points = 100000;
+$min_points         = 0;
+$max_points         = 100000;
 
-$min_speed = 0;
-$max_speed = 10;
+$min_speed          = 0;
+$max_speed          = 10;
 ?>
 <script>
     $(function() {     
@@ -354,11 +354,11 @@ $max_speed = 10;
                         <div class="btn-group" data-toggle="buttons-checkbox" id="fractions" name="fractions">
                             <?php
                             $fractions = $wpdb->get_col($wpdb->prepare(
-                                            "
-                            SELECT denominator
-                            FROM $wpdb->fraction
-                            "
-                                    ));
+                                "
+                                SELECT denominator
+                                FROM $wpdb->fraction
+                                "
+                            ));
 
                             foreach ($fractions as $fraction)
                             {
@@ -372,24 +372,24 @@ $max_speed = 10;
                         if ($level > -1)
                         {
                             $group_ids = $wpdb->get_col($wpdb->prepare(
-                                            "
-                            SELECT relationships_term_taxonomy_id
-                            FROM $wpdb->group_level
-                            WHERE level_ID = %d
-                            ", $level
-                                    ));
+                                "
+                                SELECT relationships_term_taxonomy_id
+                                FROM $wpdb->group_level
+                                WHERE level_ID = %d
+                                ", $level
+                            ));
                         }
 
                         $postids = $wpdb->get_results($wpdb->prepare(
-                                        "
-                        SELECT DISTINCT t.term_id, t.name
-                        FROM $wpdb->term_taxonomy taxo
-                        INNER JOIN $wpdb->terms t ON taxo.term_id = t.term_id
-                        INNER JOIN $wpdb->term_relationships rs ON t.term_id = rs.term_taxonomy_id
-                        WHERE taxo.taxonomy = 'user-group' AND rs.object_id = " . get_current_user_id() . "
-                        ORDER BY t.term_id
-                        "
-                                ));
+                            "
+                            SELECT DISTINCT t.term_id, t.name
+                            FROM $wpdb->term_taxonomy taxo
+                            INNER JOIN $wpdb->terms t ON taxo.term_id = t.term_id
+                            INNER JOIN $wpdb->term_relationships rs ON t.term_id = rs.term_taxonomy_id
+                            WHERE taxo.taxonomy = 'user-group' AND rs.object_id = " . get_current_user_id() . "
+                            ORDER BY t.term_id
+                            "
+                        ));
                         if ($level > -1)
                         {
                             echo '<select name="groups[]" id="groups" multiple="multiple" disabled>';
@@ -599,54 +599,57 @@ if (isset($_POST['submit']))
     else if ($level == -1)
     {
         $wpdb->query($wpdb->prepare(
-                        "
+            "
             INSERT INTO $wpdb->level
             ( name, car_time, build_time, min_number, max_number, min_speed, max_speed, car_speed, bonus_number, number_bubbles )
             VALUES ( %s, %d, %d, %d, %d, %d, %d, %d, %d, %d )
-            ", array(
-                    $_POST['levelName'],
-                    $_POST['carTimer'],
-                    $_POST['buildTimer'],
-                    $numbersBetween[0],
-                    $numbersBetween[1],
-                    $speed[0],
-                    $speed[1],
-                    $_POST['carSpeed'],
-                    $_POST['bonusNumber'],
-                    $_POST['numberBubbles']
-                        )
-                ));
+            ", 
+            array(
+                $_POST['levelName'],
+                $_POST['carTimer'],
+                $_POST['buildTimer'],
+                $numbersBetween[0],
+                $numbersBetween[1],
+                $speed[0],
+                $speed[1],
+                $_POST['carSpeed'],
+                $_POST['bonusNumber'],
+                $_POST['numberBubbles']
+            )
+        ));
 
         $lastid = $wpdb->insert_id;
 
         for ($i = 1; $i <= $_POST['bridgePillar']; $i++)
         {
             $wpdb->query($wpdb->prepare(
-                            "
+                "
                 INSERT INTO $wpdb->bridge
                 ( level_ID, number_pillar, points )
                 VALUES ( %d, %d, %d )
-                ", array(
-                        $lastid,
-                        $i - 1,
-                        $_POST['bridgePointName' . $i]
-                            )
-                    ));
+                ", 
+                array(
+                    $lastid,
+                    $i - 1,
+                    $_POST['bridgePointName' . $i]
+                )
+            ));
         }
 
         foreach ($_POST['groups'] as $group)
         {
             $wpdb->query($wpdb->prepare(
-                            "
+                "
                 INSERT INTO $wpdb->group_level
                 ( relationships_object_id, relationships_term_taxonomy_id, level_ID )
                 VALUES ( %d, %d, %d )
-                ", array(
-                        get_current_user_id(),
-                        $group,
-                        $lastid
-                            )
-                    ));
+                ", 
+                array(
+                    get_current_user_id(),
+                    $group,
+                    $lastid
+                )
+            ));
         }
         ?>
         <script>
@@ -660,63 +663,67 @@ if (isset($_POST['submit']))
     else
     {
         $wpdb->query($wpdb->prepare(
-                        "
+            "
             INSERT INTO $wpdb->level
             ( name, car_time, build_time, min_number, max_number, car_speed, bonus_number, number_bubbles )
             VALUES ( %s, %d, %d, %d, %d, %d, %d, %d )
-            ", array(
-                    $_POST['levelName'],
-                    $_POST['carTimer'],
-                    $_POST['buildTimer'],
-                    $numbersBetween[0],
-                    $numbersBetween[1],
-                    $_POST['carSpeed'],
-                    $_POST['bonusNumber'],
-                    $_POST['numberBubbles']
-                        )
-                ));
+            ", 
+            array(
+                $_POST['levelName'],
+                $_POST['carTimer'],
+                $_POST['buildTimer'],
+                $numbersBetween[0],
+                $numbersBetween[1],
+                $_POST['carSpeed'],
+                $_POST['bonusNumber'],
+                $_POST['numberBubbles']
+            )
+        ));
 
         $lastid = $wpdb->insert_id;
 
         $wpdb->query($wpdb->prepare(
-                        "
+            "
             INSERT INTO $wpdb->level_revision
             ( level_revision, level_ID )
             VALUES ( %d, %d )
-            ", array(
-                    $level,
-                    $lastid
-                        )
-                ));
+            ", 
+            array(
+                $level,
+                $lastid
+            )
+        ));
 
         for ($i = 1; $i <= $_POST['bridgePillar']; $i++)
         {
             $wpdb->query($wpdb->prepare(
-                            "
+                "
                 INSERT INTO $wpdb->bridge
                 ( level_ID, number_pillar, points )
                 VALUES ( %d, %d, %d )
-                ", array(
-                        $lastid,
-                        $i - 1,
-                        $_POST['bridgePointName' . $i]
-                            )
-                    ));
+                ", 
+                array(
+                    $lastid,
+                    $i - 1,
+                    $_POST['bridgePointName' . $i]
+                )
+            ));
         }
 
         foreach ($group_ids as $group)
         {
             $wpdb->query($wpdb->prepare(
-                            "
+                "
                 INSERT INTO $wpdb->group_level
                 ( relationships_object_id, relationships_term_taxonomy_id, level_ID )
                 VALUES ( %d, %d, %d )
-                ", array(
-                        get_current_user_id(),
-                        $group,
-                        $lastid
-                            )
-                    ));
+                ", 
+                array(
+                    get_current_user_id(),
+                    $group,
+                    $lastid
+                )
+            ));
         }
         ?>
         <script>

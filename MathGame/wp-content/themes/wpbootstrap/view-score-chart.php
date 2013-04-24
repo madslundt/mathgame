@@ -1,14 +1,14 @@
 <?php
 $groups = $wpdb->get_results($wpdb->prepare(
-                "
-		SELECT t.name, t.term_id
-		FROM $wpdb->term_taxonomy taxo
-		INNER JOIN $wpdb->terms t ON taxo.term_id = t.term_id
-		INNER JOIN $wpdb->term_relationships rs ON t.term_id = rs.term_taxonomy_id
-		WHERE taxo.taxonomy = 'user-group' AND rs.object_id = %d
-		ORDER BY t.term_id
-		", get_current_user_id()
-        ));
+    "
+	SELECT t.name, t.term_id
+	FROM $wpdb->term_taxonomy taxo
+	INNER JOIN $wpdb->terms t ON taxo.term_id = t.term_id
+	INNER JOIN $wpdb->term_relationships rs ON t.term_id = rs.term_taxonomy_id
+	WHERE taxo.taxonomy = 'user-group' AND rs.object_id = %d
+	ORDER BY t.term_id
+	", get_current_user_id()
+));
 ?>
 <div class="span12">
     <form name="viewscore" method="POST" action="">
@@ -41,14 +41,15 @@ else if ($_GET['view'] == 'user')
                             foreach ($groups as $group)
                             {
                                 $users = $wpdb->get_results($wpdb->prepare(
-                                                "
+                                    "
 									SELECT DISTINCT u.ID, u.user_login
 									FROM $wpdb->term_relationships rs
 									INNER JOIN $wpdb->users u ON rs.object_id = u.ID
 									WHERE rs.term_taxonomy_id = %d
 									ORDER BY u.ID
 									", $group->term_id
-                                        ));
+                                ));
+
                                 echo '<option value="">' . $group->name . '</options>';
                                 foreach ($users as $user)
                                 {
@@ -70,26 +71,28 @@ else if ($_GET['view'] == 'user')
                                 foreach ($groups as $group)
                                 {
                                     $levels = $wpdb->get_results($wpdb->prepare(
-                                                    "
-									SELECT DISTINCT l.ID, l.name
-									FROM $wpdb->group_level gl
-									INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
-									LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
-									WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
-									ORDER BY l.ID	
-									", $group->term_id
-                                            ));
+                                        "
+    									SELECT DISTINCT l.ID, l.name
+    									FROM $wpdb->group_level gl
+    									INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
+    									LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
+    									WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
+    									ORDER BY l.ID	
+    									", $group->term_id
+                                    ));
+
                                     foreach ($levels as $level)
                                     {
                                         $revisions = $wpdb->get_results($wpdb->prepare(
-                                                        "
-												SELECT l.ID, l.name 
-												FROM $wpdb->level_revision r
-												INNER JOIN $wpdb->level l ON r.level_ID = l.ID
-												WHERE r.level_revision = %d
-												ORDER BY level_ID	
-												", $level->ID
-                                                ));
+                                            "
+											SELECT l.ID, l.name 
+											FROM $wpdb->level_revision r
+											INNER JOIN $wpdb->level l ON r.level_ID = l.ID
+											WHERE r.level_revision = %d
+											ORDER BY level_ID	
+											", $level->ID
+                                        ));
+                                        
                                         echo '<option value="' . $level->ID . '">' . $level->name . '</option>';
                                         foreach ($revisions as $revision)
                                         {

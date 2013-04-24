@@ -5,19 +5,20 @@ function addScoreToLevelFunction()
 {
     global $wpdb;
     $wpdb->query($wpdb->prepare(
-                    "
+        "
 		INSERT INTO $wpdb->score
 		( errors, points, finished, time, user_ID, level_ID )
 		VALUES ( %d, %d, %d, %f, %d, %d )
-		", array(
-                $_POST['error'],
-                $_POST['point'],
-                $_POST['finish'],
-                $_POST['time'],
-                get_current_user_id(),
-                $_POST['level']
-                    )
-            ));
+		", 
+        array(
+            $_POST['error'],
+            $_POST['point'],
+            $_POST['finish'],
+            $_POST['time'],
+            get_current_user_id(),
+            $_POST['level']
+        )
+    ));
     die();
 }
 
@@ -27,16 +28,17 @@ function addRatingToLevelFunction()
 {
     global $wpdb;
     $wpdb->query($wpdb->prepare(
-                    "
+        "
 		INSERT INTO $wpdb->level_rating
 		( rating, user_ID, level_ID )
 		VALUES ( %d, %d, %d )
-		", array(
-                $_POST['rating'],
-                get_current_user_id(),
-                $_POST['level']
-                    )
-            ));
+		", 
+        array(
+            $_POST['rating'],
+            get_current_user_id(),
+            $_POST['level']
+        )
+    ));
     die();
 }
 
@@ -47,86 +49,78 @@ add_action('wp_ajax_addRatingToLevel', 'addRatingToLevelFunction');  // Only log
 function deleteLevelFunction()
 {
     global $wpdb; // Access to database $level
-    $rev = $wpdb->get_col(
-            $wpdb->prepare(
-                    "
-			SELECT level_ID
-			FROM $wpdb->level_revision
-			WHERE level_revision = %d
-			", $_POST['level']
-            ));
+    $rev = $wpdb->get_col($wpdb->prepare(
+        "
+		SELECT level_ID
+		FROM $wpdb->level_revision
+		WHERE level_revision = %d
+		", $_POST['level']
+    ));
 
-    $wpdb->query(
-            $wpdb->prepare(
-                    "
-			DELETE FROM $wpdb->level_revision
-			WHERE level_revision = %d
-			", $_POST['level']
-            ));
+    $wpdb->query($wpdb->prepare( 
+        "
+		DELETE FROM $wpdb->level_revision
+		WHERE level_revision = %d
+		", $_POST['level']
+    ));
 
     foreach ($rev as $r)
     {
-        $wpdb->query(
-                $wpdb->prepare(
-                        "
-				DELETE FROM $wpdb->bridge
-				WHERE level_ID = %d
-				", $r
-                ));
-        $wpdb->query(
-                $wpdb->prepare(
-                        "
-				DELETE FROM $wpdb->score
-				WHERE level_ID = %d
-				", $r
-                ));
-        $wpdb->query(
-                $wpdb->prepare(
-                        "
-				DELETE FROM $wpdb->group_level
-				WHERE level_ID = %d
-				", $r
-                ));
-
-        $wpdb->query(
-                $wpdb->prepare(
-                        "
-				DELETE FROM $wpdb->level
-				WHERE ID = %d
-				", $r
-                ));
-    }
-
-
-    $wpdb->query(
-            $wpdb->prepare(
-                    "
+        $wpdb->query($wpdb->prepare(
+            "
 			DELETE FROM $wpdb->bridge
 			WHERE level_ID = %d
-			", $_POST['level']
-            ));
-    $wpdb->query(
-            $wpdb->prepare(
-                    "
+			", $r
+        ));
+        $wpdb->query($wpdb->prepare(
+            "
 			DELETE FROM $wpdb->score
 			WHERE level_ID = %d
-			", $_POST['level']
-            ));
-    $wpdb->query(
-            $wpdb->prepare(
-                    "
+			", $r
+        ));
+        $wpdb->query($wpdb->prepare(
+            "
 			DELETE FROM $wpdb->group_level
 			WHERE level_ID = %d
-			", $_POST['level']
-            ));
+			", $r
+        ));
 
-    $wpdb->query(
-            $wpdb->prepare(
-                    "
+        $wpdb->query($wpdb->prepare(
+            "
 			DELETE FROM $wpdb->level
 			WHERE ID = %d
-			", $_POST['level']
-            ));
+			", $r
+        ));
+    }
+
+    $wpdb->query($wpdb->prepare(
+        "
+		DELETE FROM $wpdb->bridge
+		WHERE level_ID = %d
+		", $_POST['level']
+    ));
+
+    $wpdb->query($wpdb->prepare(
+        "
+		DELETE FROM $wpdb->score
+		WHERE level_ID = %d
+		", $_POST['level']
+    ));
+
+    $wpdb->query($wpdb->prepare(
+        "
+		DELETE FROM $wpdb->group_level
+		WHERE level_ID = %d
+		", $_POST['level']
+    ));
+
+    $wpdb->query($wpdb->prepare(
+        "
+		DELETE FROM $wpdb->level
+		WHERE ID = %d
+		", $_POST['level']
+    ));
+
     die();
 }
 
@@ -137,14 +131,14 @@ add_action('wp_ajax_deleteLevel', 'deleteLevelFunction');  // Only logged in use
 function addTables()
 {
     global $wpdb;
-    $wpdb->level = $wpdb->prefix . '_level';
-    $wpdb->bridge = $wpdb->prefix . '_bridge';
-    $wpdb->group_level = $wpdb->prefix . '_group_level';
-    $wpdb->level_revision = $wpdb->prefix . '_level_revision';
-    $wpdb->fraction = $wpdb->prefix . '_fraction';
-    $wpdb->level_fraction = $wpdb->prefix . '_level_fraction';
-    $wpdb->level_rating = $wpdb->prefix . '_level_rating';
-    $wpdb->score = $wpdb->prefix . '_score';
+    $wpdb->level            = $wpdb->prefix . '_level';
+    $wpdb->bridge           = $wpdb->prefix . '_bridge';
+    $wpdb->group_level      = $wpdb->prefix . '_group_level';
+    $wpdb->level_revision   = $wpdb->prefix . '_level_revision';
+    $wpdb->fraction         = $wpdb->prefix . '_fraction';
+    $wpdb->level_fraction   = $wpdb->prefix . '_level_fraction';
+    $wpdb->level_rating     = $wpdb->prefix . '_level_rating';
+    $wpdb->score            = $wpdb->prefix . '_score';
 }
 
 add_action('init', 'addTables');
@@ -181,9 +175,9 @@ add_action('wp_enqueue_scripts', 'custom_scripts');
 function register_my_menus()
 {
     register_nav_menus(array(
-        'teacher' => __('Teacher menu', 'wpbootstrap'),
-        'user' => __('User menu', 'wpbootstrap'),
-        'guest' => __('Guest menu', 'wpbootstrap')
+        'teacher'   => __('Teacher menu', 'wpbootstrap'),
+        'user'      => __('User menu', 'wpbootstrap'),
+        'guest'     => __('Guest menu', 'wpbootstrap')
     ));
 }
 
@@ -217,10 +211,10 @@ function get_ID_by_slug($page_slug)
 if (function_exists('register_sidebar'))
 {
     register_sidebar(array(
-        'before_widget' => '',
-        'after_widget' => '',
-        'before_title' => '<h3>',
-        'after_title' => '</h3>',
+        'before_widget'     => '',
+        'after_widget'      => '',
+        'before_title'      => '<h3>',
+        'after_title'       => '</h3>',
     ));
 }
 
@@ -246,8 +240,8 @@ add_shortcode('user_game', 'user_game_info');
 function user_game_span($atts, $content = null)
 {
     extract(shortcode_atts(array(
-                'class' => 'class'
-                    ), $atts));
+        'class' => 'class'
+    ), $atts));
 
     return '<div class="' . esc_attr($span) . '">' . $content . '</div>';
 }

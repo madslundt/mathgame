@@ -221,20 +221,21 @@ if (have_posts()) : while (have_posts()) : the_post();
                 </script>
                 <?php
                 $avgRating = $wpdb->get_var($wpdb->prepare(
-                                "
+                    "
 					SELECT AVG(rating)
 					FROM $wpdb->level_rating
 					WHERE level_ID = %d
 					", $level
-                        ));
+                ));
 
                 $userRating = $wpdb->get_var($wpdb->prepare(
-                                "
+                    "
 					SELECT rating
 					FROM $wpdb->level_rating
 					WHERE level_ID = %d AND user_ID = %d
 					", $level, get_current_user_id()
-                        ));
+                ));
+                
                 get_template_part('play-page');
                 ?>
                 <?php if ($userRating > 0)

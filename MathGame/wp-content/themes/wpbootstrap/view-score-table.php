@@ -4,6 +4,10 @@
     });
 </script>
 <?php
+$page = isset($_GET['page']) ? absint($_GET['page']) : 1;
+$limit = 5;
+$offset = ($page - 1) * $limit;
+
 $today = time();
 if (isset($_POST['onlyfinished']))
 {
@@ -15,21 +19,33 @@ else
 }
 if ($_GET['view'] == 'group')
 {
+    $c = 1 + $offset;
     if ($_POST['find'] > -1)
     { // Specified group
         $group = $wpdb->get_results($wpdb->prepare(
-                        "
-					SELECT s.*, l.name AS lname, u.user_login AS uname
-					FROM $wpdb->group_level
-					INNER JOIN $wpdb->score s ON relationships_object_id = s.user_ID
-					INNER JOIN $wpdb->level l ON s.level_ID = l.ID
-					INNER JOIN $wpdb->users u ON s.user_ID = u.ID
-					WHERE relationships_term_taxonomy_id = %d" . $finish . "
-					ORDER BY s.points DESC, s.errors, s.time
-					LIMIT 10
-					", $_POST['find']
-                )
-        );
+            "
+			SELECT s.*, l.name AS lname, u.user_login AS uname
+			FROM $wpdb->group_level
+			INNER JOIN $wpdb->score s ON relationships_object_id = s.user_ID
+			INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+			INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+			WHERE relationships_term_taxonomy_id = %d" . $finish . "
+			ORDER BY s.points DESC, s.errors, s.time
+			LIMIT %d, %d
+			", $_POST['find'], $offset, $limit
+        ));
+
+        $total = $wpdb->get_var($wpdb->prepare(
+            "
+            COUNT(s.ID)
+            FROM $wpdb->group_level
+            INNER JOIN $wpdb->score s ON relationships_object_id = s.user_ID
+            INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+            WHERE relationships_term_taxonomy_id = %d" . $finish . "
+            ", $_POST['find']
+        ));
+
         echo '<table class="table table-hover" id="tablesorter">';
         echo '<thead>';
         echo '<th>#</th>';
@@ -43,7 +59,7 @@ if ($_GET['view'] == 'group')
         echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
         echo '</thead>';
         echo '<tbody>';
-        $c = 1;
+
         foreach ($group as $g)
         {
             if (strtotime($g->date) < strtotime('-5 days'))
@@ -68,7 +84,7 @@ if ($_GET['view'] == 'group')
             $c++;
         }
         echo '</tbody>';
-        echo '</table>';
+        echo '</table>';        
     }
     else
     { // ALL groups
@@ -95,7 +111,6 @@ if ($_GET['view'] == 'group')
           echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
           echo '</thead>';
           echo '<tbody>';
-          $c = 1;
           foreach ($groups as $g) {
           if (strtotime($u->date) < strtotime('-5 days')) {
           $date = date(__('Y-m-d', 'bootstrap'), $u->date);
@@ -121,16 +136,25 @@ else if ($_GET['view'] == 'user')
     if ($_POST['find'])
     { // Specified user
         $user = $wpdb->get_results($wpdb->prepare(
-                        "
-				SELECT s.*, l.name AS lname
-				FROM $wpdb->score s
-				INNER JOIN $wpdb->level l ON s.level_ID = l.ID
-				WHERE s.user_ID = %d" . $finish . "
-				ORDER BY s.points DESC, s.errors, s.time
-				LIMIT 10
-				", $_POST['find'], $finish
-                )
-        );
+            "
+			SELECT s.*, l.name AS lname
+			FROM $wpdb->score s
+			INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+			WHERE s.user_ID = %d" . $finish . "
+			ORDER BY s.points DESC, s.errors, s.time
+			LIMIT %d, %d
+			", $_POST['find'], $offset, $limit
+        ));
+
+        $total = $wpdb->get_var($wpdb->prepare(
+            "
+            SELECT COUNT(s.ID)
+            FROM $wpdb->score s
+            INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+            WHERE s.user_ID = %d" . $finish . "
+            ", $_POST['find']
+        ));        
+
         echo '<table class="table table-hover" id="tablesorter">';
         echo '<thead>';
         echo '<th>#</th>';
@@ -143,7 +167,7 @@ else if ($_GET['view'] == 'user')
         echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
         echo '</thead>';
         echo '<tbody>';
-        $c = 1;
+
         foreach ($user as $u)
         {
             if (strtotime($u->date) < strtotime('-5 days'))
@@ -172,17 +196,26 @@ else if ($_GET['view'] == 'user')
     else
     { // ALL users
         $users = $wpdb->get_results($wpdb->prepare(
-                        "
-				SELECT s.*, u.user_login AS uname, l.name AS lname
-				FROM $wpdb->score s
-				INNER JOIN $wpdb->level l ON s.level_ID = l.ID
-				INNER JOIN $wpdb->users u ON s.user_ID = u.ID
-				WHERE 1=1" . $finish . "
-				ORDER BY s.points DESC, s.errors, s.time
-				LIMIT 10
-				"
-                )
-        );
+            "
+			SELECT s.*, u.user_login AS uname, l.name AS lname
+			FROM $wpdb->score s
+			INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+			INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+			WHERE 1=1" . $finish . "
+			ORDER BY s.points DESC, s.errors, s.time
+			LIMIT %d, %d
+			", $offset, $limit
+        ));
+
+        $total = $wpdb->get_var($wpdb->prepare(
+            "
+            SELECT COUNT(s.ID)
+            FROM $wpdb->score s
+            INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+            WHERE 1=1" . $finish . "
+            "
+        ));        
 
         echo '<table class="table table-hover" id="tablesorter">';
         echo '<thead>';
@@ -197,7 +230,7 @@ else if ($_GET['view'] == 'user')
         echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
         echo '</thead>';
         echo '<tbody>';
-        $c = 1;
+
         foreach ($users as $u)
         {
             if (strtotime($u->date) < strtotime('-5 days'))
@@ -230,19 +263,32 @@ else
     if ($_POST['find'] > -1)
     { // Specified level
         $level = $wpdb->get_results($wpdb->prepare(
-                        "
-					SELECT s.*, u.user_login AS uname, t.name AS gname
-					FROM $wpdb->level l
-					INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
-					INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
-					INNER JOIN $wpdb->score s ON l.ID = s.level_ID
-					INNER JOIN $wpdb->users u ON s.user_ID = u.ID
-					WHERE l.ID = %d" . $finish . "
-					ORDER BY s.points DESC, s.errors, s.time
-					LIMIT 10
-					", $_POST['find']
-                )
-        );
+            "
+			SELECT s.*, u.user_login AS uname, t.name AS gname
+			FROM $wpdb->level l
+			INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
+			INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
+			INNER JOIN $wpdb->score s ON l.ID = s.level_ID
+			INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+			WHERE l.ID = %d" . $finish . "
+			ORDER BY s.points DESC, s.errors, s.time
+			LIMIT %d, %d
+			", $_POST['find'], $offset, $limit
+        ));
+
+        $total = $wpdb->get_var($wpdb->prepare(
+            "
+            SELECT COUNT(s.ID)
+            FROM $wpdb->level l
+            INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
+            INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
+            INNER JOIN $wpdb->score s ON l.ID = s.level_ID
+            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+            WHERE l.ID = %d" 
+            . $finish . "
+            ", $_POST['find']
+        ));        
+
         echo '<table class="table table-hover" id="tablesorter">';
         echo '<thead>';
         echo '<th>#</th>';
@@ -255,7 +301,7 @@ else
         echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
         echo '</thead>';
         echo '<tbody>';
-        $c = 1;
+
         foreach ($level as $l)
         {
             if (strtotime($l->date) < strtotime('-5 days'))
@@ -286,6 +332,27 @@ else
         // List each level max point
         echo $table_prefix;
     }
+}
+echo $total;
+$num_of_pages = ceil($total / $limit);
+$page_links = paginate_links(array(
+    'base' => add_query_arg('page', '%#%'),
+    'format' => '',
+    'prev_next' => True,
+    'prev_text' => __('&laquo;', 'wpbootstrap'),
+    'next_text' => __('&raquo;', 'wpbootstrap'),
+    'type' => 'list',
+    'total' => $num_of_pages,
+    'current' => $page
+));
+
+if ($page_links)
+{
+    echo '<div class="pagination pagination-right">';
+    echo '<ul>';
+    echo $page_links;
+    echo '</ul>';
+    echo '</div>';
 }
 ?>
 

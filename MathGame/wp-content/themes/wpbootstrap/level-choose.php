@@ -4,20 +4,20 @@ $limit = 5;
 $offset = ($page - 1) * $limit;
 
 $groups = $wpdb->get_results($wpdb->prepare(
-                "
-		SELECT t.name, t.term_id
-		FROM $wpdb->term_taxonomy taxo
-		INNER JOIN $wpdb->terms t ON taxo.term_id = t.term_id
-		INNER JOIN $wpdb->term_relationships rs ON t.term_id = rs.term_taxonomy_id
-		WHERE taxo.taxonomy = 'user-group' AND rs.object_id = %d
-		ORDER BY t.term_id
-		", get_current_user_id()
-        ));
+    "
+	SELECT t.name, t.term_id
+	FROM $wpdb->term_taxonomy taxo
+	INNER JOIN $wpdb->terms t ON taxo.term_id = t.term_id
+	INNER JOIN $wpdb->term_relationships rs ON t.term_id = rs.term_taxonomy_id
+	WHERE taxo.taxonomy = 'user-group' AND rs.object_id = %d
+	ORDER BY t.term_id
+	", get_current_user_id()
+));
 
 foreach ($groups as $group)
 {
     $levels = $wpdb->get_results($wpdb->prepare(
-                    "
+            "
 			SELECT l . * 
 			FROM $wpdb->group_level gl
 			INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
@@ -26,17 +26,17 @@ foreach ($groups as $group)
 			ORDER BY l.ID	
 			LIMIT %d, %d	
 			", $group->term_id, $offset, $limit
-            ));
+        ));
 
     $total = $wpdb->get_var($wpdb->prepare(
-                    "
+            "
 			SELECT COUNT( l.ID ) 
 			FROM $wpdb->group_level gl
 			INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
 			LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
 			WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
 			", $group->term_id
-            ));
+        ));
 
     echo '<h3>' . $group->name . '</h3>';
     echo '<table class="table table-hover">';
@@ -57,29 +57,29 @@ foreach ($groups as $group)
     foreach ($levels as $level)
     {
         $revisions = $wpdb->get_results($wpdb->prepare(
-                        "
-						SELECT l.*, r.*
-						FROM $wpdb->level_revision r
-						INNER JOIN $wpdb->level l ON r.level_ID = l.ID
-						WHERE r.level_revision = %d
-						ORDER BY level_ID	
-						", $level->ID
-                ));
+            "
+			SELECT l.*, r.*
+			FROM $wpdb->level_revision r
+			INNER JOIN $wpdb->level l ON r.level_ID = l.ID
+			WHERE r.level_revision = %d
+			ORDER BY level_ID	
+			", $level->ID
+        ));
 
         $avgRating = $wpdb->get_var($wpdb->prepare(
-                        "
-						SELECT AVG(rating)
-						FROM $wpdb->level_rating
-						WHERE level_ID = %d
-						", $level->ID
-                ));
+            "
+			SELECT AVG(rating)
+			FROM $wpdb->level_rating
+			WHERE level_ID = %d
+			", $level->ID
+        ));
         $bridgeCount = $wpdb->get_var($wpdb->prepare(
-                        "
-						SELECT COUNT(*)
-						FROM $wpdb->bridge
-						WHERE level_ID = %d
-						", $level->ID
-                ));
+            "
+			SELECT COUNT(level_ID)
+			FROM $wpdb->bridge
+			WHERE level_ID = %d
+			", $level->ID
+        ));
 
         $count = count($revisions) + 1;
         echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $level->ID . '\'">';
@@ -99,12 +99,12 @@ foreach ($groups as $group)
         {
 
             $bridgeCountr = $wpdb->get_var($wpdb->prepare(
-                            "
-							SELECT COUNT(*)
-							FROM $wpdb->bridge
-							WHERE level_ID = %d
-							", $revision->ID
-                    ));
+                "
+				SELECT COUNT(*)
+				FROM $wpdb->bridge
+				WHERE level_ID = %d
+				", $revision->ID
+            ));
 
             echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '\'">';
             echo '<td>' . $revision->name . '</td>';
@@ -132,7 +132,7 @@ foreach ($groups as $group)
         'type' => 'list',
         'total' => $num_of_pages,
         'current' => $page
-            ));
+    ));
 
     if ($page_links)
     {
