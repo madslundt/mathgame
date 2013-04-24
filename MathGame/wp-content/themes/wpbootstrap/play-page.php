@@ -8,7 +8,7 @@
 ?>
 <?php 
 	$level = 0;
-	if ($_GET['level']) {
+	if (isset($_GET['level'])) {
 		$level = $_GET['level'];
 		$curlevel = $wpdb->get_row( $wpdb->prepare( 
 			"
@@ -25,6 +25,8 @@
 			ORDER BY number_pillar
 			", $level
 		) );
+	} else {
+		exit;
 	}
 ?>
 	<script type="text/javascript">

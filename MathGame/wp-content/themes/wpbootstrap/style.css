@@ -31,6 +31,10 @@ thead {
 	cursor:pointer;
 }
 
+#rowClick {
+	cursor:pointer;
+}
+
 .pagination .dots {
 	float: left;
 	padding: 0 14px;

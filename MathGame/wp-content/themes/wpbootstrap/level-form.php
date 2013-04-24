@@ -28,14 +28,14 @@ if ($level > 0) {
 		exit();
 	}
 		// GET LEVEL DATA
-	$postids = $wpdb->get_row( $wpdb->prepare( 
+	$levelData = $wpdb->get_row( $wpdb->prepare( 
 		"
 		SELECT *
 		FROM  $wpdb->level
 		WHERE ID = %d
 		", $level
 		) );
-	$postids2 = $wpdb->get_results( $wpdb->prepare( 
+	$brigePillarPoint = $wpdb->get_results( $wpdb->prepare( 
 		"
 		SELECT number_pillar, points
 		FROM $wpdb->bridge
@@ -44,57 +44,59 @@ if ($level > 0) {
 		", $level
 		) );
 	
-	$cur_name = $postids->name;
+	$cur_name = $levelData->name;
 	
-	$cur_carSpeed = $postids->car_speed;	
+	$cur_carSpeed = $levelData->car_speed;	
 	
-	$cur_carTimer = $postids->car_time;
+	$cur_carTimer = $levelData->car_time;
 	
-	$cur_buildTimer = $postids->build_time;
+	$cur_buildTimer = $levelData->build_time;
 	
-	$cur_bridgePillar = count($postids2);
+	$cur_bridgePillar = count($brigePillarPoint);
 	
-	$cur_numberBubbles = $postids->number_bubbles;
+	$cur_numberBubbles = $levelData->number_bubbles;
 	
-	$cur_numberRange1 = $postids->min_number;
-	$cur_numberRange2 = $postids->max_number;
+	$cur_numberRange1 = $levelData->min_number;
+	$cur_numberRange2 = $levelData->max_number;
 	
-	$cur_minSpeed = $postids->min_speed;
-	$cur_maxSpeed = $postids->max_speed;
+	$cur_minSpeed = $levelData->min_speed;
+	$cur_maxSpeed = $levelData->max_speed;
 	
-	$cur_bonusNumber = $postids->bonus_number;
+	$cur_bonusNumber = $levelData->bonus_number;
 	
 	$cur_bridgePoints = array();
 	
 	for ($i = 0; $i < $cur_bridgePillar; $i++) {
-		$cur_bridgePoints[$i] = $postids2[$i]->points;
+		$cur_bridgePoints[$i] = $brigePillarPoint[$i]->points;
 	}
 	
 } else {
-	$cur_name = '';
+	$cur_name = $_POST['levelName'];
 	
-	$cur_carSpeed = 3;	
+	$cur_carSpeed = absint($_POST['carSpeed']);
 	
-	$cur_carTimer = 30;
+	$cur_carTimer = absint($_POST['carTimer']);
 	
-	$cur_buildTimer = 10;
+	$cur_buildTimer = absint($_POST['buildTimer']);
 	
-	$cur_bridgePillar = 2;
+	$cur_bridgePillar = ($_POST['bridgePillar'] < 2) ? 2 : absint($_POST['bridgePillar']);
 	
-	$cur_numberBubbles = 5;
+	$cur_numberBubbles = absint($_POST['numberBubbles']);
 	
-	$cur_numberRange1 = 1;
-	$cur_numberRange2 = 12;
+	$numberRange = explode(':', $_POST['numbersBetween']);
+
+	$cur_numberRange1 = absint($numberRange[0]);
+	$cur_numberRange2 = absint($numberRange[1]);
 	
 	$cur_minSpeed = 1;
 	$cur_maxSpeed = 3;
 	
-	$cur_bonusNumber = 10;	
+	$cur_bonusNumber = absint($_POST['bonusNumber']);	
 	
 	$cur_bridgePoints = array();
-	
+
 	for ($i = 0; $i < $cur_bridgePillar; $i++) {
-		$cur_bridgePoints[$i] = 10 + ($i * 10);
+		$cur_bridgePoints[$i] = $_POST['bridgePointName' . ($i + 1)];
 	}	
 }
 

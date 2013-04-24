@@ -50,6 +50,7 @@
 				echo '<th>' . __('Bonus number','wpbootstrap') . '</th>';
 				echo '<th>' . __('No. of bubbles','wpbootstrap') . '</th>';
 				echo '<th>' . __('Bridge length','wpbootstrap') . '</th>';
+				//echo '<th>' . __('Rating', 'wpbootstrap') . '</th>';
 			echo '</thead>';
 			echo '<tbody>';
 				foreach ($levels as $level) {
@@ -62,7 +63,14 @@
 						ORDER BY level_ID	
 						", $level->ID
 					) );
-					
+
+					$avgRating = $wpdb->get_var( $wpdb->prepare(
+						"
+						SELECT AVG(rating)
+						FROM $wpdb->level_rating
+						WHERE level_ID = %d
+						", $level->ID
+					) );
 					$bridgeCount = $wpdb->get_var( $wpdb->prepare( 
 						"
 						SELECT COUNT(*)
@@ -72,8 +80,8 @@
 					) );
 					
 					$count = count($revisions) + 1;
-					echo '<tr>';
-						echo '<td><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $level->ID . '">' . $level->ID . '</a></p></td>';
+					echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $level->ID . '\'">';
+						echo '<td rowspan="' . $count . '"><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $level->ID . '">' . $level->ID . '</a></p></td>';
 						echo '<td>' . $level->name . '</td>';
 						echo '<td>' . $level->car_time . '</td>';
 						echo '<td>' . $level->build_time . '</td>';
@@ -83,6 +91,7 @@
 						echo '<td>' . $level->bonus_number . '</td>';
 						echo '<td>' . $level->number_bubbles . '</td>';
 						echo '<td>' . $bridgeCount . '</td>';
+						//echo '<td>' . '<div class="ratingRow" data-average="2" data-id="1"></div>' . '</td>';
 					echo '</tr>';
 					foreach ($revisions as $revision) {
 						
@@ -94,8 +103,7 @@
 							", $revision->ID
 						) );
 
-						echo '<tr>';
-							echo '<td><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '">' . $revision->level_revision . ' <strong>r</strong>' . $revision->level_ID . '</a></p></td>';
+						echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '\'">';
 							echo '<td>' . $revision->name . '</td>';
 							echo '<td>' . $revision->car_time . '</td>';
 							echo '<td>' . $revision->build_time . '</td>';
@@ -105,6 +113,7 @@
 							echo '<td>' . $revision->bonus_number . '</td>';
 							echo '<td>' . $revision->number_bubbles . '</td>';
 							echo '<td>' . $bridgeCountr . '</td>';
+							//echo '<td></td>';
 						echo '</tr>';	
 					}
 				}
@@ -131,6 +140,19 @@
 		}			
 	}
 ?>
+
+<script>
+/*$(document).ready(function(){
+	$(".ratingRow").jRating({
+		step:true,
+		showRateInfo: false,
+		isDisabled: true,
+		length: 5,
+		rateMax: 5,
+		decimalLength: 0
+	});
+});*/
+</script>
 
 
 <!--<table class="table table-bordered">

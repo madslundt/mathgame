@@ -1,17 +1,17 @@
-<?php get_header(); ?>
 <?php
+get_header();
 	$avgRating = 0;
 	if ($_GET['level']) {
 		$level = $_GET['level'];	
 	}
-?>
-<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+
+if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 	<legend><?php the_title(); ?></legend>
 	<?php the_content(); ?>
 	
-	<?php 
-	if ($level > 0) {
-	?>
+<?php 
+if ($level > 0) {
+?>
 <div class="row">
 <script>
 (function($) {
@@ -252,17 +252,16 @@ $.fn.jRating = function(op) {
 			<p><?php _e('Sorry, this page does not exist.'); ?></p>
 		<?php endif; ?>	
 		<script>
-			  $(document).ready(function(){
-				$(".rating").jRating({
-				  step:true,
-				  showRateInfo: false,
-				  isDisabled: rated,
-				  length: 5,
-				  rateMax: 5,
-				  decimalLength: 0
-				});
-			  });
-			</script>
+		$(document).ready(function(){
+			$(".rating").jRating({
+				step:true,
+				showRateInfo: false,
+				isDisabled: rated,
+				length: 5,
+				rateMax: 5,
+				decimalLength: 0
+			});
+		});
 		</script>
 </div>	
 <?php get_footer(); ?>

@@ -80,7 +80,7 @@
 			</ul>
 			<ul class="nav pull-right">
 
-				<?php if (is_user_logged_in()) : ?>
+				<?php if (is_user_logged_in()) { ?>
 				<div class="btn-group">
 				  <a class="btn btn-small" href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><i class="icon-user"></i><?php echo $current_user->user_login; ?></a>
 				  <button class="btn dropdown-toggle btn-small" data-toggle="dropdown">
@@ -97,15 +97,15 @@
 					<p class="navbar-form pull-right">
 						
 					</p>
-				<?php else : ?>
+				<?php } else {?>
 					<form name="loginform" id="loginform" class="navbar-form pull-right" action="<?php echo get_option('home'); ?>/wp-login.php" method="post">
 					    <input type="text" class="input span2" name="log" id="user_login" placeholder="<?php _e('Name', 'wpbootstrap'); ?>" value="" size="20"/> 
 					    <input type="password" class="input span2" name="pwd" id="user_pass" placeholder="Password" value="" size="20"/>
-					    <input type="submit" name="wp-submit" id="wp-submit" class="btn btn-small" value="<?php _e('Log in', 'wpbootstrap'); ?>" />
+					    <input type="submit" name="wp-submit" id="wp-submit" class="btn" value="<?php _e('Log in', 'wpbootstrap'); ?>" />
 					    <input type="hidden" name="redirect_to" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 					    <input type="hidden" name="testcookie" value="1" />
 					</form>
-				<?php endif; ?>
+				<?php } ?>
 				<div id="warn">
 
 				</div>

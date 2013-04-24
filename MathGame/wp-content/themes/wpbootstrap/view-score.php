@@ -9,6 +9,11 @@ $groups = $wpdb->get_results( $wpdb->prepare(
 	ORDER BY t.term_id
 	", get_current_user_id()
 	) );
+
+	$cur_find = -1;
+	if (isset($_POST['submit'])) {
+		$cur_find = $_POST['find'];
+	}
 	?>
 	<div class="span12">
 		<form name="viewscore" method="POST" action="">
@@ -24,7 +29,7 @@ $groups = $wpdb->get_results( $wpdb->prepare(
 							echo '<select class="span2" name="find">';
 							echo '<option value="">' . __('All groups', 'wpbootstrap') . '</option>';
 							foreach ($groups as $group) {
-								echo '<option value="' . $group->term_id . '">' . $group->name . '</option>';
+								echo '<option value="' . $group->term_id . '"' . (($cur_find == $group->term_id) ? 'selected' : '') .'>' . $group->name . '</option>';
 							}
 							echo '</select>';
 							?>
@@ -50,7 +55,7 @@ $groups = $wpdb->get_results( $wpdb->prepare(
 											));
 										echo '<option value="">' . $group->name . '</options>';
 										foreach ($users as $user) {
-											echo '<option value="' . $user->ID . '"> - ' . $user->user_login . '</option>';	
+											echo '<option value="' . $user->ID . '"' . (($cur_find == $user->ID) ? 'selected' : '') .'> - ' . $user->user_login . '</option>';	
 										}
 									}
 									echo '</select>';
@@ -86,9 +91,9 @@ $groups = $wpdb->get_results( $wpdb->prepare(
 														ORDER BY level_ID	
 														", $level->ID
 														) );
-													echo '<option value="' . $level->ID . '">' . $level->name . '</option>';
+													echo '<option value="' . $level->ID . '"' . (($cur_find == $level->ID) ? 'selected' : '') .'>' . $level->name . '</option>';
 													foreach ($revisions as $revision) {
-														echo '<option value="' . $revision->ID . '"> - ' . $revision->name . '</option>';	
+														echo '<option value="' . $revision->ID . '"' . (($cur_find == $revision->ID) ? 'selected' : '') .'> - ' . $revision->name . '</option>';	
 													}
 												}
 											}		
@@ -108,7 +113,7 @@ $groups = $wpdb->get_results( $wpdb->prepare(
 				</div>
 				
 				<div class="span2 pull-right">
-					<p class="span2"><input type="checkbox" id="onlyfinished" name="onlyfinished" checked> <?php _e('Only finished games', 'wpbootstrap'); ?></p>
+					<p class="span2"><input type="checkbox" id="onlyfinished" name="onlyfinished"<?php echo (isset($_POST['onlyfinished']) ? 'checked' : ''); ?>> <?php _e('Only finished games', 'wpbootstrap'); ?></p>
 				</div>
 			</div>
 		</fieldset>

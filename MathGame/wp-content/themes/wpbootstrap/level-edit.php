@@ -55,6 +55,7 @@ foreach ($groups as $group) {
 	echo '<th>' . __('Bonus number','wpbootstrap') . '</th>';
 	echo '<th>' . __('No. of bubbles','wpbootstrap') . '</th>';
 	echo '<th>' . __('Bridge length','wpbootstrap') . '</th>';
+	//echo '<th>' . __('Rating', 'wpbootstrap') . '</th>';
 	echo '</thead>';
 	echo '<tbody>';
 	foreach ($levels as $level) {
@@ -77,7 +78,7 @@ foreach ($groups as $group) {
 		) );
 		
 		$count = count($revisions) + 1;
-		echo '<tr>';
+		echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink(30) . '&level=' . $level->ID . '\'">';
 		echo '<td rowspan="' . $count . '"><p class="lead"><a href="' . get_permalink(30) . '&level=' . $level->ID . '">' . $level->ID . '</a></p></td>';
 		echo '<td>' . $level->name . '</td>';
 		echo '<td>' . $level->car_time . '</td>';
