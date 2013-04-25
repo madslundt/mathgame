@@ -24,6 +24,14 @@ function addScoreToLevelFunction()
 
 add_action('wp_ajax_addScoreToLevel', 'addScoreToLevelFunction');  // Only logged in users
 
+function init_sessions() {
+    if (!session_id()) {
+        session_start();
+    }
+}
+add_action('init', 'init_sessions');
+
+
 function addRatingToLevelFunction()
 {
     global $wpdb;

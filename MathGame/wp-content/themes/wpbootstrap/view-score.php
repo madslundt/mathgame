@@ -10,11 +10,14 @@ $groups = $wpdb->get_results($wpdb->prepare(
 	", get_current_user_id()
 ));
 
-$cur_find = -1;
 if (isset($_POST['submit']))
 {
-    $cur_find = $_POST['find'];
+    $_SESSION['find' . $_GET['view']] = $_POST['find'];
+    $_SESSION['onlyfinished' . $_GET['view']] = $_POST['onlyfinished'];
 }
+$cur_find = isset($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
+$cur_finish = isset($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
+
 ?>
 <div class="span12">
     <form name="viewscore" method="POST" action="">
@@ -131,7 +134,7 @@ if (isset($_POST['submit']))
                         </div>
 
                         <div class="span2 pull-right">
-                            <p class="span2"><input type="checkbox" id="onlyfinished" name="onlyfinished"<?php echo (isset($_POST['onlyfinished']) ? 'checked' : ''); ?>> <?php _e('Only finished games', 'wpbootstrap'); ?></p>
+                            <p class="span2"><input type="checkbox" id="onlyfinished" name="onlyfinished"<?php echo (($cur_finish) ? 'checked' : ''); ?>> <?php _e('Only finished games', 'wpbootstrap'); ?></p>
                         </div>
                     </div>
                     </fieldset>

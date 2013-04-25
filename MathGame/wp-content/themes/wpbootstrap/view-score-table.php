@@ -7,9 +7,11 @@
 $page = isset($_GET['page']) ? absint($_GET['page']) : 1;
 $limit = 5;
 $offset = ($page - 1) * $limit;
+$cur_find = isset($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
+$cur_finish = isset($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
 
 $today = time();
-if (isset($_POST['onlyfinished']))
+if ($cur_finish)
 {
     $finish = " AND s.finished = 1";
 }
@@ -17,10 +19,11 @@ else
 {
     $finish = "";
 }
+$c = 1 + $offset;
 if ($_GET['view'] == 'group')
 {
-    $c = 1 + $offset;
-    if ($_POST['find'] > -1)
+    
+    if ($cur_find > -1)
     { // Specified group
         $group = $wpdb->get_results($wpdb->prepare(
             "
@@ -32,7 +35,7 @@ if ($_GET['view'] == 'group')
 			WHERE relationships_term_taxonomy_id = %d" . $finish . "
 			ORDER BY s.points DESC, s.errors, s.time
 			LIMIT %d, %d
-			", $_POST['find'], $offset, $limit
+			", $cur_find, $offset, $limit
         ));
 
         $total = $wpdb->get_var($wpdb->prepare(
@@ -43,7 +46,7 @@ if ($_GET['view'] == 'group')
             INNER JOIN $wpdb->level l ON s.level_ID = l.ID
             INNER JOIN $wpdb->users u ON s.user_ID = u.ID
             WHERE relationships_term_taxonomy_id = %d" . $finish . "
-            ", $_POST['find']
+            ", $cur_find
         ));
 
         echo '<table class="table table-hover" id="tablesorter">';
@@ -133,7 +136,7 @@ if ($_GET['view'] == 'group')
 }
 else if ($_GET['view'] == 'user')
 {
-    if ($_POST['find'])
+    if ($cur_find > -1)
     { // Specified user
         $user = $wpdb->get_results($wpdb->prepare(
             "
@@ -143,7 +146,7 @@ else if ($_GET['view'] == 'user')
 			WHERE s.user_ID = %d" . $finish . "
 			ORDER BY s.points DESC, s.errors, s.time
 			LIMIT %d, %d
-			", $_POST['find'], $offset, $limit
+			", $cur_find, $offset, $limit
         ));
 
         $total = $wpdb->get_var($wpdb->prepare(
@@ -152,7 +155,7 @@ else if ($_GET['view'] == 'user')
             FROM $wpdb->score s
             INNER JOIN $wpdb->level l ON s.level_ID = l.ID
             WHERE s.user_ID = %d" . $finish . "
-            ", $_POST['find']
+            ", $cur_find
         ));        
 
         echo '<table class="table table-hover" id="tablesorter">';
@@ -260,7 +263,7 @@ else if ($_GET['view'] == 'user')
 }
 else
 {
-    if ($_POST['find'] > -1)
+    if ($cur_find > -1)
     { // Specified level
         $level = $wpdb->get_results($wpdb->prepare(
             "
@@ -273,7 +276,7 @@ else
 			WHERE l.ID = %d" . $finish . "
 			ORDER BY s.points DESC, s.errors, s.time
 			LIMIT %d, %d
-			", $_POST['find'], $offset, $limit
+			", $cur_find, $offset, $limit
         ));
 
         $total = $wpdb->get_var($wpdb->prepare(
@@ -286,7 +289,7 @@ else
             INNER JOIN $wpdb->users u ON s.user_ID = u.ID
             WHERE l.ID = %d" 
             . $finish . "
-            ", $_POST['find']
+            ", $cur_find
         ));        
 
         echo '<table class="table table-hover" id="tablesorter">';
@@ -333,7 +336,7 @@ else
         echo $table_prefix;
     }
 }
-echo $total;
+
 $num_of_pages = ceil($total / $limit);
 $page_links = paginate_links(array(
     'base' => add_query_arg('page', '%#%'),
