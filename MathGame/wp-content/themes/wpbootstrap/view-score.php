@@ -15,8 +15,8 @@ if (isset($_POST['submit']))
     $_SESSION['find' . $_GET['view']] = $_POST['find'];
     $_SESSION['onlyfinished' . $_GET['view']] = $_POST['onlyfinished'];
 }
-$cur_find = isset($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
-$cur_finish = isset($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
+$cur_find = !empty($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
+$cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
 
 ?>
 <div class="span12">

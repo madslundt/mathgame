@@ -7,8 +7,8 @@
 $page = isset($_GET['page']) ? absint($_GET['page']) : 1;
 $limit = 5;
 $offset = ($page - 1) * $limit;
-$cur_find = isset($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
-$cur_finish = isset($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
+$cur_find = !empty($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
+$cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
 
 $today = time();
 if ($cur_finish)

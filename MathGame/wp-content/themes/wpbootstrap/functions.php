@@ -176,6 +176,10 @@ function custom_scripts()
     wp_enqueue_script('jqueryui');
     wp_register_script('tablesorter', get_template_directory_uri() . '/Scripts/jquery.tablesorter.min.js', array('jquery'));
     wp_enqueue_script('tablesorter');
+    wp_register_script('highcharts', get_template_directory_uri() . '/Scripts/highcharts.js', array('jquery'));
+    wp_enqueue_script('highcharts');
+    wp_register_script('highcharts_modules', get_template_directory_uri() . '/Scripts/modules/exporting.js', array('jquery'));
+    wp_enqueue_script('highcharts_modules');
 }
 
 add_action('wp_enqueue_scripts', 'custom_scripts');

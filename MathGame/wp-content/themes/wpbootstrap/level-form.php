@@ -6,7 +6,7 @@ if ($_GET['level'])
     $level = $_GET['level'];
 }
 
-if ($level > 0)
+if ($level > 0 && !isset($_POST['submit']))
 {
     $groups = $wpdb->get_results($wpdb->prepare(
                     "

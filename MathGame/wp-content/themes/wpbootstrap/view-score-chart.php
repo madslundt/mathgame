@@ -1,184 +1,323 @@
+<script>
+    $(function() {
+        $('#tablesorter').tablesorter();
+    });
+</script>
 <?php
-$groups = $wpdb->get_results($wpdb->prepare(
-    "
-	SELECT t.name, t.term_id
-	FROM $wpdb->term_taxonomy taxo
-	INNER JOIN $wpdb->terms t ON taxo.term_id = t.term_id
-	INNER JOIN $wpdb->term_relationships rs ON t.term_id = rs.term_taxonomy_id
-	WHERE taxo.taxonomy = 'user-group' AND rs.object_id = %d
-	ORDER BY t.term_id
-	", get_current_user_id()
-));
-?>
-<div class="span12">
-    <form name="viewscore" method="POST" action="">
-        <fieldset>
+$page = isset($_GET['page']) ? absint($_GET['page']) : 1;
+$limit = 5;
+$offset = ($page - 1) * $limit;
+$cur_find = !empty($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
+$cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
 
-            <?php if ($_GET['view'] == 'group')
-            { ?>
-                <h3><?php _e('Group highscore', 'wpboostrap'); ?></h3>
-                <div class="row">
-                    <div class="span2">
-                        <?php
-                        echo '<select class="span2" name="group">';
-                        echo '<option value="-1">' . __('All groups', 'wpbootstrap') . '</option>';
-                        foreach ($groups as $group)
-                        {
-                            echo '<option value="' . $group->term_id . '">' . $group->name . '</option>';
-                        }
-                        echo '</select>';
-                        ?>
-                    </div>
-<?php }
+$today = time();
+if ($cur_finish)
+{
+    $finish = " AND s.finished = 1";
+}
+else
+{
+    $finish = "";
+}
+$c = 1 + $offset;
+$xaxis = array();
+$yaxis = "";
+if ($_GET['view'] == 'group')
+{
+    
+    if ($cur_find > -1)
+    { // Specified group
+        $group = $wpdb->get_results($wpdb->prepare(
+            "
+            SELECT s.*, l.name AS lname, u.user_login AS uname
+            FROM $wpdb->group_level
+            INNER JOIN $wpdb->score s ON relationships_object_id = s.user_ID
+            INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+            WHERE relationships_term_taxonomy_id = %d" . $finish . "
+            ORDER BY s.points DESC, s.errors, s.time
+            LIMIT %d, %d
+            ", $cur_find, $offset, $limit
+        ));
+
+        $total = $wpdb->get_var($wpdb->prepare(
+            "
+            COUNT(s.ID)
+            FROM $wpdb->group_level
+            INNER JOIN $wpdb->score s ON relationships_object_id = s.user_ID
+            INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+            WHERE relationships_term_taxonomy_id = %d" . $finish . "
+            ", $cur_find
+        ));
+
+        echo '<table class="table table-hover" id="tablesorter">';
+        echo '<thead>';
+        echo '<th>#</th>';
+        echo '<th>' . __('Name', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Points', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Errors', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Time', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Level no.', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Level name', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
+        echo '</thead>';
+        echo '<tbody>';
+
+        foreach ($group as $g)
+        {
+            if (strtotime($g->date) < strtotime('-5 days'))
+            {
+                $date = date(__('Y-m-d', 'bootstrap'), $g->date);
+            }
+            else
+            {
+                $date = human_time_diff(strtotime($g->date)) . ' ' . __('ago', 'wpbootstrap');
+            }
+            echo '<tr>';
+            echo '<td><p class="lead">' . $c . '</p></td>';
+            echo '<td>' . $g->uname . '</td>';
+            echo '<td>' . $g->points . '</td>';
+            echo '<td>' . $g->errors . '</td>';
+            echo '<td>' . $g->time . '</td>';
+            echo '<td>' . $g->level_ID . '</td>';
+            echo '<td>' . $g->lname . '</td>';
+            echo '<td>' . $date . '</td>';
+            echo '<td>' . (($g->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
+            echo '</tr>';
+            $c++;
+        }
+        echo '</tbody>';
+        echo '</table>';        
+    }
+    else
+    { // ALL groups
+        // List all groups max point
+        /* $groups = $wpdb->get_results( $wpdb->prepare( 
+          "
+          SELECT t.name, t.term_id
+          FROM $wpdb->term_taxonomy taxo
+          INNER JOIN $wpdb->terms t ON taxo.term_id = t.term_id
+          INNER JOIN $wpdb->term_relationships rs ON t.term_id = rs.term_taxonomy_id
+          WHERE taxo.taxonomy = 'user-group' AND rs.object_id = %d
+          ORDER BY t.term_id
+          ", get_current_user_id()
+          ) );
+          echo '<table class="table table-hover" id="tablesorter">';
+          echo '<thead>';
+          echo '<th>#</th>';
+          echo '<th>' . __('Points','wpbootstrap') . '</th>';
+          echo '<th>' . __('Errors','wpbootstrap') . '</th>';
+          echo '<th>' . __('Time','wpbootstrap') . '</th>';
+          echo '<th>' . __('Level no.','wpbootstrap') . '</th>';
+          echo '<th>' . __('Level name','wpbootstrap') . '</th>';
+          echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
+          echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
+          echo '</thead>';
+          echo '<tbody>';
+          foreach ($groups as $g) {
+          if (strtotime($u->date) < strtotime('-5 days')) {
+          $date = date(__('Y-m-d', 'bootstrap'), $u->date);
+          } else {
+          $date = human_time_diff( strtotime($u->date)) . ' ' . __('ago', 'wpbootstrap');
+          }
+          echo '<tr>';
+          echo '<td><p class="lead">' . $c . '</p></td>';
+          echo '<td>' . $u->points . '</td>';
+          echo '<td>' . $u->errors . '</td>';
+          echo '<td>' . $u->time . '</td>';
+          echo '<td>' . $u->level_ID . '</td>';
+          echo '<td>' . $u->lname . '</td>';
+          echo '<td>' . $date . '</td>';
+          echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
+          echo '</tr>';
+          $c++;
+          } */
+    }
+}
 else if ($_GET['view'] == 'user')
-{ ?>
-                    <h3><?php _e('User highscore', 'wpboostrap'); ?></h3>
-                    <div class="row">
-                        <div class="span2">
-                            <?php
-                            echo '<select class="span2" name="user">';
-                            echo '<option value="-1">' . __('All users', 'wpbootstrap') . '</option>';
-                            foreach ($groups as $group)
-                            {
-                                $users = $wpdb->get_results($wpdb->prepare(
-                                    "
-									SELECT DISTINCT u.ID, u.user_login
-									FROM $wpdb->term_relationships rs
-									INNER JOIN $wpdb->users u ON rs.object_id = u.ID
-									WHERE rs.term_taxonomy_id = %d
-									ORDER BY u.ID
-									", $group->term_id
-                                ));
+{
+    if ($cur_find > -1)
+    { // Specified user
+        $user = $wpdb->get_results($wpdb->prepare(
+            "
+            SELECT s.*, l.name AS lname
+            FROM $wpdb->score s
+            INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+            WHERE s.user_ID = %d" . $finish . "
+            ORDER BY s.points DESC, s.errors, s.time
+            LIMIT %d, %d
+            ", $cur_find, $offset, $limit
+        ));
 
-                                echo '<option value="">' . $group->name . '</options>';
-                                foreach ($users as $user)
-                                {
-                                    echo '<option value="' . $user->ID . '"> - ' . $user->user_login . '</option>';
-                                }
-                            }
-                            echo '</select>';
-                            ?>
-                        </div>
-                            <?php }
-                            else
-                            { ?>
-                        <h3><?php _e('Level highscore', 'wpboostrap'); ?></h3>
-                        <div class="row">
-                            <div class="span2">
-                                <?php
-                                echo '<select class="span2" name="level">';
-                                echo '<option value="-1">' . __('All levels', 'wpbootstrap') . '</option>';
-                                foreach ($groups as $group)
-                                {
-                                    $levels = $wpdb->get_results($wpdb->prepare(
-                                        "
-    									SELECT DISTINCT l.ID, l.name
-    									FROM $wpdb->group_level gl
-    									INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
-    									LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
-    									WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
-    									ORDER BY l.ID	
-    									", $group->term_id
-                                    ));
+        echo '<div id="scoreChart" class="span11"></div>';
+    }
+    else
+    { // ALL users
+        /*$users = $wpdb->get_results($wpdb->prepare(
+            "
+            SELECT MAX(s.points), u.user_login AS uname
+            FROM $wpdb->score s
+            INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+            WHERE 1=1" . $finish . "
+            ORDER BY s.points DESC, s.errors, s.time
+            LIMIT %d, %d
+            ", $offset, $limit
+        ));
 
-                                    foreach ($levels as $level)
-                                    {
-                                        $revisions = $wpdb->get_results($wpdb->prepare(
-                                            "
-											SELECT l.ID, l.name 
-											FROM $wpdb->level_revision r
-											INNER JOIN $wpdb->level l ON r.level_ID = l.ID
-											WHERE r.level_revision = %d
-											ORDER BY level_ID	
-											", $level->ID
-                                        ));
-                                        
-                                        echo '<option value="' . $level->ID . '">' . $level->name . '</option>';
-                                        foreach ($revisions as $revision)
-                                        {
-                                            echo '<option value="' . $revision->ID . '"> - ' . $revision->name . '</option>';
-                                        }
-                                    }
-                                }
-                                echo '</select>';
-                                ?>
-                            </div>
-<?php } ?>
-                        <div class="span2">
-                            <select class="span2" name="highscoreby">
-                                <option value="points"><?php _e('Points', 'wpbootstrap'); ?></option>
-                                <option value="errors"><?php _e('Errors', 'wpbootstrap'); ?></option>
-                            </select>
-                        </div>
+        foreach ($users as $u) {
+            array_push($xaxis, $u->uname);
+        }
+        $yaxis = __('Points', 'wpbootstrap');
 
-                        <div class="span1 pull-right">
-                            <input type="submit" name="submit" id="submit" value="<?php _e('View', 'wpbootstrap'); ?>" class="span1 btn btn-primary">
-                        </div>
+        echo '<div id="allUsers" class="span10"></div>';*/
+    }
+}
+else
+{
+    if ($cur_find > -1)
+    { // Specified level
+        $level = $wpdb->get_results($wpdb->prepare(
+            "
+            SELECT s.*, u.user_login AS uname, t.name AS gname
+            FROM $wpdb->level l
+            INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
+            INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
+            INNER JOIN $wpdb->score s ON l.ID = s.level_ID
+            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+            WHERE l.ID = %d" . $finish . "
+            ORDER BY s.points DESC, s.errors, s.time
+            LIMIT %d, %d
+            ", $cur_find, $offset, $limit
+        ));
 
-                        <div class="span2 pull-right">
-                            <p class="span2"><input type="checkbox" id="onlyfinished" checked> <?php _e('Only finished games', 'wpbootstrap'); ?></p>
-                        </div>
-                    </div>
-                    </fieldset>
-                    </form>
-                    <div class="row">
-                        <div class="span2 pull-right">
-                            <div class="row">
-                                <div class="span2">
-                                    <div class="btn-group">
-                                        <button class="btn"><i class="icon-align-justify"></i><?php _e('Table', 'wpbootstrap'); ?></button>
-                                        <button class="btn"><i class="icon-tasks"></i><?php _e('Graph', 'wpbootstrap'); ?></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="span12">
-                            <?php
-                            if ($_GET['view'] == 'group')
-                            {
-                                $type = 'group';
-                                if ($_POST['group'] > -1)
-                                { // Specified group
-                                    $type += 'all';
-                                }
-                                else
-                                { // ALL groups
-                                    $type += $_POST['group'];
-                                }
-                                echo 'Group ID: ' . $_POST['group'] . '<br />';
-                                echo 'Viewing by: ' . $_POST['highscoreby'];
-                            }
-                            else if ($_GET['view'] == 'user')
-                            {
-                                $type = 'user';
-                                if ($_POST['user'])
-                                { // Specified user
-                                    $type += 'all';
-                                }
-                                else
-                                { // ALL users
-                                    $type += $_POST['user'];
-                                }
-                                echo 'User ID: ' . $_POST['user'] . '<br />';
-                                echo 'Viewing by: ' . $_POST['highscoreby'];
-                            }
-                            else
-                            {
-                                $type = 'level=';
-                                if ($_POST['level'] > -1)
-                                { // Specified level
-                                    $type += 'all';
-                                }
-                                else
-                                { // All levels
-                                    $type += $_POST['level'];
-                                }
-                                echo 'Level ID: ' . $_POST['level'] . '<br />';
-                                echo 'Viewing by: ' . $_POST['highscoreby'];
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
+        $total = $wpdb->get_var($wpdb->prepare(
+            "
+            SELECT COUNT(s.ID)
+            FROM $wpdb->level l
+            INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
+            INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
+            INNER JOIN $wpdb->score s ON l.ID = s.level_ID
+            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
+            WHERE l.ID = %d" 
+            . $finish . "
+            ", $cur_find
+        ));        
+
+        echo '<table class="table table-hover" id="tablesorter">';
+        echo '<thead>';
+        echo '<th>#</th>';
+        echo '<th>' . __('Name', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Points', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Errors', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Time', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Group name', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
+        echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
+        echo '</thead>';
+        echo '<tbody>';
+
+        foreach ($level as $l)
+        {
+            if (strtotime($l->date) < strtotime('-5 days'))
+            {
+                $date = date(__('Y-m-d', 'bootstrap'), $l->date);
+            }
+            else
+            {
+                $date = human_time_diff(strtotime($l->date)) . ' ' . __('ago', 'wpbootstrap');
+            }
+            echo '<tr>';
+            echo '<td><p class="lead">' . $c . '</p></td>';
+            echo '<td>' . $l->uname . '</td>';
+            echo '<td>' . $l->points . '</td>';
+            echo '<td>' . $l->errors . '</td>';
+            echo '<td>' . $l->time . '</td>';
+            echo '<td>' . $l->gname . '</td>';
+            echo '<td>' . $date . '</td>';
+            echo '<td>' . (($l->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
+            echo '</tr>';
+            $c++;
+        }
+        echo '</tbody>';
+        echo '</table>';
+    }
+    else
+    { // All levels
+        // List each level max point
+        echo $table_prefix;
+    }
+}
+
+$num_of_pages = ceil($total / $limit);
+$page_links = paginate_links(array(
+    'base' => add_query_arg('page', '%#%'),
+    'format' => '',
+    'prev_next' => True,
+    'prev_text' => __('&laquo;', 'wpbootstrap'),
+    'next_text' => __('&raquo;', 'wpbootstrap'),
+    'type' => 'list',
+    'total' => $num_of_pages,
+    'current' => $page
+));
+
+if ($page_links)
+{
+    echo '<div class="pagination pagination-right">';
+    echo '<ul>';
+    echo $page_links;
+    echo '</ul>';
+    echo '</div>';
+}
+
+$xaxis = json_encode($xaxis);
+?>
+
+<script>
+$(function () {
+        $('#scoreChart').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Monthly Average Rainfall'
+            },
+            xAxis: {
+                categories: <?php echo $xaxis; ?>
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: "<?php echo $yaxis; ?>"
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Tokyo',
+                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+    
+            }, {
+                name: 'New York',
+                data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3] 
+            }, {
+                name: 'New York',
+                data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3] 
+            }]
+        });
+    });
+</script>
