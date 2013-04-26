@@ -590,7 +590,7 @@ if (isset($_POST['submit']))
         ?>
         <script>
             $('#alertMessage').html(function() {
-                return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong><?php _e("There was an error creating the level. Please try again", "wpbootstrap"); ?></strong></div>'
+                return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><?php _e("There was an error creating the level. Please try again", "wpbootstrap"); ?></div>'
             }); 
         </script>
         <?php
@@ -654,7 +654,7 @@ if (isset($_POST['submit']))
         ?>
         <script>
             $('#alertMessage').html(function() {
-                return '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong><?php _e("Level created", "wpbootstrap"); ?></strong></div>'
+                return '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><?php _e("Level created", "wpbootstrap"); ?></div>'
             }); 
         </script>
         <?php
@@ -665,8 +665,8 @@ if (isset($_POST['submit']))
         $wpdb->query($wpdb->prepare(
             "
             INSERT INTO $wpdb->level
-            ( name, car_time, build_time, min_number, max_number, car_speed, bonus_number, number_bubbles )
-            VALUES ( %s, %d, %d, %d, %d, %d, %d, %d )
+            ( name, car_time, build_time, min_number, max_number, min_speed, max_speed, car_speed, bonus_number, number_bubbles )
+            VALUES ( %s, %d, %d, %d, %d, %d, %d, %d, %d, %d )
             ", 
             array(
                 $_POST['levelName'],
@@ -674,6 +674,8 @@ if (isset($_POST['submit']))
                 $_POST['buildTimer'],
                 $numbersBetween[0],
                 $numbersBetween[1],
+                $speed[0],
+                $speed[1],
                 $_POST['carSpeed'],
                 $_POST['bonusNumber'],
                 $_POST['numberBubbles']
@@ -728,7 +730,7 @@ if (isset($_POST['submit']))
         ?>
         <script>
             $('#alertMessage').html(function() {
-                return '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong><?php printf(__("An revision of level %d was added.", "wpbootstrap"), $level); ?></strong></div>'
+                return '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><?php printf(__("An revision of level %d was added.", "wpbootstrap"), $level); ?></div>'
             }); 
         </script>
         <?php
