@@ -260,12 +260,52 @@ function user_game_span($atts, $content = null)
 
 add_shortcode('user_span', 'user_game_span');
 
+/**
+ * Register sidebars
+ */
+
+if (function_exists('register_sidebar')) {
+    register_sidebar( array (
+        'name' => __('Front footer 1', 'wpbootstrap'),
+        'id' => 'front-footer-1',
+        'description' => 'Widget 1 on frontpage',
+        'before_widget' => '<div class="front-footer-1 span4">',
+        'after_widget' => '</div> <!-- end front footer 1 -->',
+        'before_title' => '<h2>',
+        'after_title' => '</h2>'
+    ) ); 
+
+    register_sidebar( array (
+        'name' => __('Front footer 2', 'wpbootstrap'),
+        'id' => 'front-footer-2',
+        'description' => 'Widget 2 on frontpage',
+        'before_widget' => '<div class="front-footer-2 span4">',
+        'after_widget' => '</div> <!-- end front footer 2 -->',
+        'before_title' => '<h2>',
+        'after_title' => '</h2>'
+    ) ); 
+
+    register_sidebar( array (
+        'name' => __('Front footer 3', 'wpbootstrap'),
+        'id' => 'front-footer-3',
+        'description' => 'Widget 3 on frontpage',
+        'before_widget' => '<div class="front-footer-3 span4">',
+        'after_widget' => '</div> <!-- end front footer 3 -->',
+        'before_title' => '<h2>',
+        'after_title' => '</h2>'
+    ) ); 
+
+}
+
 function user_level($atts)
 {
     return __('Level', 'wpbootstrap') . $level;
 }
 
 add_shortcode('user_level', 'user_level');
+
+define('THEMEROOT', get_stylesheet_directory_uri());
+define('IMAGES', THEMEROOT . '/images');
 
 /**
  * Extended Walker class for use with the

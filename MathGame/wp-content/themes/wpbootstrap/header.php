@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html <?php language_attributes(); ?>>
   <head>
-    <meta charset="utf-8">
-    <title><?php wp_title('|',1,'right'); bloginfo('name'); ?></title>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <title><?php wp_title( '|',1,'right' ); bloginfo( 'name' ); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+    <meta name="description" content="<?php bloginfo( 'description' ); ?>">
     <meta name="author" content="">
 	<meta name='robots' content='noindex,nofollow' />
 
     <!-- Le styles -->
-    <link href="<?php bloginfo('stylesheet_url');?>" rel="stylesheet">
+    <link href="<?php bloginfo( 'stylesheet_url' ); ?>" rel="stylesheet" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
 	<?php wp_enqueue_script("jquery"); ?>
@@ -40,7 +41,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="<?php echo site_url(); ?>"><?php bloginfo('name'); ?></a>
+          <a class="brand" alt="<?php bloginfo( 'description' ); ?>" href="<?php echo site_url(); ?>"><?php bloginfo( 'name' ); ?></a>
           <div class="nav-collapse collapse">
             <ul class="nav" style="z-index: 10;">
 				<?php

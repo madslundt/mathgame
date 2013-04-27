@@ -21,8 +21,8 @@ if (have_posts()) : while (have_posts()) : the_post();
                         $.fn.jRating = function(op) {
                             var defaults = {
                                 /** String vars **/
-                                bigStarsPath : "wp-includes/images/icons/stars.png", // path of the icon stars.png
-                                smallStarsPath : "wp-includes/images/icons/small.png", // path of the icon small.png
+                                bigStarsPath : "<?php print IMAGES; ?>/stars.png", // path of the icon stars.png
+                                smallStarsPath : "<?php print IMAGES; ?>/small.png", // path of the icon small.png
                                 //phpPath : "<?php echo get_template_directory_uri() . '/jRating.php'; ?>", // path of the php file jRating.php
                                 type : 'big', // can be set to 'small' or 'big'
 
