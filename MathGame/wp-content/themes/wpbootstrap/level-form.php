@@ -158,6 +158,11 @@ $max_speed          = 10;
             max: <?php echo $max_numberRange; ?>,
             values: [ <?php echo $cur_numberRange1; ?>, <?php echo $cur_numberRange2; ?> ],
             slide: function( event, ui ) {
+                if (ui.values[0] == ui.values[1] && ui.values[0] < <?php echo $max_numberRange; ?>) {
+                    ui.values[1]++;
+                } else if (ui.values[0] == ui.values[1]) {
+                    ui.values[0]--;
+                }
                 $( "#numbersBetween" ).val(ui.values[ 0 ] + " : " + ui.values[ 1 ] );
                 $( "#numbersBetweenLabel" ).text(ui.values[ 0 ] + " : " + ui.values[ 1 ] );
                 $( "#slider-bonus-number" ).slider("option", "min", $( "#slider-number-range" ).slider( "values", 0 ));
@@ -266,12 +271,24 @@ $max_speed          = 10;
             min: $( "#slider-number-range" ).slider( "values", 0 ),
             max: $( "#slider-number-range" ).slider( "values", 1 ),
             slide: function( event, ui ) {
+
+                if (ui.value == 0 && $( "#slider-number-range" ).slider( "values", 0 ) == 0) {
+                    ui.value += 1;
+                } else if (ui.value == 0) {
+                    ui.value -= 1;
+                }
                 $( "#bonusNumber" ).val( ui.value);
                 $( "#bonusNumberLabel" ).text( ui.value);
                 $( "#slider-bonus-number" ).slider("option", "min", $( "#slider-number-range" ).slider( "values", 0 ));
-                $( "#slider-bonus-number" ).slider("option", "max", $( "#slider-number-range" ).slider( "values", 1 ));
+                $( "#slider-bonus-number" ).slider("option", "max", $( "#slider-number-range" ).slider( "values", 1 ))
             }
         });
+        /*if ($( "#slider-number-bubbles" ).slider( "value" ) == 0 && $( "#slider-number-range" ).slider( "values", 0 ) == 0) {
+            $( "#slider-number-bubbles" ).slider( "value" ) += 1;
+        } else if ($( "#slider-number-bubbles" ).slider( "value" ) == 0) {
+            $( "#slider-number-bubbles" ).slider( "value" ) -= 1;
+        }*/
+
         $( "#bonusNumber" ).val($( "#slider-bonus-number" ).slider( "value" ));
         $( "#bonusNumberLabel" ).text($( "#slider-bonus-number" ).slider( "value" ));
 
@@ -286,7 +303,6 @@ $max_speed          = 10;
         });
         $( "#numberBubbles" ).val($( "#slider-number-bubbles" ).slider( "value" ));
         $( "#numberBubblesLabel" ).text($( "#slider-number-bubbles" ).slider( "value" ));
-
     });
 </script>
 <div class="row">
@@ -453,7 +469,7 @@ $max_speed          = 10;
                         <?php endif; ?>
                         <div class="row">
                             <div class="span2 pull-right">
-                                <a type="text" style="margin: 10px;" class="btn btn-info pull-right" href="#playModal" data-toggle="modal"><?php _e('Try', 'wpbootstrap'); ?></a>
+                                <a type="text" style="margin: 10px;" class="btn btn-info pull-right" href="#playModal" data-toggle="modal" id="tryLevel"><?php _e('Try', 'wpbootstrap'); ?></a>
                             </div>
                         </div>      
                     </div>
@@ -531,7 +547,7 @@ if (isset($_POST['submit']))
         $error = true;
     }
 
-    if ($_POST['bonusNumber'] < $min_numberRange || $_POST['bonusNumber'] > $max_numberRange)
+    if ($_POST['bonusNumber'] < $min_numberRange || $_POST['bonusNumber'] > $max_numberRange || $_POST['bonusNumber'] == 0)
     {
         $error = true;
     }

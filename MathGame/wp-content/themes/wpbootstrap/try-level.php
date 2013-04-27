@@ -16,12 +16,12 @@ if (!is_user_logged_in())
 <script type="text/javascript">
     var config = {
         width: window.innerWidth * 0.75, 
-        height: window.innerHeight * 0.6,
+        height: window.innerHeight * 0.7,
         params: { enableDebugging:"0" }
                 
     };
     var u = new UnityObject2(config);
-    jQuery(function() {                
+    jQuery(function() {     
         var $missingScreen = jQuery("#unityPlayer").find(".missing");
         var $brokenScreen = jQuery("#unityPlayer").find(".broken");
         $missingScreen.hide();
@@ -59,25 +59,81 @@ if (!is_user_logged_in())
     });
     function UnityIsReady()
     {
+        var carTimer = 1;
+        var buildTimer = 3;
+        var bonusNumber = 2;
+        var numberBubbles = 2;
+        var bridgeLength = 2;
+        var minSpeed = 1;
+        var maxSpeed = 2;
+        var minNumber = 1;
+        var maxNumber = 3;
+        var carSpeed = 2;
+
+        if (!isNaN($( "#slider-car-timer" ).slider( "value" )) || $( "#slider-car-timer" ).slider( "value" ) != null || $( "#slider-car-timer" ).slider( "value" ) != "") {
+            carTimer = parseInt($( "#slider-car-timer" ).slider( "value" ));
+        }
+        if (!isNaN($( "#slider-build-timer" ).slider( "value" )) || $( "#slider-build-timer" ).slider( "value" ) != null || $( "#slider-build-timer" ).slider( "value" ) != "") {
+            buildTimer = parseInt($( "#slider-build-timer" ).slider( "value" ));
+        }
+        if (!isNaN($( "#slider-bonus-number" ).slider( "value" )) || $( "#slider-bonus-number" ).slider( "value" ) != null || $( "#slider-bonus-number" ).slider( "value" ) != "") {
+            bonusNumber = parseInt($( "#slider-bonus-number" ).slider( "value" ));
+        }
+        if (!isNaN($( "#slider-number-bubbles" ).slider( "value" )) || $( "#slider-number-bubbles" ).slider( "value" ) != null || $( "#slider-number-bubbles" ).slider( "value" ) != "") {
+            numberBubbles = parseInt($( "#slider-number-bubbles" ).slider( "value" ));
+        }
+        if (!isNaN($( "#slider-bridge-pillar" ).slider( "value" )) || $( "#slider-bridge-pillar" ).slider( "value" ) != null || $( "#slider-bridge-pillar" ).slider( "value" ) != "") {
+            bridgeLength = parseInt($( "#slider-bridge-pillar" ).slider( "value" ));
+        }
+        if (!isNaN($( "#slider-bubble-speed" ).slider( "values", 0 )) || $( "#slider-bubble-speed" ).slider( "values", 0 ) != null || $( "#slider-bubble-speed" ).slider( "values", 0 ) != "") {
+            minSpeed = parseInt($( "#slider-bubble-speed" ).slider( "values", 0 ));
+        }
+        if (!isNaN($( "#slider-bubble-speed" ).slider( "values", 1 )) || $( "#slider-bubble-speed" ).slider( "values", 1 ) != null || $( "#slider-bubble-speed" ).slider( "values", 1 ) != "") {
+            maxSpeed = parseInt($( "#slider-bubble-speed" ).slider( "values", 1 ));
+        }
+        if (!isNaN($( "#slider-number-range" ).slider( "values", 0 )) || $( "#slider-number-range" ).slider( "values", 0 ) != null || $( "#slider-number-range" ).slider( "values", 0 ) != "") {
+            minNumber = parseInt($( "#slider-number-range" ).slider( "values", 0 ));
+        }
+        if (!isNaN($( "#slider-number-range" ).slider( "values", 1 )) || $( "#slider-number-range" ).slider( "values", 1 ) != null || $( "#slider-number-range" ).slider( "values", 1 ) != "") {
+            maxNumber = parseInt($( "#slider-number-range" ).slider( "values", 1 ));
+        }
+        if (!isNaN($( "#slider-car-speed" ).slider( "value" )) || $( "#slider-car-speed" ).slider( "value" ) != null || $( "#slider-car-speed" ).slider( "value" ) != "") {
+            carSpeed = parseInt($( "#slider-car-speed" ).slider( "value" ));
+        }
+        console.log(carTimer);
+        console.log(buildTimer);
+        console.log(bonusNumber);
+        console.log(numberBubbles);
+        console.log(bridgeLength);
+        console.log(minSpeed);
+        console.log(maxSpeed);
+        console.log(minNumber);
+        console.log(maxNumber);
+        console.log(carSpeed);
+        
         // Send to MainCamera car_time, build_time, bonus_number, number_bubbles, bridge
-        u.getUnity().SendMessage("MainCamera", "getCarTime", parseInt($( "#slider-car-timer" ).slider( "value" )));
-        u.getUnity().SendMessage("MainCamera", "getBuildTime", parseInt($( "#slider-build-timer" ).slider( "value" )));
-        u.getUnity().SendMessage("MainCamera", "getBonusNumber", parseInt($( "#slider-bonus-number" ).slider( "value" )));
-        u.getUnity().SendMessage("MainCamera", "getNumberBubbles", parseInt($( "#slider-number-bubbles" ).slider( "value" )));
-        var bridgeLength = parseInt($( "#slider-bridge-pillar" ).slider( "value" ));
+        u.getUnity().SendMessage("MainCamera", "getCarTime", carTimer);
+        u.getUnity().SendMessage("MainCamera", "getBuildTime", buildTimer);
+        u.getUnity().SendMessage("MainCamera", "getBonusNumber", bonusNumber);
+        u.getUnity().SendMessage("MainCamera", "getNumberBubbles", numberBubbles);
+
         u.getUnity().SendMessage("MainCamera", "setBridgeLength", bridgeLength);
         for (var i = 1; i <= bridgeLength; i++) {
-            u.getUnity().SendMessage("MainCamera", "addBridgePillar", parseInt($('#bridgePoint' + i).val()));
+            if (isNaN($('#bridgePoint' + i).val()) || $('#bridgePoint' + i).val() == null || $('#bridgePoint' + i).val() == "") {
+                u.getUnity().SendMessage("MainCamera", "addBridgePillar", 1);
+            } else {
+                u.getUnity().SendMessage("MainCamera", "addBridgePillar", parseInt($('#bridgePoint' + i).val()));
+            }
         }
 
         // Send to NumberBubble min_number, max_number, min_speed, max_speed
-        u.getUnity().SendMessage("NumberBubble", "setMinSpeed", parseInt($( "#slider-bubble-speed" ).slider( "values", 0 )));
-        u.getUnity().SendMessage("NumberBubble", "setMaxSpeed", parseInt($( "#slider-bubble-speed" ).slider( "values", 1 )));
-        u.getUnity().SendMessage("NumberBubble", "setMinNumber", parseInt($( "#slider-number-range" ).slider( "values", 0 )));
-        u.getUnity().SendMessage("NumberBubble", "setMaxNumber", parseInt($( "#slider-number-range" ).slider( "values", 1 )));             
+        u.getUnity().SendMessage("NumberBubble", "setMinSpeed", minSpeed);
+        u.getUnity().SendMessage("NumberBubble", "setMaxSpeed", maxSpeed);
+        u.getUnity().SendMessage("NumberBubble", "setMinNumber", minNumber);
+        u.getUnity().SendMessage("NumberBubble", "setMaxNumber", maxNumber);             
 
         // Car speed
-        u.getUnity().SendMessage("CustomCar", "setCarSpeed", (parseInt($( "#slider-car-speed" ).slider( "value" )) + 2));
+        u.getUnity().SendMessage("CustomCar", "setCarSpeed", carSpeed + 2);
     }
 
     function UnityFinished(points, errors, playtime, finished) {

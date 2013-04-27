@@ -110,10 +110,6 @@ else
 
         // Car speed
         u.getUnity().SendMessage("CustomCar", "setCarSpeed", <?php echo $curlevel->car_speed + 2; ?>);
-
-        u.getUnity().SendMessage("MainCamera", "getLevel", <?php echo $level ?>);
-        u.getUnity().SendMessage("MainCamera", "getUserId", <?php echo get_current_user_id(); ?>);
-
     }
                     function UnityFinished(points, errors, playtime, finished) {
 
