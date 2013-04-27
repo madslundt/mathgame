@@ -1,3 +1,10 @@
+<?php
+if (!is_user_logged_in())
+{
+    wp_redirect(get_option('siteurl'));
+    exit;
+}
+?>
 <script type="text/javascript">
     <!--
     var unityObjectUrl = "http://webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject2.js";
@@ -7,24 +14,19 @@
     -->
 </script>
 <script type="text/javascript">
-    <!--
     var config = {
-        width: 900, 
-        height: 600,
+        width: window.innerWidth * 0.75, 
+        height: window.innerHeight * 0.6,
         params: { enableDebugging:"0" }
-				
+                
     };
     var u = new UnityObject2(config);
-    jQuery(function() {
-
-        if (!rated)
-            $('#level-rate').hide();
-				
+    jQuery(function() {                
         var $missingScreen = jQuery("#unityPlayer").find(".missing");
         var $brokenScreen = jQuery("#unityPlayer").find(".broken");
         $missingScreen.hide();
         $brokenScreen.hide();
-				
+                
         u.observeProgress(function (progress) {
             switch(progress.pluginStatus) {
                 case "broken":
@@ -52,56 +54,34 @@
                     break;
             }
         });
-				
-        u.initPlugin(jQuery("#unityPlayer")[0], "<?php bloginfo('template_url'); ?>/webplayer/webplayer.unity3d");
+                
+        u.initPlugin(jQuery("#unityPlayer")[0], "<?php print THEMEROOT; ?>/webplayer/webplayer.unity3d");
     });
     function UnityIsReady()
     {
         // Send to MainCamera car_time, build_time, bonus_number, number_bubbles, bridge
-        u.getUnity().SendMessage("MainCamera", "getCarTime", 30);
-        u.getUnity().SendMessage("MainCamera", "getBuildTime", 30);
-        u.getUnity().SendMessage("MainCamera", "getBonusNumber", 10);
-        u.getUnity().SendMessage("MainCamera", "getNumberBubbles", 5);
-        u.getUnity().SendMessage("MainCamera", "setBridgeLength", 5);
-				
-        u.getUnity().SendMessage("MainCamera", "addBridgePillar", 10);
-        u.getUnity().SendMessage("MainCamera", "addBridgePillar", 10);
-        u.getUnity().SendMessage("MainCamera", "addBridgePillar", 10);
-        u.getUnity().SendMessage("MainCamera", "addBridgePillar", 10);
-        u.getUnity().SendMessage("MainCamera", "addBridgePillar", 10);
-				
+        u.getUnity().SendMessage("MainCamera", "getCarTime", parseInt($( "#slider-car-timer" ).slider( "value" )));
+        u.getUnity().SendMessage("MainCamera", "getBuildTime", parseInt($( "#slider-build-timer" ).slider( "value" )));
+        u.getUnity().SendMessage("MainCamera", "getBonusNumber", parseInt($( "#slider-bonus-number" ).slider( "value" )));
+        u.getUnity().SendMessage("MainCamera", "getNumberBubbles", parseInt($( "#slider-number-bubbles" ).slider( "value" )));
+        var bridgeLength = parseInt($( "#slider-bridge-pillar" ).slider( "value" ));
+        u.getUnity().SendMessage("MainCamera", "setBridgeLength", bridgeLength);
+        for (var i = 1; i <= bridgeLength; i++) {
+            u.getUnity().SendMessage("MainCamera", "addBridgePillar", parseInt($('#bridgePoint' + i).val()));
+        }
+
         // Send to NumberBubble min_number, max_number, min_speed, max_speed
+        u.getUnity().SendMessage("NumberBubble", "setMinSpeed", parseInt($( "#slider-bubble-speed" ).slider( "values", 0 )));
+        u.getUnity().SendMessage("NumberBubble", "setMaxSpeed", parseInt($( "#slider-bubble-speed" ).slider( "values", 1 )));
+        u.getUnity().SendMessage("NumberBubble", "setMinNumber", parseInt($( "#slider-number-range" ).slider( "values", 0 )));
+        u.getUnity().SendMessage("NumberBubble", "setMaxNumber", parseInt($( "#slider-number-range" ).slider( "values", 1 )));             
 
-        //u.getUnity().SendMessage("MainCamera", "getLevel", <?php echo $level ?>);
-        //u.getUnity().SendMessage("MainCamera", "getUserId", <?php echo get_current_user_id(); ?>);
-			
+        // Car speed
+        u.getUnity().SendMessage("CustomCar", "setCarSpeed", (parseInt($( "#slider-car-speed" ).slider( "value" )) + 2));
     }
-    function UnityFinished(points, errors, playtime, finished) {
 
-        console.log("Points: " + points + "\nErrors: " + errors + "\nTime: " + playtime + "\nFinished: " + finished);
-        /*jQuery.ajax({  
-                        type: 'POST',
-                        cache: false,  
-                        url: "<?php echo home_url() . '/wp-admin/admin-ajax.php'; ?>",  
-                        data: {  
-                                action: 'addScoreToLevel',  
-                                level: <?php echo $level; ?>,
-                                point: points,
-                                error: errors,
-                                time: playtime,
-                                finish: finished
-                        },
-                        success: function(data, textStatus, XMLHttpRequest) {
-					
-                        },  
-                        error: function(MLHttpRequest, textStatus, errorThrown) {
-                                alert("<?php _e('Could not upload score.', 'wpbootstrap'); ?>");  
-                        }  
-                 });
-                if (!rated)
-                        $('#level-rate').show();
-        }*/
-        -->
+    function UnityFinished(points, errors, playtime, finished) {
+    }
 </script>
 <style type="text/css">
     <!--
@@ -149,7 +129,6 @@
         margin: 0;
         margin-left: 10px;
     }
-    -->
 </style>
 <div class="container-game pull-left">
     <div id="unityPlayer">
@@ -165,6 +144,3 @@
         </div>
     </div>
 </div>
-
-<p class="header"><span>Unity Web Player | </span>MathGame</p>
-<p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>

@@ -478,12 +478,12 @@ $max_speed          = 10;
 </div>
 
 <!-- Play modal -->
-<div id="playModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="playModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 80%; margin-left: -40%; height: 80%;">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel"><?php _e('Try level', 'wpbootstrap'); ?></h3>
     </div>
-    <div class="modal-body" id="myModalBody">
+    <div class="modal-body" id="myModalBody" style="height: 80%;">
         <?php get_template_part('try-level'); ?>
     </div>
     <div class="modal-footer">

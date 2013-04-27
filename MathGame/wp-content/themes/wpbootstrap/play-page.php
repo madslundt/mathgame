@@ -43,7 +43,6 @@ else
     -->
 </script>
 <script type="text/javascript">
-    <!--
     var config = {
         width: window.innerWidth * 0.8, 
         height: window.innerHeight * 0.7,
@@ -89,7 +88,7 @@ else
             }
         });
 				
-        u.initPlugin(jQuery("#unityPlayer")[0], "<?php bloginfo('template_url'); ?>/webplayer/webplayer.unity3d");
+        u.initPlugin(jQuery("#unityPlayer")[0], "<?php print THEMEROOT; ?>/webplayer/webplayer.unity3d");
     });
     function UnityIsReady()
     {
@@ -99,24 +98,23 @@ else
         u.getUnity().SendMessage("MainCamera", "getBonusNumber", <?php echo $curlevel->bonus_number; ?>);
         u.getUnity().SendMessage("MainCamera", "getNumberBubbles", <?php echo $curlevel->number_bubbles; ?>);
         u.getUnity().SendMessage("MainCamera", "setBridgeLength", <?php echo count($curlevelBridge); ?>);
-<?php foreach ($curlevelBridge as $b)
-{ ?>
-                            u.getUnity().SendMessage("MainCamera", "addBridgePillar", <?php echo $b; ?>);
-<?php } ?>
+        <?php foreach ($curlevelBridge as $b) { ?>
+            u.getUnity().SendMessage("MainCamera", "addBridgePillar", <?php echo $b; ?>);
+        <?php } ?>
 				
-                        // Send to NumberBubble min_number, max_number, min_speed, max_speed
-                        u.getUnity().SendMessage("NumberBubble", "setMinSpeed", <?php echo $curlevel->min_speed / 10; ?>);
-                        u.getUnity().SendMessage("NumberBubble", "setMaxSpeed", <?php echo $curlevel->max_speed / 10; ?>);
-                        u.getUnity().SendMessage("NumberBubble", "setMinNumber", <?php echo $curlevel->min_number; ?>);
-                        u.getUnity().SendMessage("NumberBubble", "setMaxNumber", <?php echo $curlevel->max_number; ?>);				
+        // Send to NumberBubble min_number, max_number, min_speed, max_speed
+        u.getUnity().SendMessage("NumberBubble", "setMinSpeed", <?php echo $curlevel->min_speed / 10; ?>);
+        u.getUnity().SendMessage("NumberBubble", "setMaxSpeed", <?php echo $curlevel->max_speed / 10; ?>);
+        u.getUnity().SendMessage("NumberBubble", "setMinNumber", <?php echo $curlevel->min_number; ?>);
+        u.getUnity().SendMessage("NumberBubble", "setMaxNumber", <?php echo $curlevel->max_number; ?>);				
 
-                        // Car speed
-                        u.getUnity().SendMessage("CustomCar", "setCarSpeed", <?php echo $curlevel->car_speed + 2; ?>);
+        // Car speed
+        u.getUnity().SendMessage("CustomCar", "setCarSpeed", <?php echo $curlevel->car_speed + 2; ?>);
 
-                        u.getUnity().SendMessage("MainCamera", "getLevel", <?php echo $level ?>);
-                        u.getUnity().SendMessage("MainCamera", "getUserId", <?php echo get_current_user_id(); ?>);
-			
-                    }
+        u.getUnity().SendMessage("MainCamera", "getLevel", <?php echo $level ?>);
+        u.getUnity().SendMessage("MainCamera", "getUserId", <?php echo get_current_user_id(); ?>);
+
+    }
                     function UnityFinished(points, errors, playtime, finished) {
 
                         console.log("Points: " + points + "\nErrors: " + errors + "\nTime: " + playtime + "\nFinished: " + finished);
@@ -142,7 +140,6 @@ else
                         if (!rated)
                             $('#level-rate').show();
                     }
-                    -->
 </script>
 <style type="text/css">
     <!--
@@ -190,7 +187,6 @@ else
         margin: 0;
         margin-left: 10px;
     }
-    -->
 </style>
 <div class="container-game pull-left">
     <div id="unityPlayer">
