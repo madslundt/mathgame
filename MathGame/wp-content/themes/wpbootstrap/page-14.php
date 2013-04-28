@@ -236,21 +236,18 @@ if (have_posts()) : while (have_posts()) : the_post();
 					", $level, get_current_user_id()
                 ));
                 
-                get_template_part('play-page');
-                ?>
-                <?php if ($userRating > 0)
-                { ?>
+                if ($userRating > 0) { ?>
                     <script>var rated = true;</script>
-                    <?php }
-                    else
-                    { ?>
+                <?php 
+                } else { ?>
                     <script>var rated = false;</script>
                 <?php } ?>
-                <div id="level-rate">
-                <?php _e('Rate this level: ', 'wpbootstrap'); ?>
-                    <div class="rating" data-average="<?php echo ($avgRating == null) ? 0 : $avgRating; ?>" data-id="1"></div>
-                </div>
+                    <div id="level-rate" class="pull-right">
+                    <?php _e('Rate this level: ', 'wpbootstrap'); ?>
+                        <div class="rating" data-average="<?php echo ($avgRating == null) ? 0 : $avgRating; ?>" data-id="1"></div>
+                    </div>
                 <?php
+                get_template_part('play-page');
             }
             else
             {

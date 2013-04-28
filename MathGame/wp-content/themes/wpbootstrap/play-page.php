@@ -55,8 +55,8 @@ else
         if (!rated)
             $('#level-rate').hide();
 				
-        var $missingScreen = jQuery("#unityPlayer").find(".missing");
-        var $brokenScreen = jQuery("#unityPlayer").find(".broken");
+        var $missingScreen = jQuery(".unityplayer").find(".missing");
+        var $brokenScreen = jQuery(".unityplayer").find(".broken");
         $missingScreen.hide();
         $brokenScreen.hide();
 				
@@ -88,7 +88,7 @@ else
             }
         });
 				
-        u.initPlugin(jQuery("#unityPlayer")[0], "<?php print THEMEROOT; ?>/webplayer/webplayer.unity3d");
+        u.initPlugin(jQuery(".unityplayer")[0], "<?php print THEMEROOT; ?>/webplayer/webplayer.unity3d");
     });
     function UnityIsReady()
     {
@@ -138,66 +138,29 @@ else
                     }
 </script>
 <style type="text/css">
-    <!--
-    .container-game {
-        margin: 0;
-        padding: 0;
-    }
-    p.header {
-        font-size: small;
-    }
-    p.header span {
-        font-weight: bold;
-    }
-    p.footer {
-        font-size: x-small;
-    }
-    div.content {
-        margin: auto;
-        width: 960px;
-    }
-    div.broken,
-    div.missing {
-        margin: auto;
-        position: relative;
-        top: 50%;
-        width: 193px;
-    }
-    div.broken a,
-    div.missing a {
-        height: 63px;
-        position: relative;
-        top: -31px;
-    }
-    div.broken img,
-    div.missing img {
-        border-width: 0px;
-    }
-    div.broken {
-        display: none;
-    }
-    #unityPlayer {
-        cursor: default;
-        left: 5%;
+    .unityplayer {
+        position: absolute;
         float: left;
-        margin: 0;
-        margin-left: 10px;
+        left: 10%;
+        margin-left:auto;
+        margin-right:auto;
+        padding-top: 10%;
+        padding-bottom: 5%;
+        height: 70%;
+        width: 90%;
     }
 </style>
-<div class="container-game pull-left">
-    <div id="unityPlayer">
-        <div class="missing">
-            <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
-                <img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
-            </a>
-        </div>
-        <div class="broken">
-            <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
-                <img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
-            </a>
-        </div>
+<div class="unityplayer">
+    <div class="missing">
+        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+            <img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+        </a>
+    </div>
+    <div class="broken">
+        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
+            <img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
+        </a>
     </div>
 </div>
-
 <p class="header"><span>Unity Web Player | </span>MathGame</p>
 <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
