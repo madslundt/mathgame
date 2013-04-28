@@ -260,12 +260,15 @@ $(function () {
             xAxis: {
                 categories: <?php echo $xaxis; ?>
             },
-            yAxis: [{ // Errors yAxis
+            yAxis: [{ // Time yAxis
+                allowDecimals: false,
+                min: 0,
                 labels: {
                     format: '{value} <?php _e("seconds", "wpbootstrap"); ?>',
                     style: {
                         color: '#89A54E'
-                    }
+                    },
+                    allowDecimals: false
                 },
                 title: {
                     text: '<?php _e("Time", "wpbootstrap"); ?>',
@@ -276,6 +279,8 @@ $(function () {
                 opposite: true
 
             }, { // Points yAxis
+                allowDecimals: false,
+                min: 0,    
                 labels: {
                     format: '{value} <?php _e("points", "wpbootstrap"); ?>',
                     style: {
@@ -289,13 +294,16 @@ $(function () {
                     }
                 }
 
-            }, { // Time yAxis
+            }, { // Error yAxis
+                allowDecimals: false,
                 gridLineWidth: 0,
+                min: 0,
                 title: {
                     text: '<?php _e("Errors", "wpbootstrap"); ?>',
                     style: {
                         color: '#AA4643'
-                    }
+                    },
+                    allowDecimals: false
                 },
                 labels: {
                     formatter: function() {
@@ -306,7 +314,6 @@ $(function () {
                     }
                 },
                 opposite: true
-
             }],
             tooltip: {
                 shared: true
