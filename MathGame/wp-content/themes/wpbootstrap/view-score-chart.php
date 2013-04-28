@@ -5,7 +5,7 @@
 </script>
 <?php
 $page = isset($_GET['page']) ? absint($_GET['page']) : 1;
-$limit = 5;
+$limit = 10;
 $offset = ($page - 1) * $limit;
 $cur_find = !empty($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
 $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
@@ -21,7 +21,7 @@ else
 }
 $c = 1 + $offset;
 $xaxis = array();
-$yaxis = array();
+$title = '';
 if ($_GET['view'] == 'group')
 {
     
@@ -51,45 +51,17 @@ if ($_GET['view'] == 'group')
             ", $cur_find
         ));
 
-        echo '<table class="table table-hover" id="tablesorter">';
-        echo '<thead>';
-        echo '<th>#</th>';
-        echo '<th>' . __('Name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Points', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Errors', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Time', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Level no.', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Level name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
-        echo '</thead>';
-        echo '<tbody>';
-
-        foreach ($group as $g)
-        {
-            if (strtotime($g->date) < strtotime('-5 days'))
-            {
-                $date = date(__('Y-m-d', 'bootstrap'), $g->date);
-            }
-            else
-            {
-                $date = human_time_diff(strtotime($g->date)) . ' ' . __('ago', 'wpbootstrap');
-            }
-            echo '<tr>';
-            echo '<td><p class="lead">' . $c . '</p></td>';
-            echo '<td>' . $g->uname . '</td>';
-            echo '<td>' . $g->points . '</td>';
-            echo '<td>' . $g->errors . '</td>';
-            echo '<td>' . $g->time . '</td>';
-            echo '<td>' . $g->level_ID . '</td>';
-            echo '<td>' . $g->lname . '</td>';
-            echo '<td>' . $date . '</td>';
-            echo '<td>' . (($g->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
-            echo '</tr>';
-            $c++;
+        $points = array();
+        $errors = array();
+        $time = array();
+        foreach ($group as $u) {
+            array_push($points, absint($u->points));
+            array_push($xaxis, $u->uname . ' / ' . $u->lname);
+            array_push($errors, absint($u->errors));
+            array_push($time, round(floatval($u->time), 2));
         }
-        echo '</tbody>';
-        echo '</table>';        
+        $title = __('Group highscore', 'wpbootstrap');
+        echo '<div id="scoreChart" class="span11"></div>';                
     }
     else
     { // ALL groups
@@ -162,12 +134,14 @@ else if ($_GET['view'] == 'user')
 
         $points = array();
         $errors = array();
+        $time = array();
         foreach ($user as $u) {
-            array_push($points, -$u->points);
+            array_push($points, absint($u->points));
             array_push($xaxis, $u->lname);
-            array_push($errors, $u->errors);
+            array_push($errors, absint($u->errors));
+            array_push($time, round(floatval($u->time), 2));
         }
-        
+        $title = __('User highscore', 'wpbootstrap');
         echo '<div id="scoreChart" class="span11"></div>';
     }
     else
@@ -223,48 +197,22 @@ else
             ", $cur_find
         ));        
 
-        echo '<table class="table table-hover" id="tablesorter">';
-        echo '<thead>';
-        echo '<th>#</th>';
-        echo '<th>' . __('Name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Points', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Errors', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Time', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Group name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
-        echo '</thead>';
-        echo '<tbody>';
-
-        foreach ($level as $l)
-        {
-            if (strtotime($l->date) < strtotime('-5 days'))
-            {
-                $date = date(__('Y-m-d', 'bootstrap'), $l->date);
-            }
-            else
-            {
-                $date = human_time_diff(strtotime($l->date)) . ' ' . __('ago', 'wpbootstrap');
-            }
-            echo '<tr>';
-            echo '<td><p class="lead">' . $c . '</p></td>';
-            echo '<td>' . $l->uname . '</td>';
-            echo '<td>' . $l->points . '</td>';
-            echo '<td>' . $l->errors . '</td>';
-            echo '<td>' . $l->time . '</td>';
-            echo '<td>' . $l->gname . '</td>';
-            echo '<td>' . $date . '</td>';
-            echo '<td>' . (($l->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
-            echo '</tr>';
-            $c++;
+        $points = array();
+        $errors = array();
+        $time = array();
+        foreach ($level as $u) {
+            array_push($points, absint($u->points));
+            array_push($xaxis, $u->uname);
+            array_push($errors, absint($u->errors));
+            array_push($time, round(floatval($u->time), 2));
         }
-        echo '</tbody>';
-        echo '</table>';
+        $title = __('Level highscore', 'wpbootstrap');
+        echo '<div id="scoreChart" class="span11"></div>';        
+
     }
     else
     { // All levels
         // List each level max point
-        echo $table_prefix;
     }
 }
 
@@ -290,50 +238,101 @@ if ($page_links)
 }
 
 $xaxis = json_encode($xaxis);
-$yaxis = json_encode($yaxis);
 $points = json_encode($points);
 $errors = json_encode($errors);
+$time = json_encode($time);
 ?>
 
 <script>
 $(function () {
         $('#scoreChart').highcharts({
             chart: {
-                type: 'bar'
+                zoomType: 'xy'
             },
             title: {
-                text: ''
+                text: "<?php echo $title; ?>"
             },
             xAxis: {
                 categories: <?php echo $xaxis; ?>
             },
-            yAxis: {
-                min: 0,
+            yAxis: [{ // Errors yAxis
                 labels: {
+                    format: '{value} <?php _e("seconds", "wpbootstrap"); ?>',
+                    style: {
+                        color: '#89A54E'
+                    }
+                },
+                title: {
+                    text: '<?php _e("Time", "wpbootstrap"); ?>',
+                    style: {
+                        color: '#89A54E'
+                    }
+                },
+                opposite: true
 
-                    formatter: function() {
-                        return Math.abs(this.value);
+            }, { // Points yAxis
+                labels: {
+                    format: '{value} <?php _e("points", "wpbootstrap"); ?>',
+                    style: {
+                        color: '#4572A7'
+                    }
+                },
+                title: {
+                    text: '<?php _e("Points", "wpbootstrap"); ?>',
+                    style: {
+                        color: '#4572A7'
                     }
                 }
-            },
+
+            }, { // Time yAxis
+                gridLineWidth: 0,
+                title: {
+                    text: '<?php _e("Errors", "wpbootstrap"); ?>',
+                    style: {
+                        color: '#AA4643'
+                    }
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value +' <?php _e("errors", "wpbootstrap"); ?>';
+                    },
+                    style: {
+                        color: '#AA4643'
+                    }
+                },
+                opposite: true
+
+            }],
             tooltip: {
-                formatter: function(){
-                    return '<b>'+ this.series.name + ' ' + this.point.category +'</b><br/>'+ Math.abs(this.point.y);
-                }
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
+                shared: true
             },
             series: [{
-                name: 'Points',
-                data: <?php echo $points; ?>
-    
+                name: '<?php _e("Points", "wpbootstrap"); ?>',
+                color: '#4572A7',
+                type: 'column',
+                yAxis: 1,
+                data: <?php echo $points; ?>,
+                tooltip: {
+                    valueSuffix: ' <?php _e("points", "wpbootstrap"); ?>'
+                }
             }, {
-                name: 'Errors',
-                data: <?php echo $errors; ?> 
+                name: '<?php _e("Errors", "wpbootstrap"); ?>',
+                color: '#AA4643',
+                yAxis: 2,
+                type: 'spline',
+                data: <?php echo $errors; ?>,
+                tooltip: {
+                    valueSuffix: ' <?php _e("errors", "wpbootstrap"); ?>'
+                }            
+            }, {
+                name: '<?php _e("Time", "wpbootstrap"); ?>',
+                color: '#89A54E',
+                type: 'spline',
+                dashStyle: 'shortdot',
+                data: <?php echo $time; ?>,
+                tooltip: {
+                    valueSuffix: ' <?php _e("seconds", "wpbootstrap"); ?>'
+                }
             }]
         });
     });

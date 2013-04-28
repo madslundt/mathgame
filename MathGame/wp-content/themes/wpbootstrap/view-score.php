@@ -33,7 +33,7 @@ $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onl
                     <div class="span2">
                         <?php
                         echo '<select class="span2" name="find">';
-                        echo '<option value="">' . __('All groups', 'wpbootstrap') . '</option>';
+                        //echo '<option value="">' . __('All groups', 'wpbootstrap') . '</option>';
                         foreach ($groups as $group)
                         {
                             echo '<option value="' . $group->term_id . '"' . (($cur_find == $group->term_id) ? 'selected' : '') . '>' . $group->name . '</option>';
@@ -85,7 +85,7 @@ $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onl
                     <div class="span2">
                         <?php
                         echo '<select class="span2" name="find">';
-                        echo '<option value="">' . __('All levels', 'wpbootstrap') . '</option>';
+                        //echo '<option value="">' . __('All levels', 'wpbootstrap') . '</option>';
                         foreach ($groups as $group)
                         {
                             $levels = $wpdb->get_results($wpdb->prepare(

@@ -5,7 +5,7 @@
 </script>
 <?php
 $page = isset($_GET['page']) ? absint($_GET['page']) : 1;
-$limit = 5;
+$limit = 10;
 $offset = ($page - 1) * $limit;
 $cur_find = !empty($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
 $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;

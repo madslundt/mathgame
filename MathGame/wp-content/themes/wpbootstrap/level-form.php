@@ -495,7 +495,7 @@ $max_speed          = 10;
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel"><?php _e('Try level', 'wpbootstrap'); ?></h3>
     </div>
-    <div class="modal-body" id="myModalBody" style="height: 80%;">
+    <div class="modal-body" id="myModalBody" style="min-height: 80%; height: 80%;">
         <?php get_template_part('try-level'); ?>
     </div>
     <div class="modal-footer">
