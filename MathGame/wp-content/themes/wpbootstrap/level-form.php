@@ -158,10 +158,10 @@ $max_speed          = 10;
             max: <?php echo $max_numberRange; ?>,
             values: [ <?php echo $cur_numberRange1; ?>, <?php echo $cur_numberRange2; ?> ],
             slide: function( event, ui ) {
-                if (ui.values[0] == ui.values[1] && ui.values[0] < <?php echo $max_numberRange; ?>) {
-                    ui.values[1]++;
-                } else if (ui.values[0] == ui.values[1]) {
+                if (ui.values[0] == ui.values[1] && ui.values[0] > <?php echo $min_numberRange; ?>) {
                     ui.values[0]--;
+                } else if (ui.values[0] == ui.values[1]) {
+                    ui.values[1]++;
                 }
                 $( "#numbersBetween" ).val(ui.values[ 0 ] + " : " + ui.values[ 1 ] );
                 $( "#numbersBetweenLabel" ).text(ui.values[ 0 ] + " : " + ui.values[ 1 ] );
@@ -272,7 +272,7 @@ $max_speed          = 10;
             max: $( "#slider-number-range" ).slider( "values", 1 ),
             slide: function( event, ui ) {
 
-                if (ui.value == 0 && $( "#slider-number-range" ).slider( "values", 0 ) == 0) {
+                if (ui.value == 0 && $( "#slider-number-range" ).slider( "values", 1 ) > 0) {
                     ui.value += 1;
                 } else if (ui.value == 0) {
                     ui.value -= 1;
@@ -283,14 +283,6 @@ $max_speed          = 10;
                 $( "#slider-bonus-number" ).slider("option", "max", $( "#slider-number-range" ).slider( "values", 1 ))
             }
         });
-        /*if ($( "#slider-number-bubbles" ).slider( "value" ) == 0 && $( "#slider-number-range" ).slider( "values", 0 ) == 0) {
-            $( "#slider-number-bubbles" ).slider( "value" ) += 1;
-        } else if ($( "#slider-number-bubbles" ).slider( "value" ) == 0) {
-            $( "#slider-number-bubbles" ).slider( "value" ) -= 1;
-        }*/
-
-        $( "#bonusNumber" ).val($( "#slider-bonus-number" ).slider( "value" ));
-        $( "#bonusNumberLabel" ).text($( "#slider-bonus-number" ).slider( "value" ));
 
         $( "#slider-number-bubbles" ).slider({
             value: <?php echo $cur_numberBubbles; ?>,
@@ -303,6 +295,10 @@ $max_speed          = 10;
         });
         $( "#numberBubbles" ).val($( "#slider-number-bubbles" ).slider( "value" ));
         $( "#numberBubblesLabel" ).text($( "#slider-number-bubbles" ).slider( "value" ));
+
+        $( "#bonusNumber" ).val($( "#slider-bonus-number" ).slider( "value" ));
+        $( "#bonusNumberLabel" ).text($( "#slider-bonus-number" ).slider( "value" ));
+
     });
 </script>
 <div class="row">

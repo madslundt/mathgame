@@ -21,7 +21,7 @@ else
 }
 $c = 1 + $offset;
 $xaxis = array();
-$yaxis = "";
+$yaxis = array();
 if ($_GET['view'] == 'group')
 {
     
@@ -140,6 +140,7 @@ else if ($_GET['view'] == 'user')
 {
     if ($cur_find > -1)
     { // Specified user
+
         $user = $wpdb->get_results($wpdb->prepare(
             "
             SELECT s.*, l.name AS lname
@@ -151,6 +152,22 @@ else if ($_GET['view'] == 'user')
             ", $cur_find, $offset, $limit
         ));
 
+        $total = $wpdb->get_var($wpdb->prepare(
+            "
+            SELECT COUNT(ID)
+            FROM $wpdb->score
+            WHERE user_ID = %d" . $finish . "
+            ", $cur_find
+        ));
+
+        $points = array();
+        $errors = array();
+        foreach ($user as $u) {
+            array_push($points, -$u->points);
+            array_push($xaxis, $u->lname);
+            array_push($errors, $u->errors);
+        }
+        
         echo '<div id="scoreChart" class="span11"></div>';
     }
     else
@@ -273,33 +290,36 @@ if ($page_links)
 }
 
 $xaxis = json_encode($xaxis);
+$yaxis = json_encode($yaxis);
+$points = json_encode($points);
+$errors = json_encode($errors);
 ?>
 
 <script>
 $(function () {
         $('#scoreChart').highcharts({
             chart: {
-                type: 'column'
+                type: 'bar'
             },
             title: {
-                text: 'Monthly Average Rainfall'
+                text: ''
             },
             xAxis: {
                 categories: <?php echo $xaxis; ?>
             },
             yAxis: {
                 min: 0,
-                title: {
-                    text: "<?php echo $yaxis; ?>"
+                labels: {
+
+                    formatter: function() {
+                        return Math.abs(this.value);
+                    }
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
+                formatter: function(){
+                    return '<b>'+ this.series.name + ' ' + this.point.category +'</b><br/>'+ Math.abs(this.point.y);
+                }
             },
             plotOptions: {
                 column: {
@@ -308,15 +328,12 @@ $(function () {
                 }
             },
             series: [{
-                name: 'Tokyo',
-                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+                name: 'Points',
+                data: <?php echo $points; ?>
     
             }, {
-                name: 'New York',
-                data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3] 
-            }, {
-                name: 'New York',
-                data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3] 
+                name: 'Errors',
+                data: <?php echo $errors; ?> 
             }]
         });
     });
