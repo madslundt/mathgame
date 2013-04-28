@@ -83,8 +83,8 @@
 
 				<?php if (is_user_logged_in()) { ?>
 				<div class="btn-group">
-				  <a class="btn btn-small" href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><i class="icon-user"></i><?php echo $current_user->user_login; ?></a>
-				  <button class="btn dropdown-toggle btn-small" data-toggle="dropdown">
+				  <a class="btn" href="<?php echo get_option('siteurl'); ?>/wp-admin/profile.php"><i class="icon-user"></i><?php echo $current_user->user_login; ?></a>
+				  <button class="btn dropdown-toggle" data-toggle="dropdown">
 				  	<i class="icon-chevron-down"></i>
 				  </button>
 				  <ul class="dropdown-menu pull-right">

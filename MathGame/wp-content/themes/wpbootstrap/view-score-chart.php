@@ -22,6 +22,9 @@ else
 $c = 1 + $offset;
 $xaxis = array();
 $title = '';
+$points = array();
+$errors = array();
+$time = array();
 if ($_GET['view'] == 'group')
 {
     
@@ -50,18 +53,18 @@ if ($_GET['view'] == 'group')
             WHERE relationships_term_taxonomy_id = %d" . $finish . "
             ", $cur_find
         ));
-
-        $points = array();
-        $errors = array();
-        $time = array();
-        foreach ($group as $u) {
-            array_push($points, absint($u->points));
-            array_push($xaxis, $u->uname . ' / ' . $u->lname);
-            array_push($errors, absint($u->errors));
-            array_push($time, round(floatval($u->time), 2));
-        }
-        $title = __('Group highscore', 'wpbootstrap');
-        echo '<div id="scoreChart" class="span11"></div>';                
+        if ($total > 1) {
+            foreach ($group as $u) {
+                array_push($points, absint($u->points));
+                array_push($xaxis, $u->uname . ' / ' . $u->lname);
+                array_push($errors, absint($u->errors));
+                array_push($time, round(floatval($u->time), 2));
+            }
+            $title = __('Group highscore', 'wpbootstrap');
+            echo '<div id="scoreChart" class="span11"></div>';
+        } else {
+            _e('Not enough data', 'wpbootstrap');
+        }                
     }
     else
     { // ALL groups
@@ -132,17 +135,18 @@ else if ($_GET['view'] == 'user')
             ", $cur_find
         ));
 
-        $points = array();
-        $errors = array();
-        $time = array();
-        foreach ($user as $u) {
-            array_push($points, absint($u->points));
-            array_push($xaxis, $u->lname);
-            array_push($errors, absint($u->errors));
-            array_push($time, round(floatval($u->time), 2));
+        if ($total > 1) {
+            foreach ($user as $u) {
+                array_push($points, absint($u->points));
+                array_push($xaxis, $u->lname);
+                array_push($errors, absint($u->errors));
+                array_push($time, round(floatval($u->time), 2));
+            }
+            $title = __('User highscore', 'wpbootstrap');
+            echo '<div id="scoreChart" class="span11"></div>';
+        } else {
+            _e('Not enough data', 'wpbootstrap');
         }
-        $title = __('User highscore', 'wpbootstrap');
-        echo '<div id="scoreChart" class="span11"></div>';
     }
     else
     { // ALL users
@@ -197,17 +201,18 @@ else
             ", $cur_find
         ));        
 
-        $points = array();
-        $errors = array();
-        $time = array();
-        foreach ($level as $u) {
-            array_push($points, absint($u->points));
-            array_push($xaxis, $u->uname);
-            array_push($errors, absint($u->errors));
-            array_push($time, round(floatval($u->time), 2));
-        }
-        $title = __('Level highscore', 'wpbootstrap');
-        echo '<div id="scoreChart" class="span11"></div>';        
+        if ($total > 1) {
+            foreach ($level as $u) {
+                array_push($points, absint($u->points));
+                array_push($xaxis, $u->uname);
+                array_push($errors, absint($u->errors));
+                array_push($time, round(floatval($u->time), 2));
+            }
+            $title = __('Level highscore', 'wpbootstrap');
+            echo '<div id="scoreChart" class="span11"></div>'; 
+        } else {
+            _e('Not enough data', 'wpbootstrap');
+        }               
 
     }
     else

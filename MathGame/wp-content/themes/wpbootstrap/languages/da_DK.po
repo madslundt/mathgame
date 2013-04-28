@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MathGame\n"
-"POT-Creation-Date: 2013-04-27 17:28+0100\n"
-"PO-Revision-Date: 2013-04-27 17:29+0100\n"
+"POT-Creation-Date: 2013-04-28 22:14+0100\n"
+"PO-Revision-Date: 2013-04-28 22:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <madslundt@live.dk>\n"
 "Language: Danish\n"
@@ -61,9 +61,8 @@ msgid "Log out"
 msgstr "Log ud"
 
 #: ../header.php:103 ../level-choose.php:45 ../level-choose.php:166
-#: ../level-edit.php:50 ../level-edit.php:149 ../level-form.php:314
-#: ../overall-user-highscore.php:24 ../view-score-chart.php:57
-#: ../view-score-chart.php:212 ../view-score-table.php:55
+#: ../level-edit.php:50 ../level-edit.php:149 ../level-form.php:326
+#: ../overall-user-highscore.php:24 ../view-score-table.php:55
 #: ../view-score-table.php:226 ../view-score-table.php:298
 msgid "Name"
 msgstr "Navn"
@@ -107,7 +106,7 @@ msgid "Car speed"
 msgstr "Bil hastighed"
 
 #: ../level-choose.php:51 ../level-choose.php:172 ../level-edit.php:56
-#: ../level-edit.php:155 ../level-form.php:340
+#: ../level-edit.php:155 ../level-form.php:352
 msgid "Bonus number"
 msgstr "Bonus tal"
 
@@ -120,12 +119,12 @@ msgstr "Antal af bobler"
 msgid "Bridge length"
 msgstr "Bro længde"
 
-#: ../level-choose.php:130 ../level-edit.php:126 ../view-score-chart.php:259
+#: ../level-choose.php:130 ../level-edit.php:126 ../view-score-chart.php:229
 #: ../view-score-table.php:345
 msgid "&laquo;"
 msgstr ""
 
-#: ../level-choose.php:131 ../level-edit.php:127 ../view-score-chart.php:260
+#: ../level-choose.php:131 ../level-edit.php:127 ../view-score-chart.php:230
 #: ../view-score-table.php:346
 msgid "&raquo;"
 msgstr ""
@@ -138,149 +137,145 @@ msgstr "Du er ikke en del af den gruppe, denne bane er lavet til"
 msgid "There was an error deleting the level. Level was not removed."
 msgstr "Der opstod en fejl vedr. sletning af banen. Banen er ikke fjernet."
 
-#: ../level-form.php:211 ../level-form.php:212 ../level-form.php:215
-#: ../level-form.php:216 ../level-form.php:223 ../level-form.php:224
-#: ../level-form.php:227 ../level-form.php:228
+#: ../level-form.php:216 ../level-form.php:217 ../level-form.php:220
+#: ../level-form.php:221 ../level-form.php:228 ../level-form.php:229
+#: ../level-form.php:232 ../level-form.php:233 ../view-score-chart.php:265
+#: ../view-score-chart.php:339
 msgid "seconds"
 msgstr "sekunder"
 
-#: ../level-form.php:324
+#: ../level-form.php:336
 msgid "Speed of the car"
 msgstr "Bilens hastighed"
 
-#: ../level-form.php:328
+#: ../level-form.php:340
 msgid "Time for car to start"
 msgstr "Tid for hvornår bilen skal starte"
 
-#: ../level-form.php:332
+#: ../level-form.php:344
 msgid "Building time"
 msgstr "Bygge tid"
 
-#: ../level-form.php:336
+#: ../level-form.php:348
 msgid "Numbers in game"
 msgstr "Tal i spillet"
 
-#: ../level-form.php:344
+#: ../level-form.php:356
 msgid "Number bubbles"
 msgstr "Talbobler"
 
-#: ../level-form.php:348
+#: ../level-form.php:360
 msgid "Speed of the bubbles"
 msgstr "Talboblernes hastighed"
 
-#: ../level-form.php:353
+#: ../level-form.php:365
 msgid "Fractions"
 msgstr "Brøker"
 
-#: ../level-form.php:370
+#: ../level-form.php:382
 msgid "Groups"
 msgstr "Grupper"
 
-#: ../level-form.php:423
+#: ../level-form.php:435
 msgid "Length of the bridge"
 msgstr "Broens længde"
 
-#: ../level-form.php:427
+#: ../level-form.php:439
 msgid "Points for every bridge pillar to build"
 msgstr "Point for hver brosøjle der skal bygges"
 
-#: ../level-form.php:450
+#: ../level-form.php:462
 msgid "Save"
 msgstr "Gem"
 
-#: ../level-form.php:456
+#: ../level-form.php:468
 msgid "Try"
 msgstr "Prøv"
 
-#: ../level-form.php:467
+#: ../level-form.php:479
 msgid "Deleting level"
 msgstr "Slet bane"
 
-#: ../level-form.php:470
+#: ../level-form.php:482
 msgid ""
 "This will delete the level and related to this level as scores and revisions."
 msgstr ""
 "Dette vil fjerne banen, samt alt relateret til denne bane som pointfordeling "
 "og tidligere bane versioner."
 
-#: ../level-form.php:470
+#: ../level-form.php:482
 msgid "This can not be restored."
 msgstr "Dette kan ikke blive gendannet."
 
-#: ../level-form.php:473
+#: ../level-form.php:485
 msgid "Cancel"
 msgstr "Annuller"
 
-#: ../level-form.php:474
+#: ../level-form.php:486
 msgid "Delete"
 msgstr "Slet"
 
-#: ../level-form.php:484
+#: ../level-form.php:496
 msgid "Try level"
 msgstr "Prøv bane"
 
-#: ../level-form.php:593 ../level-form.php:597
+#: ../level-form.php:605 ../level-form.php:609
 msgid "There was an error creating the level. Please try again"
 msgstr "Der opstod en fejl vedr. oprettelse af banen. Forsøg venligst igen"
 
-#: ../level-form.php:657 ../level-form.php:661
+#: ../level-form.php:669 ../level-form.php:673
 msgid "Level created"
 msgstr "Bane oprettet"
 
-#: ../level-form.php:733 ../level-form.php:737
+#: ../level-form.php:745 ../level-form.php:749
 #, php-format
 msgid "An revision of level %d was added."
 msgstr "En version af bane %d blev tilføjet."
 
-#: ../overall-user-highscore.php:25 ../view-score-chart.php:58
-#: ../view-score-chart.php:213 ../view-score-table.php:56
+#: ../overall-user-highscore.php:25 ../view-score-chart.php:286
+#: ../view-score-chart.php:315 ../view-score-table.php:56
 #: ../view-score-table.php:164 ../view-score-table.php:227
 #: ../view-score-table.php:299 ../view-score.php:127
 msgid "Points"
 msgstr "Point"
 
-#: ../overall-user-highscore.php:26 ../view-score-chart.php:59
-#: ../view-score-chart.php:214 ../view-score-table.php:57
+#: ../overall-user-highscore.php:26 ../view-score-chart.php:295
+#: ../view-score-chart.php:324 ../view-score-table.php:57
 #: ../view-score-table.php:165 ../view-score-table.php:228
 #: ../view-score-table.php:300 ../view-score.php:128
 msgid "Errors"
 msgstr "Fejl"
 
-#: ../overall-user-highscore.php:27 ../view-score-chart.php:60
-#: ../view-score-chart.php:215 ../view-score-table.php:58
+#: ../overall-user-highscore.php:27 ../view-score-chart.php:271
+#: ../view-score-chart.php:333 ../view-score-table.php:58
 #: ../view-score-table.php:166 ../view-score-table.php:229
 #: ../view-score-table.php:301
 msgid "Time"
 msgstr "Tid"
 
-#: ../overall-user-highscore.php:28 ../view-score-chart.php:61
-#: ../view-score-table.php:59 ../view-score-table.php:167
-#: ../view-score-table.php:230
+#: ../overall-user-highscore.php:28 ../view-score-table.php:59
+#: ../view-score-table.php:167 ../view-score-table.php:230
 msgid "Level no."
 msgstr "Bane nr."
 
-#: ../overall-user-highscore.php:29 ../view-score-chart.php:62
-#: ../view-score-table.php:60 ../view-score-table.php:168
-#: ../view-score-table.php:231
+#: ../overall-user-highscore.php:29 ../view-score-table.php:60
+#: ../view-score-table.php:168 ../view-score-table.php:231
 msgid "Level name"
 msgstr "Bane navn"
 
-#: ../overall-user-highscore.php:30 ../view-score-chart.php:63
-#: ../view-score-chart.php:217 ../view-score-table.php:61
+#: ../overall-user-highscore.php:30 ../view-score-table.php:61
 #: ../view-score-table.php:169 ../view-score-table.php:232
 #: ../view-score-table.php:303
 msgid "Date"
 msgstr "Dato"
 
-#: ../overall-user-highscore.php:38 ../view-score-chart.php:72
-#: ../view-score-chart.php:226 ../view-score-table.php:70
+#: ../overall-user-highscore.php:38 ../view-score-table.php:70
 #: ../view-score-table.php:178 ../view-score-table.php:241
 #: ../view-score-table.php:312
 msgid "Y-m-d"
 msgstr "d-m-Y"
 
-#: ../overall-user-highscore.php:42 ../view-score-chart.php:76
-#: ../view-score-chart.php:230 ../view-score-table.php:74
+#: ../overall-user-highscore.php:42 ../view-score-table.php:74
 #: ../view-score-table.php:182 ../view-score-table.php:245
 #: ../view-score-table.php:316
 msgid "ago"
@@ -302,7 +297,7 @@ msgstr "Gruppe"
 msgid "User"
 msgstr "Bruger"
 
-#: ../play-page.php:137
+#: ../play-page.php:133
 msgid "Could not upload score."
 msgstr "Kunne indlæse point."
 
@@ -314,39 +309,43 @@ msgstr "En widget som viser top 5 pointfordelingen blandt brugerne"
 msgid "User score Widget"
 msgstr "Bruger pointfordeling"
 
-#: ../view-score-chart.php:64 ../view-score-chart.php:218
+#: ../view-score-chart.php:63 ../view-score.php:31
+msgid "Group highscore"
+msgstr "Gruppe pointfordeling"
+
+#: ../view-score-chart.php:66 ../view-score-chart.php:148
+#: ../view-score-chart.php:214
+msgid "Not enough data"
+msgstr ""
+
+#: ../view-score-chart.php:145 ../view-score.php:50
+msgid "User highscore"
+msgstr "Bruger pointfordeling"
+
+#: ../view-score-chart.php:211 ../view-score.php:83
+msgid "Level highscore"
+msgstr "Bane pointfordeling"
+
+#: ../view-score-chart.php:280 ../view-score-chart.php:321
+msgid "points"
+msgstr "point"
+
+#: ../view-score-chart.php:302 ../view-score-chart.php:330
+msgid "errors"
+msgstr "fejl"
+
 #: ../view-score-table.php:62 ../view-score-table.php:170
 #: ../view-score-table.php:233 ../view-score-table.php:304
 msgid "Finished"
 msgstr "Færdigspillet"
 
-#: ../view-score-chart.php:216 ../view-score-table.php:302
+#: ../view-score-table.php:302
 msgid "Group name"
 msgstr "Gruppe"
-
-#: ../view-score.php:31
-msgid "Group highscore"
-msgstr "Gruppe pointfordeling"
-
-#: ../view-score.php:36
-msgid "All groups"
-msgstr "Alle grupper"
-
-#: ../view-score.php:50
-msgid "User highscore"
-msgstr "Bruger pointfordeling"
 
 #: ../view-score.php:55
 msgid "All users"
 msgstr "Alle brugere"
-
-#: ../view-score.php:83
-msgid "Level highscore"
-msgstr "Bane pointfordeling"
-
-#: ../view-score.php:88
-msgid "All levels"
-msgstr "Alle baner"
 
 #: ../view-score.php:133
 msgid "View"
@@ -363,6 +362,12 @@ msgstr "Tabel"
 #: ../view-score.php:150
 msgid "Chart"
 msgstr "Diagram"
+
+#~ msgid "All groups"
+#~ msgstr "Alle grupper"
+
+#~ msgid "All levels"
+#~ msgstr "Alle baner"
 
 #~ msgid "Graph"
 #~ msgstr "Diagram"
