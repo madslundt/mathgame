@@ -16,6 +16,37 @@ if (have_posts()) : while (have_posts()) : the_post();
         {
             ?>
             <div class="row">
+                <div class="span4">
+                <p class="header"><span>Unity Web Player | </span>MathGame</p>
+                <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
+                </div>
+                <?php
+                $avgRating = $wpdb->get_var($wpdb->prepare(
+                    "
+                    SELECT AVG(rating)
+                    FROM $wpdb->level_rating
+                    WHERE level_ID = %d
+                    ", $level
+                ));
+
+                $userRating = $wpdb->get_var($wpdb->prepare(
+                    "
+                    SELECT rating
+                    FROM $wpdb->level_rating
+                    WHERE level_ID = %d AND user_ID = %d
+                    ", $level, get_current_user_id()
+                ));
+                
+                if ($userRating > 0) { ?>
+                    <script>var rated = true;</script>
+                <?php 
+                } else { ?>
+                    <script>var rated = false;</script>
+                <?php } ?>
+                    <div class="span3 pull-right">
+                    <?php _e('Rate this level', 'wpbootstrap'); ?>
+                        <div class="rating" data-average="<?php echo ($avgRating == null) ? 0 : $avgRating; ?>" data-id="1"></div>
+                    </div>
                 <script>
                     (function($) {
                         $.fn.jRating = function(op) {
@@ -220,55 +251,31 @@ if (have_posts()) : while (have_posts()) : the_post();
                     })(jQuery);
                 </script>
                 <?php
-                $avgRating = $wpdb->get_var($wpdb->prepare(
-                    "
-					SELECT AVG(rating)
-					FROM $wpdb->level_rating
-					WHERE level_ID = %d
-					", $level
-                ));
-
-                $userRating = $wpdb->get_var($wpdb->prepare(
-                    "
-					SELECT rating
-					FROM $wpdb->level_rating
-					WHERE level_ID = %d AND user_ID = %d
-					", $level, get_current_user_id()
-                ));
-                
-                if ($userRating > 0) { ?>
-                    <script>var rated = true;</script>
-                <?php 
-                } else { ?>
-                    <script>var rated = false;</script>
-                <?php } ?>
-                    <div id="level-rate" class="pull-right">
-                    <?php _e('Rate this level: ', 'wpbootstrap'); ?>
-                        <div class="rating" data-average="<?php echo ($avgRating == null) ? 0 : $avgRating; ?>" data-id="1"></div>
-                    </div>
-                <?php
                 get_template_part('play-page');
-            }
-            else
-            {
-                get_template_part('level-choose');
-            }
-            ?>
+        }
+        else
+        {
+            echo '<div class="row">';
+            get_template_part('level-choose');
+            echo '</div>';
+        }
+        ?>
     <?php endwhile;
 else: ?>
         <p><?php _e('Sorry, this page does not exist.'); ?></p>
 <?php endif; ?>	
-    <script>
-        $(document).ready(function(){
-            $(".rating").jRating({
-                step:true,
-                showRateInfo: false,
-                isDisabled: rated,
-                length: 5,
-                rateMax: 5,
-                decimalLength: 0
-            });
+</div>
+
+<script>
+    $(document).ready(function(){
+        $(".rating").jRating({
+            step:true,
+            showRateInfo: false,
+            isDisabled: rated,
+            length: 5,
+            rateMax: 5,
+            decimalLength: 0
         });
-    </script>
-</div>	
+    });
+</script>	
 <?php get_footer(); ?>

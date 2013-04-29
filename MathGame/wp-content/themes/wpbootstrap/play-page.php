@@ -35,12 +35,12 @@ else
 }
 ?>
 <script type="text/javascript">
-    <!--
+    
     var unityObjectUrl = "http://webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject2.js";
     if (document.location.protocol == 'https:')
         unityObjectUrl = unityObjectUrl.replace("http://", "https://ssl-");
     document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/script>');
-    -->
+    
 </script>
 <script type="text/javascript">
     var config = {
@@ -133,18 +133,19 @@ else
                                 alert("<?php _e('Could not upload score.', 'wpbootstrap'); ?>");  
                             }  
                         });
-                        if (!rated)
+                        
+                        if (!rated) {
                             $('#level-rate').show();
+                        }
                     }
 </script>
 <style type="text/css">
     .unityplayer {
-        position: absolute;
+        position: relative;
         float: left;
         left: 10%;
         margin-left:auto;
         margin-right:auto;
-        padding-top: 10%;
         padding-bottom: 5%;
         height: 70%;
         width: 90%;
@@ -162,5 +163,3 @@ else
         </a>
     </div>
 </div>
-<p class="header"><span>Unity Web Player | </span>MathGame</p>
-<p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>

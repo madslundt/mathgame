@@ -118,7 +118,7 @@ $min_buildTimer     = 3;
 $max_buildTimer     = 30;
 
 $min_bridgePillar   = 2;
-$max_bridgePillar   = 20;
+$max_bridgePillar   = 15;
 
 $min_numberBubbles  = 1;
 $max_numberBubbles  = 10;
