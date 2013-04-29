@@ -126,24 +126,28 @@ else if ($_GET['view'] == 'user')
     }
     else
     { // ALL users
-        /*$users = $wpdb->get_results($wpdb->prepare(
+        $user = $wpdb->get_results($wpdb->prepare(
             "
-            SELECT MAX(s.points), u.user_login AS uname
+            SELECT s.*, l.name AS lname
             FROM $wpdb->score s
             INNER JOIN $wpdb->level l ON s.level_ID = l.ID
-            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
             WHERE 1=1" . $finish . "
             ORDER BY s.points DESC, s.errors, s.time
-            LIMIT %d, %d
-            ", $offset, $limit
+            "
         ));
-
-        foreach ($users as $u) {
-            array_push($xaxis, $u->uname);
+        echo count($user);
+        if (count($user) > 1) {
+            foreach ($user as $u) {
+                array_push($points, absint($u->points));
+                array_push($xaxis, $u->lname);
+                array_push($errors, absint($u->errors));
+                array_push($time, round(floatval($u->time), 2));
+            }
+            $title = __('User highscore', 'wpbootstrap');
+            echo '<div id="scoreChart" class="span11"></div>';
+        } else {
+            _e('Not enough data', 'wpbootstrap');
         }
-        $yaxis = __('Points', 'wpbootstrap');
-
-        echo '<div id="allUsers" class="span10"></div>';*/
     }
 }
 else
