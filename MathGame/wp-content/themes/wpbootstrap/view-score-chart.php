@@ -160,10 +160,8 @@ else
             INNER JOIN $wpdb->users u ON s.user_ID = u.ID
             WHERE l.ID = %d" . $finish . "
             ORDER BY s.points DESC, s.errors, s.time
-            LIMIT %d, %d
-            ", $cur_find, $offset, $limit
+            ", $cur_find
         ));
-
         if (count($level) > 1) {
             foreach ($level as $u) {
                 array_push($points, absint($u->points));
