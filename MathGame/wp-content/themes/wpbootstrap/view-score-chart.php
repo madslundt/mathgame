@@ -135,7 +135,7 @@ else if ($_GET['view'] == 'user')
             ORDER BY s.points DESC, s.errors, s.time
             "
         ));
-        echo count($user);
+        
         if (count($user) > 1) {
             foreach ($user as $u) {
                 array_push($points, absint($u->points));
