@@ -4,9 +4,6 @@
     });
 </script>
 <?php
-$page = isset($_GET['page']) ? absint($_GET['page']) : 1;
-$limit = 10;
-$offset = ($page - 1) * $limit;
 $cur_find = !empty($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
 $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
 
@@ -39,21 +36,9 @@ if ($_GET['view'] == 'group')
             INNER JOIN $wpdb->users u ON s.user_ID = u.ID
             WHERE relationships_term_taxonomy_id = %d" . $finish . "
             ORDER BY s.points DESC, s.errors, s.time
-            LIMIT %d, %d
-            ", $cur_find, $offset, $limit
-        ));
-
-        $total = $wpdb->get_var($wpdb->prepare(
-            "
-            COUNT(s.ID)
-            FROM $wpdb->group_level
-            INNER JOIN $wpdb->score s ON relationships_object_id = s.user_ID
-            INNER JOIN $wpdb->level l ON s.level_ID = l.ID
-            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
-            WHERE relationships_term_taxonomy_id = %d" . $finish . "
             ", $cur_find
         ));
-        if ($total > 1) {
+        if (count($group) > 1) {
             foreach ($group as $u) {
                 array_push($points, absint($u->points));
                 array_push($xaxis, $u->uname . ' / ' . $u->lname);
@@ -123,19 +108,10 @@ else if ($_GET['view'] == 'user')
             INNER JOIN $wpdb->level l ON s.level_ID = l.ID
             WHERE s.user_ID = %d" . $finish . "
             ORDER BY s.points DESC, s.errors, s.time
-            LIMIT %d, %d
-            ", $cur_find, $offset, $limit
-        ));
-
-        $total = $wpdb->get_var($wpdb->prepare(
-            "
-            SELECT COUNT(ID)
-            FROM $wpdb->score
-            WHERE user_ID = %d" . $finish . "
             ", $cur_find
         ));
 
-        if ($total > 1) {
+        if (count($user) > 1) {
             foreach ($user as $u) {
                 array_push($points, absint($u->points));
                 array_push($xaxis, $u->lname);
@@ -188,20 +164,7 @@ else
             ", $cur_find, $offset, $limit
         ));
 
-        $total = $wpdb->get_var($wpdb->prepare(
-            "
-            SELECT COUNT(s.ID)
-            FROM $wpdb->level l
-            INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
-            INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
-            INNER JOIN $wpdb->score s ON l.ID = s.level_ID
-            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
-            WHERE l.ID = %d" 
-            . $finish . "
-            ", $cur_find
-        ));        
-
-        if ($total > 1) {
+        if (count($level) > 1) {
             foreach ($level as $u) {
                 array_push($points, absint($u->points));
                 array_push($xaxis, $u->uname);
@@ -221,27 +184,6 @@ else
     }
 }
 
-$num_of_pages = ceil($total / $limit);
-$page_links = paginate_links(array(
-    'base' => add_query_arg('page', '%#%'),
-    'format' => '',
-    'prev_next' => True,
-    'prev_text' => __('&laquo;', 'wpbootstrap'),
-    'next_text' => __('&raquo;', 'wpbootstrap'),
-    'type' => 'list',
-    'total' => $num_of_pages,
-    'current' => $page
-));
-
-if ($page_links)
-{
-    echo '<div class="pagination pagination-right">';
-    echo '<ul>';
-    echo $page_links;
-    echo '</ul>';
-    echo '</div>';
-}
-
 $xaxis = json_encode($xaxis);
 $points = json_encode($points);
 $errors = json_encode($errors);
@@ -252,7 +194,8 @@ $time = json_encode($time);
 $(function () {
         $('#scoreChart').highcharts({
             chart: {
-                zoomType: 'xy'
+                zoomType: 'xy',
+                spacingRight: 20
             },
             title: {
                 text: "<?php echo $title; ?>"
@@ -316,6 +259,7 @@ $(function () {
                 opposite: true
             }],
             tooltip: {
+                crosshairs: true,
                 shared: true
             },
             series: [{
