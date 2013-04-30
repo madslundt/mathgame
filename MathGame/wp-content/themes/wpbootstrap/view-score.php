@@ -33,7 +33,7 @@ $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onl
                     <div class="span2">
                         <?php
                         echo '<select class="span2" name="find">';
-                        //echo '<option value="">' . __('All groups', 'wpbootstrap') . '</option>';
+                        echo '<option value="">' . __('Select a group', 'wpbootstrap') . '</option>';
                         foreach ($groups as $group)
                         {
                             echo '<option value="' . $group->term_id . '"' . (($cur_find == $group->term_id) ? 'selected' : '') . '>' . $group->name . '</option>';
@@ -65,10 +65,10 @@ $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onl
 									", $group->term_id
                                 ));
 
-                                echo '<option value="">' . $group->name . '</options>';
+                                echo '<optgroup label="' . $group->name . '"">';
                                 foreach ($users as $user)
                                 {
-                                    echo '<option value="' . $user->ID . '"' . (($cur_find == $user->ID) ? 'selected' : '') . '> - ' . $user->user_login . '</option>';
+                                    echo '<option value="' . $user->ID . '"' . (($cur_find == $user->ID) ? 'selected' : '') . '>' . $user->user_login . '</option>';
                                 }
                             }
                             echo '</select>';
@@ -85,7 +85,7 @@ $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onl
                     <div class="span2">
                         <?php
                         echo '<select class="span2" name="find">';
-                        //echo '<option value="">' . __('All levels', 'wpbootstrap') . '</option>';
+                        echo '<option value="">' . __('Select a level', 'wpbootstrap') . '</option>';
                         foreach ($groups as $group)
                         {
                             $levels = $wpdb->get_results($wpdb->prepare(
@@ -114,7 +114,7 @@ $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onl
                                 echo '<option value="' . $level->ID . '"' . (($cur_find == $level->ID) ? 'selected' : '') . '>' . $level->name . '</option>';
                                 foreach ($revisions as $revision)
                                 {
-                                    echo '<option value="' . $revision->ID . '"' . (($cur_find == $revision->ID) ? 'selected' : '') . '> - ' . $revision->name . '</option>';
+                                    echo '<option value="' . $revision->ID . '"' . (($cur_find == $revision->ID) ? 'selected' : '') . '> --' . $revision->name . '</option>';
                                 }
                             }
                         }
