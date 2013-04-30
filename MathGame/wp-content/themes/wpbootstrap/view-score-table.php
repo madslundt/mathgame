@@ -48,21 +48,21 @@ if ($_GET['view'] == 'group')
             WHERE relationships_term_taxonomy_id = %d" . $finish . "
             ", $cur_find
         ));
-
-        echo '<table class="table table-hover" id="tablesorter">';
-        echo '<thead>';
-        echo '<th>#</th>';
-        echo '<th>' . __('Name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Points', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Errors', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Time', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Level no.', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Level name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
-        echo '</thead>';
-        echo '<tbody>';
-
+        ?>
+        <table class="table table-hover" id="tablesorter">
+        <thead>
+        <th>#</th>
+        <th><?php _e('Name', 'wpbootstrap'); ?></th>
+        <th><?php _e('Points', 'wpbootstrap'); ?></th>
+        <th><?php _e('Errors', 'wpbootstrap'); ?></th>
+        <th><?php _e('Time', 'wpbootstrap'); ?></th>
+        <th><?php _e('Level no.', 'wpbootstrap'); ?></th>
+        <th><?php _e('Level name', 'wpbootstrap'); ?></th>
+        <th><?php _e('Date', 'wpbootstrap'); ?></th>
+        <th><?php _e('Finished', 'wpbootstrap'); ?></th>
+        </thead>
+        <tbody>
+        <?php
         foreach ($group as $g)
         {
             if (strtotime($g->date) < strtotime('-5 days'))
@@ -73,21 +73,23 @@ if ($_GET['view'] == 'group')
             {
                 $date = human_time_diff(strtotime($g->date)) . ' ' . __('ago', 'wpbootstrap');
             }
-            echo '<tr>';
-            echo '<td><p class="lead">' . $c . '</p></td>';
-            echo '<td>' . $g->uname . '</td>';
-            echo '<td>' . $g->points . '</td>';
-            echo '<td>' . $g->errors . '</td>';
-            echo '<td>' . $g->time . '</td>';
-            echo '<td>' . $g->level_ID . '</td>';
-            echo '<td>' . $g->lname . '</td>';
-            echo '<td>' . $date . '</td>';
-            echo '<td>' . (($g->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
-            echo '</tr>';
-            $c++;
-        }
-        echo '</tbody>';
-        echo '</table>';        
+        ?>
+            <tr>
+            <td><p class="lead"><?php echo $c; ?></p></td>
+            <td><?php echo $g->uname; ?></td>
+            <td><?php echo $g->points; ?></td>
+            <td><?php echo $g->errors; ?></td>
+            <td><?php echo $g->time; ?></td>
+            <td><?php echo $g->level_ID; ?></td>
+            <td><?php echo $g->lname; ?></td>
+            <td><?php echo $date; ?></td>
+            <td><?php echo (($g->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>'); ?></td>
+            </tr>
+            <?php $c++;
+        } ?>
+        </tbody>
+        </table>        
+    <?php
     }
     else
     { // ALL groups
@@ -157,20 +159,20 @@ else if ($_GET['view'] == 'user')
             WHERE s.user_ID = %d" . $finish . "
             ", $cur_find
         ));        
-
-        echo '<table class="table table-hover" id="tablesorter">';
-        echo '<thead>';
-        echo '<th>#</th>';
-        echo '<th>' . __('Points', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Errors', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Time', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Level no.', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Level name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
-        echo '</thead>';
-        echo '<tbody>';
-
+        ?>
+        <table class="table table-hover" id="tablesorter">
+        <thead>
+        <th>#</th>
+        <th><?php _e('Points', 'wpbootstrap'); ?></th>
+        <th><?php _e('Errors', 'wpbootstrap'); ?></th>
+        <th><?php _e('Time', 'wpbootstrap'); ?></th>
+        <th><?php _e('Level no.', 'wpbootstrap'); ?></th>
+        <th><?php _e('Level name', 'wpbootstrap'); ?></th>
+        <th><?php _e('Date', 'wpbootstrap'); ?></th>
+        <th><?php _e('Finished', 'wpbootstrap'); ?></th>
+        </thead>
+        <tbody>
+        <?php
         foreach ($user as $u)
         {
             if (strtotime($u->date) < strtotime('-5 days'))
@@ -181,20 +183,22 @@ else if ($_GET['view'] == 'user')
             {
                 $date = human_time_diff(strtotime($u->date)) . ' ' . __('ago', 'wpbootstrap');
             }
-            echo '<tr>';
-            echo '<td><p class="lead">' . $c . '</p></td>';
-            echo '<td>' . $u->points . '</td>';
-            echo '<td>' . $u->errors . '</td>';
-            echo '<td>' . $u->time . '</td>';
-            echo '<td>' . $u->level_ID . '</td>';
-            echo '<td>' . $u->lname . '</td>';
-            echo '<td>' . $date . '</td>';
-            echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
-            echo '</tr>';
-            $c++;
-        }
-        echo '</tbody>';
-        echo '</table>';
+        ?>
+            <tr>
+            <td><p class="lead"><?php echo $c; ?></p></td>
+            <td><?php echo $u->points; ?></td>
+            <td><?php echo $u->errors; ?></td>
+            <td><?php echo $u->time; ?></td>
+            <td><?php echo $u->level_ID; ?></td>
+            <td><?php echo $u->lname; ?></td>
+            <td><?php echo $date; ?></td>
+            <td><?php echo (($u->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>'); ?></td>
+            </tr>
+            <?php $c++; 
+        } ?>
+        </tbody>
+        </table>
+    <?php
     }
     else
     { // ALL users
@@ -219,21 +223,21 @@ else if ($_GET['view'] == 'user')
             WHERE 1=1" . $finish . "
             "
         ));        
-
-        echo '<table class="table table-hover" id="tablesorter">';
-        echo '<thead>';
-        echo '<th>#</th>';
-        echo '<th>' . __('Name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Points', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Errors', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Time', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Level no.', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Level name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
-        echo '</thead>';
-        echo '<tbody>';
-
+        ?>
+        <table class="table table-hover" id="tablesorter">
+        <thead>
+        <th>#</th>
+        <th><?php echo _e('Name', 'wpbootstrap'); ?></th>
+        <th><?php echo _e('Points', 'wpbootstrap'); ?></th>
+        <th><?php echo _e('Errors', 'wpbootstrap'); ?></th>
+        <th><?php echo _e('Time', 'wpbootstrap'); ?></th>
+        <th><?php echo _e('Level no.', 'wpbootstrap'); ?></th>
+        <th><?php echo _e('Level name', 'wpbootstrap'); ?></th>
+        <th><?php echo _e('Date', 'wpbootstrap'); ?></th>
+        <th><?php echo _e('Finished', 'wpbootstrap'); ?></th>
+        </thead>
+        <tbody>
+        <?php
         foreach ($users as $u)
         {
             if (strtotime($u->date) < strtotime('-5 days'))
@@ -244,21 +248,23 @@ else if ($_GET['view'] == 'user')
             {
                 $date = human_time_diff(strtotime($u->date)) . ' ' . __('ago', 'wpbootstrap');
             }
-            echo '<tr>';
-            echo '<td><p class="lead">' . $c . '</p></td>';
-            echo '<td>' . $u->uname . '</td>';
-            echo '<td>' . $u->points . '</td>';
-            echo '<td>' . $u->errors . '</td>';
-            echo '<td>' . $u->time . '</td>';
-            echo '<td>' . $u->level_ID . '</td>';
-            echo '<td>' . $u->lname . '</td>';
-            echo '<td>' . $date . '</td>';
-            echo '<td>' . (($u->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
-            echo '</tr>';
-            $c++;
-        }
-        echo '</tbody>';
-        echo '</table>';
+            ?>
+            <tr>
+            <td><p class="lead"><?php echo $c; ?></p></td>
+            <td><?php echo $u->uname; ?></td>
+            <td><?php echo $u->points; ?></td>
+            <td><?php echo $u->errors; ?></td>
+            <td><?php echo $u->time; ?></td>
+            <td><?php echo $u->level_ID; ?></td>
+            <td><?php echo $u->lname; ?></td>
+            <td><?php echo $date; ?></td>
+            <td><?php echo (($u->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>'); ?></td>
+            </tr>
+            <?php $c++;
+        } ?>
+        </tbody>
+        </table>
+    <?php
     }
 }
 else
@@ -291,20 +297,20 @@ else
             . $finish . "
             ", $cur_find
         ));        
-
-        echo '<table class="table table-hover" id="tablesorter">';
-        echo '<thead>';
-        echo '<th>#</th>';
-        echo '<th>' . __('Name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Points', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Errors', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Time', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Group name', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Date', 'wpbootstrap') . '</th>';
-        echo '<th>' . __('Finished', 'wpbootstrap') . '</th>';
-        echo '</thead>';
-        echo '<tbody>';
-
+        ?>
+        <table class="table table-hover" id="tablesorter">
+        <thead>
+        <th>#</th>
+        <th><?php _e('Name', 'wpbootstrap'); ?></th>
+        <th><?php _e('Points', 'wpbootstrap'); ?></th>
+        <th><?php _e('Errors', 'wpbootstrap'); ?></th>
+        <th><?php _e('Time', 'wpbootstrap'); ?></th>
+        <th><?php _e('Group name', 'wpbootstrap'); ?></th>
+        <th><?php _e('Date', 'wpbootstrap'); ?></th>
+        <th><?php _e('Finished', 'wpbootstrap'); ?></th>
+        </thead>
+        <tbody>
+        <?php
         foreach ($level as $l)
         {
             if (strtotime($l->date) < strtotime('-5 days'))
@@ -315,25 +321,26 @@ else
             {
                 $date = human_time_diff(strtotime($l->date)) . ' ' . __('ago', 'wpbootstrap');
             }
-            echo '<tr>';
-            echo '<td><p class="lead">' . $c . '</p></td>';
-            echo '<td>' . $l->uname . '</td>';
-            echo '<td>' . $l->points . '</td>';
-            echo '<td>' . $l->errors . '</td>';
-            echo '<td>' . $l->time . '</td>';
-            echo '<td>' . $l->gname . '</td>';
-            echo '<td>' . $date . '</td>';
-            echo '<td>' . (($l->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>') . '</td>';
-            echo '</tr>';
-            $c++;
-        }
-        echo '</tbody>';
-        echo '</table>';
+        ?>
+            <tr>
+            <td><p class="lead"><?php echo $c; ?></p></td>
+            <td><?php echo $l->uname; ?></td>
+            <td><?php echo $l->points; ?></td>
+            <td><?php echo $l->errors; ?></td>
+            <td><?php echo $l->time; ?></td>
+            <td><?php echo $l->gname; ?></td>
+            <td><?php echo $date; ?></td>
+            <td><?php echo (($l->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>'); ?></td>
+            </tr>
+            <?php $c++;
+        } ?>
+        </tbody>
+        </table>
+    <?php
     }
     else
     { // All levels
         // List each level max point
-        echo $table_prefix;
     }
 }
 

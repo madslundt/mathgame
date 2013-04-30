@@ -37,23 +37,25 @@ foreach ($groups as $group)
 			WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
 			", $group->term_id
         ));
+        ?>
+    <h3><?php echo $group->name; ?></h3>
+    <table class="table table-hover">
+    <thead>
+    <th>#</th>
+    <th><?php _e('Name', 'wpbootstrap'); ?></th>
+    <th><?php _e('Car time', 'wpbootstrap'); ?></th>
+    <th><?php _e('Build time', 'wpbootstrap'); ?></th>
+    <th><?php _e('Min. number', 'wpbootstrap'); ?></th>
+    <th><?php _e('Max. number', 'wpbootstrap'); ?></th>
+    <th><?php _e('Car speed', 'wpbootstrap'); ?></th>
+    <th><?php _e('Bonus number', 'wpbootstrap'); ?></th>
+    <th><?php _e('No. of bubbles', 'wpbootstrap'); ?></th>
+    <th><?php _e('Bridge length', 'wpbootstrap'); ?></th>
+    <!--<th><?php _e('Rating', 'wpbootstrap'); ?></th>-->
+    </thead>
+    <tbody>
 
-    echo '<h3>' . $group->name . '</h3>';
-    echo '<table class="table table-hover">';
-    echo '<thead>';
-    echo '<th>#</th>';
-    echo '<th>' . __('Name', 'wpbootstrap') . '</th>';
-    echo '<th>' . __('Car time', 'wpbootstrap') . '</th>';
-    echo '<th>' . __('Build time', 'wpbootstrap') . '</th>';
-    echo '<th>' . __('Min. number', 'wpbootstrap') . '</th>';
-    echo '<th>' . __('Max. number', 'wpbootstrap') . '</th>';
-    echo '<th>' . __('Car speed', 'wpbootstrap') . '</th>';
-    echo '<th>' . __('Bonus number', 'wpbootstrap') . '</th>';
-    echo '<th>' . __('No. of bubbles', 'wpbootstrap') . '</th>';
-    echo '<th>' . __('Bridge length', 'wpbootstrap') . '</th>';
-    //echo '<th>' . __('Rating', 'wpbootstrap') . '</th>';
-    echo '</thead>';
-    echo '<tbody>';
+    <?php
     foreach ($levels as $level)
     {
         $revisions = $wpdb->get_results($wpdb->prepare(
@@ -82,19 +84,22 @@ foreach ($groups as $group)
         ));
 
         $count = count($revisions) + 1;
+        
         echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $level->ID . '\'">';
         echo '<td rowspan="' . $count . '"><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $level->ID . '">' . $level->ID . '</a></p></td>';
-        echo '<td>' . $level->name . '</td>';
-        echo '<td>' . $level->car_time . '</td>';
-        echo '<td>' . $level->build_time . '</td>';
-        echo '<td>' . $level->min_number . '</td>';
-        echo '<td>' . $level->max_number . '</td>';
-        echo '<td>' . $level->car_speed . '</td>';
-        echo '<td>' . $level->bonus_number . '</td>';
-        echo '<td>' . $level->number_bubbles . '</td>';
-        echo '<td>' . $bridgeCount . '</td>';
-        //echo '<td>' . '<div class="ratingRow" data-average="2" data-id="1"></div>' . '</td>';
-        echo '</tr>';
+        ?>
+        <td><?php echo $level->name; ?></td>
+        <td><?php echo $level->car_time; ?></td>
+        <td><?php echo $level->build_time; ?></td>
+        <td><?php echo $level->min_number; ?></td>
+        <td><?php echo $level->max_number; ?></td>
+        <td><?php echo $level->car_speed; ?></td>
+        <td><?php echo $level->bonus_number; ?></td>
+        <td><?php echo $level->number_bubbles; ?></td>
+        <td><?php echo $bridgeCount; ?></td>
+        <!--<td><div class="ratingRow" data-average="2" data-id="1"></div></td>-->
+        </tr>
+        <?php
         foreach ($revisions as $revision)
         {
 
@@ -105,23 +110,26 @@ foreach ($groups as $group)
 				WHERE level_ID = %d
 				", $revision->ID
             ));
-
             echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '\'">';
-            echo '<td>' . $revision->name . '</td>';
-            echo '<td>' . $revision->car_time . '</td>';
-            echo '<td>' . $revision->build_time . '</td>';
-            echo '<td>' . $revision->min_number . '</td>';
-            echo '<td>' . $revision->max_number . '</td>';
-            echo '<td>' . $revision->car_speed . '</td>';
-            echo '<td>' . $revision->bonus_number . '</td>';
-            echo '<td>' . $revision->number_bubbles . '</td>';
-            echo '<td>' . $bridgeCountr . '</td>';
-            //echo '<td></td>';
-            echo '</tr>';
+            ?>
+            <td><?php echo $revision->name; ?></td>
+            <td><?php echo $revision->car_time; ?></td>
+            <td><?php echo $revision->build_time; ?></td>
+            <td><?php echo $revision->min_number; ?></td>
+            <td><?php echo $revision->max_number; ?></td>
+            <td><?php echo $revision->car_speed; ?></td>
+            <td><?php echo $revision->bonus_number; ?></td>
+            <td><?php echo $revision->number_bubbles; ?></td>
+            <td><?php echo $bridgeCountr; ?></td>
+            <!--<td></td>-->
+            </tr>
+        <?php
         }
     }
-    echo '</tbody>';
-    echo '</table>';
+    ?>
+    </tbody>
+    </table>
+    <?php
     $num_of_pages = ceil($total / $limit);
     $page_links = paginate_links(array(
         'base' => add_query_arg('page', '%#%'),
