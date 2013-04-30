@@ -7,7 +7,6 @@
 $cur_find = !empty($_SESSION['find' . $_GET['view']]) ? $_SESSION['find' . $_GET['view']] : -1;
 $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onlyfinished' . $_GET['view']] : 0;
 
-$today = time();
 if ($cur_finish)
 {
     $finish = " AND s.finished = 1";
@@ -29,7 +28,7 @@ if ($_GET['view'] == 'group')
     { // Specified group
         $group = $wpdb->get_results($wpdb->prepare(
             "
-            SELECT s.*, l.name AS lname, u.user_login AS uname
+            SELECT DISTINCT s.*, l.name AS lname, u.user_login AS uname
             FROM $wpdb->group_level
             INNER JOIN $wpdb->score s ON relationships_object_id = s.user_ID
             INNER JOIN $wpdb->level l ON s.level_ID = l.ID
@@ -46,7 +45,6 @@ if ($_GET['view'] == 'group')
                 array_push($time, round(floatval($u->time), 2));
             }
             $title = __('Group highscore', 'wpbootstrap');
-            echo '<div id="scoreChart" class="span11"></div>';
         } else {
             _e('Not enough data', 'wpbootstrap');
         }                
@@ -103,7 +101,7 @@ else if ($_GET['view'] == 'user')
 
         $user = $wpdb->get_results($wpdb->prepare(
             "
-            SELECT s.*, l.name AS lname
+            SELECT DISTINCT s.*, l.name AS lname
             FROM $wpdb->score s
             INNER JOIN $wpdb->level l ON s.level_ID = l.ID
             WHERE s.user_ID = %d" . $finish . "
@@ -119,7 +117,6 @@ else if ($_GET['view'] == 'user')
                 array_push($time, round(floatval($u->time), 2));
             }
             $title = __('User highscore', 'wpbootstrap');
-            echo '<div id="scoreChart" class="span11"></div>';
         } else {
             _e('Not enough data', 'wpbootstrap');
         }
@@ -128,23 +125,22 @@ else if ($_GET['view'] == 'user')
     { // ALL users
         $user = $wpdb->get_results($wpdb->prepare(
             "
-            SELECT s.*, l.name AS lname
+            SELECT DISTINCT s.*, l.name AS lname, u.user_login AS uname
             FROM $wpdb->score s
             INNER JOIN $wpdb->level l ON s.level_ID = l.ID
             WHERE 1=1" . $finish . "
             ORDER BY s.points DESC, s.errors, s.time
             "
         ));
-        
+
         if (count($user) > 1) {
             foreach ($user as $u) {
                 array_push($points, absint($u->points));
-                array_push($xaxis, $u->lname);
+                array_push($xaxis, $u->uname . ' / ' . $u->lname);
                 array_push($errors, absint($u->errors));
                 array_push($time, round(floatval($u->time), 2));
             }
             $title = __('User highscore', 'wpbootstrap');
-            echo '<div id="scoreChart" class="span11"></div>';
         } else {
             _e('Not enough data', 'wpbootstrap');
         }
@@ -156,7 +152,7 @@ else
     { // Specified level
         $level = $wpdb->get_results($wpdb->prepare(
             "
-            SELECT s.*, u.user_login AS uname, t.name AS gname
+            SELECT DISTINCT s.*, u.user_login AS uname
             FROM $wpdb->level l
             INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
             INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
@@ -174,7 +170,6 @@ else
                 array_push($time, round(floatval($u->time), 2));
             }
             $title = __('Level highscore', 'wpbootstrap');
-            echo '<div id="scoreChart" class="span11"></div>'; 
         } else {
             _e('Not enough data', 'wpbootstrap');
         }               
@@ -191,12 +186,12 @@ $points = json_encode($points);
 $errors = json_encode($errors);
 $time = json_encode($time);
 ?>
-
+<div id="scoreChart" style="width: 90%; height: 70%;"></div>
 <script>
 $(function () {
         $('#scoreChart').highcharts({
             chart: {
-                zoomType: 'xy',
+                zoomType: 'x',
                 spacingRight: 20
             },
             title: {

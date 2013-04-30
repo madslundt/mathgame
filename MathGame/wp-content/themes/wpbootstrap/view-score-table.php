@@ -27,7 +27,7 @@ if ($_GET['view'] == 'group')
     { // Specified group
         $group = $wpdb->get_results($wpdb->prepare(
             "
-			SELECT s.*, l.name AS lname, u.user_login AS uname
+			SELECT DISTINCT s.*, l.name AS lname, u.user_login AS uname
 			FROM $wpdb->group_level
 			INNER JOIN $wpdb->score s ON relationships_object_id = s.user_ID
 			INNER JOIN $wpdb->level l ON s.level_ID = l.ID
@@ -140,7 +140,7 @@ else if ($_GET['view'] == 'user')
     { // Specified user
         $user = $wpdb->get_results($wpdb->prepare(
             "
-			SELECT s.*, l.name AS lname
+			SELECT DISTINCT s.*, l.name AS lname
 			FROM $wpdb->score s
 			INNER JOIN $wpdb->level l ON s.level_ID = l.ID
 			WHERE s.user_ID = %d" . $finish . "
@@ -200,7 +200,7 @@ else if ($_GET['view'] == 'user')
     { // ALL users
         $users = $wpdb->get_results($wpdb->prepare(
             "
-			SELECT s.*, u.user_login AS uname, l.name AS lname
+			SELECT DISTINCT s.*, u.user_login AS uname, l.name AS lname
 			FROM $wpdb->score s
 			INNER JOIN $wpdb->level l ON s.level_ID = l.ID
 			INNER JOIN $wpdb->users u ON s.user_ID = u.ID
@@ -267,7 +267,7 @@ else
     { // Specified level
         $level = $wpdb->get_results($wpdb->prepare(
             "
-			SELECT s.*, u.user_login AS uname, t.name AS gname
+			SELECT DISTINCT s.*, u.user_login AS uname, t.name AS gname
 			FROM $wpdb->level l
 			INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
 			INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id

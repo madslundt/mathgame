@@ -18,13 +18,14 @@ if ($level > 0 && !isset($_POST['submit']))
             ));
 
     $userid = $wpdb->get_var($wpdb->prepare(
-                    "
+        "
         SELECT DISTINCT rs.term_taxonomy_id
         FROM $wpdb->term_relationships rs
         INNER JOIN $wpdb->group_level gl ON rs.term_taxonomy_id = gl.relationships_term_taxonomy_id AND gl.level_ID = %d
         WHERE rs.object_id = %d
         ", $level, get_current_user_id()
-            ));
+    ));
+    
     if ($userid == null || $userid < 0)
     {
         _e('You are not a part of the group this level was created for', 'wpbootstrap');

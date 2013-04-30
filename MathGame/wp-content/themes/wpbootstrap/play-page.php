@@ -113,7 +113,6 @@ else
     }
                     function UnityFinished(points, errors, playtime, finished) {
 
-                        console.log("Points: " + points + "\nErrors: " + errors + "\nTime: " + playtime + "\nFinished: " + finished);
                         jQuery.ajax({  
                             type: 'POST',
                             cache: false,  

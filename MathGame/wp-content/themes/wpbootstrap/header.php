@@ -21,6 +21,7 @@
 	<?php wp_head();
 	global $current_user;
 	get_currentuserinfo();
+	date_default_timezone_set(get_option('timezone_string'));
 	?>
 	
     <!-- Fav and touch icons -->
