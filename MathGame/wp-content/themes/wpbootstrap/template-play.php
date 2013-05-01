@@ -1,4 +1,7 @@
 <?php
+/*
+Template Name: Play game template
+ */
 get_header();
 $avgRating = 0;
 if ($_GET['level'])
