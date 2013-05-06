@@ -37,17 +37,14 @@ if ($_GET['view'] == 'group')
             ORDER BY s.points DESC, s.errors, s.time
             ", $cur_find
         ));
-        if (count($group) > 1) {
+
             foreach ($group as $u) {
                 array_push($points, absint($u->points));
                 array_push($xaxis, $u->uname . ' / ' . $u->lname);
                 array_push($errors, absint($u->errors));
                 array_push($time, round(floatval($u->time), 2));
             }
-            $title = __('Group highscore', 'wpbootstrap');
-        } else {
-            _e('Not enough data', 'wpbootstrap');
-        }                
+            $title = __('Group highscore', 'wpbootstrap');               
     }
     else
     { // ALL groups
@@ -109,7 +106,6 @@ else if ($_GET['view'] == 'user')
             ", $cur_find
         ));
 
-        if (count($user) > 1) {
             foreach ($user as $u) {
                 array_push($points, absint($u->points));
                 array_push($xaxis, $u->lname);
@@ -117,23 +113,19 @@ else if ($_GET['view'] == 'user')
                 array_push($time, round(floatval($u->time), 2));
             }
             $title = __('User highscore', 'wpbootstrap');
-        } else {
-            _e('Not enough data', 'wpbootstrap');
-        }
     }
     else
     { // ALL users
         $user = $wpdb->get_results($wpdb->prepare(
             "
-            SELECT DISTINCT s.*, l.name AS lname, u.user_login AS uname
+            SELECT s.*, l.name AS lname, u.user_login AS uname
             FROM $wpdb->score s
             INNER JOIN $wpdb->level l ON s.level_ID = l.ID
+            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
             WHERE 1=1" . $finish . "
             ORDER BY s.points DESC, s.errors, s.time
             "
         ));
-
-        if (count($user) > 1) {
             foreach ($user as $u) {
                 array_push($points, absint($u->points));
                 array_push($xaxis, $u->uname . ' / ' . $u->lname);
@@ -141,9 +133,6 @@ else if ($_GET['view'] == 'user')
                 array_push($time, round(floatval($u->time), 2));
             }
             $title = __('User highscore', 'wpbootstrap');
-        } else {
-            _e('Not enough data', 'wpbootstrap');
-        }
     }
 }
 else
@@ -155,14 +144,12 @@ else
             SELECT DISTINCT s.*, u.user_login AS uname
             FROM $wpdb->level l
             INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
-            INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
             INNER JOIN $wpdb->score s ON l.ID = s.level_ID
             INNER JOIN $wpdb->users u ON s.user_ID = u.ID
             WHERE l.ID = %d" . $finish . "
             ORDER BY s.points DESC, s.errors, s.time
             ", $cur_find
         ));
-        if (count($level) > 1) {
             foreach ($level as $u) {
                 array_push($points, absint($u->points));
                 array_push($xaxis, $u->uname);
@@ -170,10 +157,6 @@ else
                 array_push($time, round(floatval($u->time), 2));
             }
             $title = __('Level highscore', 'wpbootstrap');
-        } else {
-            _e('Not enough data', 'wpbootstrap');
-        }               
-
     }
     else
     { // All levels

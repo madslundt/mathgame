@@ -9,7 +9,6 @@ $groups = $wpdb->get_results($wpdb->prepare(
 	ORDER BY t.term_id
 	", get_current_user_id()
 ));
-
 if (isset($_POST['submit']))
 {
     $_SESSION['find' . $_GET['view']] = $_POST['find'];
@@ -86,48 +85,38 @@ $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onl
                         <?php
                         echo '<select class="span2" name="find">';
                         echo '<option value="">' . __('Select a level', 'wpbootstrap') . '</option>';
-                        foreach ($groups as $group)
+                        $levels = $wpdb->get_results($wpdb->prepare(
+                            "
+							SELECT DISTINCT l.ID, l.name
+							FROM $wpdb->group_level gl
+							INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
+							LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
+							WHERE r.level_ID IS NULL
+							ORDER BY l.ID	
+							"
+                        ));
+                        foreach ($levels as $level)
                         {
-                            $levels = $wpdb->get_results($wpdb->prepare(
+                            $revisions = $wpdb->get_results($wpdb->prepare(
                                 "
-								SELECT DISTINCT l.ID, l.name
-								FROM $wpdb->group_level gl
-								INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
-								LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
-								WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
-								ORDER BY l.ID	
-								", $group->term_id
+								SELECT l.ID, l.name 
+								FROM $wpdb->level_revision r
+								INNER JOIN $wpdb->level l ON r.level_ID = l.ID
+								WHERE r.level_revision = %d
+								ORDER BY level_ID	
+								", $level->ID
                             ));
 
-                            foreach ($levels as $level)
+                            echo '<option value="' . $level->ID . '"' . (($cur_find == $level->ID) ? 'selected' : '') . '>' . $level->name . '</option>';
+                            foreach ($revisions as $revision)
                             {
-                                $revisions = $wpdb->get_results($wpdb->prepare(
-                                    "
-									SELECT l.ID, l.name 
-									FROM $wpdb->level_revision r
-									INNER JOIN $wpdb->level l ON r.level_ID = l.ID
-									WHERE r.level_revision = %d
-									ORDER BY level_ID	
-									", $level->ID
-                                ));
-
-                                echo '<option value="' . $level->ID . '"' . (($cur_find == $level->ID) ? 'selected' : '') . '>' . $level->name . '</option>';
-                                foreach ($revisions as $revision)
-                                {
-                                    echo '<option value="' . $revision->ID . '"' . (($cur_find == $revision->ID) ? 'selected' : '') . '> --' . $revision->name . '</option>';
-                                }
+                                echo '<option value="' . $revision->ID . '"' . (($cur_find == $revision->ID) ? 'selected' : '') . '> --' . $revision->name . '</option>';
                             }
                         }
                         echo '</select>';
                     ?>
                     </div>
             <?php } ?>
-                    <div class="span2">
-<!--<select class="span2" name="highscoreby">
-<option value="points"><?php _e('Points', 'wpbootstrap'); ?></option>
-<option value="errors"><?php _e('Errors', 'wpbootstrap'); ?></option>
-</select>-->
-                        </div>
 
                         <div class="span1 pull-right">
                             <input type="submit" name="submit" id="submit" class="span1 pull-right btn btn-primary" value="<?php _e('View', 'wpbootstrap'); ?>">

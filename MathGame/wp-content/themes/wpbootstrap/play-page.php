@@ -33,6 +33,12 @@ else
 {
     exit;
 }
+
+$user_agent = $_SERVER['HTTP_USER_AGENT'];
+$game = "/webplayer/webplayer.unity3d";
+if (preg_match('/Chrome/i', $user_agent)) {
+    $game = "/chromeWebplayer/chromeWebplayer.unity3d";
+}
 ?>
 <script type="text/javascript">
     
@@ -45,7 +51,7 @@ else
 <script type="text/javascript">
     var config = {
         width: window.innerWidth * 0.8, 
-        height: window.innerHeight * 0.7,
+        height: window.innerHeight * 0.8,
         params: { enableDebugging:"0" }
 				
     };
@@ -88,7 +94,7 @@ else
             }
         });
 				
-        u.initPlugin(jQuery(".unityplayer")[0], "<?php print THEMEROOT; ?>/webplayer/webplayer.unity3d");
+        u.initPlugin(jQuery(".unityplayer")[0], "<?php print THEMEROOT; echo $game; ?>");
     });
     function UnityIsReady()
     {
@@ -161,4 +167,9 @@ else
             <img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
         </a>
     </div>
+</div>
+
+<div class="span4">
+    <p class="header"><span>Unity Web Player | </span>MathGame</p>
+    <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
 </div>

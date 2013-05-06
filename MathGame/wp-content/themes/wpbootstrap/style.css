@@ -20,6 +20,15 @@
 	}
 }
 
+#level-rate {
+	margin-top: 10px;
+}
+
+#nolink {
+	color: #000;
+	text-decoration: none;
+}
+
 .navbar-fixed-top,
 .navbar-fixed-bottom {
 	position: static;
@@ -31,12 +40,6 @@
 
 #appendedPrependedInput {
 	margin-right: 5px;
-}
-
-
-#level-rate {
-	margin-top: 50px;
-	margin-left: 30px;
 }
 
 thead {

@@ -10,21 +10,23 @@ if ($_GET['level'])
 }
 
 if (have_posts()) : while (have_posts()) : the_post();
+        if (!isset($_GET['level'])) {
         ?>
         <legend><?php the_title(); ?></legend>
-        <?php the_content(); ?>
+        <?php } the_content(); ?>
 
         <?php
         if ($level > 0)
         {
-            ?>
-            <div class="row">
-                <div class="span4">
-                <p class="header"><span>Unity Web Player | </span>MathGame</p>
-                <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
-                </div>
-                <?php
-                $avgRating = $wpdb->get_var($wpdb->prepare(
+            $curlevel = $wpdb->get_row($wpdb->prepare(
+                "
+                SELECT *
+                FROM $wpdb->level
+                WHERE ID = %d
+                ", $level
+            ));
+
+            $avgRating = $wpdb->get_var($wpdb->prepare(
                     "
                     SELECT AVG(rating)
                     FROM $wpdb->level_rating
@@ -39,17 +41,34 @@ if (have_posts()) : while (have_posts()) : the_post();
                     WHERE level_ID = %d AND user_ID = %d
                     ", $level, get_current_user_id()
                 ));
-                
-                if ($userRating > 0) { ?>
-                    <script>var rated = true;</script>
-                <?php 
-                } else { ?>
-                    <script>var rated = false;</script>
-                <?php } ?>
-                    <div class="span3 pull-right">
-                    <?php _e('Rate this level', 'wpbootstrap'); ?>
+
+            ?>
+            <legend>
+                <a href="<?php echo the_permalink(); ?>" id="nolink">&laquo; <?php the_title(); ?></a>
+
+                <div class="pull-right">
+                    <div class="span2">
+                        <?php echo __('Numbers', 'wpbootstrap') . ': <strong>' . $curlevel->min_number . ' - ' . $curlevel->max_number . '</strong>'; ?>
+                    </div>
+                    <div class="span2">
+                        <?php echo __('Car speed', 'wpbootstrap') . ': <strong>' . $curlevel->car_speed . '</strong>'; ?>
+                    </div>
+                    <div class="span2">
+                        <?php echo __('Bonus number', 'wpbootstrap') . ': <strong>' . $curlevel->bonus_number . '</strong>'; ?>
+                    </div>
+                    <?php
+                    if ($userRating > 0) { ?>
+                        <script>var rated = true;</script>
+                    <?php 
+                    } else { ?>
+                        <script>var rated = false;</script>
+                    <?php } ?>
+                    <div class="span2" id="level-rate">
                         <div class="rating" data-average="<?php echo ($avgRating == null) ? 0 : $avgRating; ?>" data-id="1"></div>
                     </div>
+                </div>              
+            </legend>
+            <div class="row">
                 <script>
                     (function($) {
                         $.fn.jRating = function(op) {

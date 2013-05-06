@@ -24,6 +24,11 @@ function addScoreToLevelFunction()
 
 add_action('wp_ajax_addScoreToLevel', 'addScoreToLevelFunction');  // Only logged in users
 
+function timezone() {
+    date_default_timezone_set(get_option('timezone_string'));
+}
+add_action('init', 'timezone');
+
 function init_sessions() {
     if (!session_id()) {
         session_start();

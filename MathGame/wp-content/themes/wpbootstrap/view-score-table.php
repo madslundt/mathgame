@@ -56,8 +56,8 @@ if ($_GET['view'] == 'group')
         <th><?php _e('Points', 'wpbootstrap'); ?></th>
         <th><?php _e('Errors', 'wpbootstrap'); ?></th>
         <th><?php _e('Time', 'wpbootstrap'); ?></th>
-        <th><?php _e('Level no.', 'wpbootstrap'); ?></th>
-        <th><?php _e('Level name', 'wpbootstrap'); ?></th>
+        <th><?php _e('Level ID', 'wpbootstrap'); ?></th>
+        <th><?php _e('Level', 'wpbootstrap'); ?></th>
         <th><?php _e('Date', 'wpbootstrap'); ?></th>
         <th><?php _e('Finished', 'wpbootstrap'); ?></th>
         </thead>
@@ -79,7 +79,7 @@ if ($_GET['view'] == 'group')
             <td><?php echo $g->uname; ?></td>
             <td><?php echo $g->points; ?></td>
             <td><?php echo $g->errors; ?></td>
-            <td><?php echo $g->time; ?></td>
+            <td><?php echo gmdate('i:s', $g->time); ?></td>
             <td><?php echo $g->level_ID; ?></td>
             <td><?php echo $g->lname; ?></td>
             <td><?php echo $date; ?></td>
@@ -166,8 +166,8 @@ else if ($_GET['view'] == 'user')
         <th><?php _e('Points', 'wpbootstrap'); ?></th>
         <th><?php _e('Errors', 'wpbootstrap'); ?></th>
         <th><?php _e('Time', 'wpbootstrap'); ?></th>
-        <th><?php _e('Level no.', 'wpbootstrap'); ?></th>
-        <th><?php _e('Level name', 'wpbootstrap'); ?></th>
+        <th><?php _e('Level ID', 'wpbootstrap'); ?></th>
+        <th><?php _e('Level', 'wpbootstrap'); ?></th>
         <th><?php _e('Date', 'wpbootstrap'); ?></th>
         <th><?php _e('Finished', 'wpbootstrap'); ?></th>
         </thead>
@@ -188,7 +188,7 @@ else if ($_GET['view'] == 'user')
             <td><p class="lead"><?php echo $c; ?></p></td>
             <td><?php echo $u->points; ?></td>
             <td><?php echo $u->errors; ?></td>
-            <td><?php echo $u->time; ?></td>
+            <td><?php echo gmdate('i:s', $u->time); ?></td>
             <td><?php echo $u->level_ID; ?></td>
             <td><?php echo $u->lname; ?></td>
             <td><?php echo $date; ?></td>
@@ -231,8 +231,8 @@ else if ($_GET['view'] == 'user')
         <th><?php echo _e('Points', 'wpbootstrap'); ?></th>
         <th><?php echo _e('Errors', 'wpbootstrap'); ?></th>
         <th><?php echo _e('Time', 'wpbootstrap'); ?></th>
-        <th><?php echo _e('Level no.', 'wpbootstrap'); ?></th>
-        <th><?php echo _e('Level name', 'wpbootstrap'); ?></th>
+        <th><?php echo _e('Level ID', 'wpbootstrap'); ?></th>
+        <th><?php echo _e('Level', 'wpbootstrap'); ?></th>
         <th><?php echo _e('Date', 'wpbootstrap'); ?></th>
         <th><?php echo _e('Finished', 'wpbootstrap'); ?></th>
         </thead>
@@ -254,7 +254,7 @@ else if ($_GET['view'] == 'user')
             <td><?php echo $u->uname; ?></td>
             <td><?php echo $u->points; ?></td>
             <td><?php echo $u->errors; ?></td>
-            <td><?php echo $u->time; ?></td>
+            <td><?php echo gmdate('i:s', $u->time); ?></td>
             <td><?php echo $u->level_ID; ?></td>
             <td><?php echo $u->lname; ?></td>
             <td><?php echo $date; ?></td>
@@ -273,10 +273,9 @@ else
     { // Specified level
         $level = $wpdb->get_results($wpdb->prepare(
             "
-			SELECT DISTINCT s.*, u.user_login AS uname, t.name AS gname
+			SELECT DISTINCT s.*, u.user_login AS uname
 			FROM $wpdb->level l
 			INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
-			INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
 			INNER JOIN $wpdb->score s ON l.ID = s.level_ID
 			INNER JOIN $wpdb->users u ON s.user_ID = u.ID
 			WHERE l.ID = %d" . $finish . "
@@ -305,7 +304,6 @@ else
         <th><?php _e('Points', 'wpbootstrap'); ?></th>
         <th><?php _e('Errors', 'wpbootstrap'); ?></th>
         <th><?php _e('Time', 'wpbootstrap'); ?></th>
-        <th><?php _e('Group name', 'wpbootstrap'); ?></th>
         <th><?php _e('Date', 'wpbootstrap'); ?></th>
         <th><?php _e('Finished', 'wpbootstrap'); ?></th>
         </thead>
@@ -327,8 +325,7 @@ else
             <td><?php echo $l->uname; ?></td>
             <td><?php echo $l->points; ?></td>
             <td><?php echo $l->errors; ?></td>
-            <td><?php echo $l->time; ?></td>
-            <td><?php echo $l->gname; ?></td>
+            <td><?php echo gmdate('i:s', $l->time); ?></td>
             <td><?php echo $date; ?></td>
             <td><?php echo (($l->finished) ? '<i class="icon-ok"></i>' : '<i class="icon-remove"></i>'); ?></td>
             </tr>
