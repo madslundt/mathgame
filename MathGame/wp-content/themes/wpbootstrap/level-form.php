@@ -6,7 +6,7 @@ if ($_GET['level'])
     $level = $_GET['level'];
 }
 
-if ($level > 0 && !isset($_POST['submit']))
+if (isset($_GET['level']) && !isset($_POST['submit']))
 {
     $groups = $wpdb->get_results($wpdb->prepare(
                     "
@@ -672,6 +672,8 @@ if (isset($_POST['submit']))
         </script>
         <?php
         _e("Level created", "wpbootstrap");
+        $wpdb->show_errors(); 
+        $wpdb->print_error();
     }
     else
     {

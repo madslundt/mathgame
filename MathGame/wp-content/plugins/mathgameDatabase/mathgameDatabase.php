@@ -27,8 +27,11 @@ function mathgameDatabase_activate() {
               build_time INT NOT NULL ,
               min_number INT NOT NULL ,
               max_number INT NOT NULL ,
+              min_speed INT UNSIGNED NOT NULL ,
+              max_speed INT UNSIGNED NOT NULL ,
               car_speed INT NOT NULL ,
               bonus_number INT NOT NULL ,
+              number_bubbles INT NOT NULL ,
               PRIMARY KEY (ID) )
             ENGINE = InnoDB;";
 
@@ -140,6 +143,7 @@ function mathgameDatabase_activate() {
               time FLOAT UNSIGNED NULL ,
               level_ID BIGINT(20) UNSIGNED NOT NULL ,
               user_ID BIGINT(20) UNSIGNED NOT NULL ,
+              date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
               PRIMARY KEY (ID, level_ID, user_ID) ,
               INDEX fk_" . $table_name . "_" . $wpdb->prefix . "level1_idx (level_ID ASC) ,
               CONSTRAINT fk_" . $table_name . "_" . $wpdb->prefix . "level1

@@ -41,8 +41,14 @@ if (have_posts()) : while (have_posts()) : the_post();
                     WHERE level_ID = %d AND user_ID = %d
                     ", $level, get_current_user_id()
                 ));
-
             ?>
+            <?php
+            if ($userRating > 0) { ?>
+                <script>var rated = true;</script>
+            <?php 
+            } else { ?>
+                <script>var rated = false;</script>
+            <?php } ?>
             <legend>
                 <a href="<?php echo the_permalink(); ?>" id="nolink">&laquo; <?php the_title(); ?></a>
 
@@ -56,15 +62,8 @@ if (have_posts()) : while (have_posts()) : the_post();
                     <div class="span2">
                         <?php echo __('Bonus number', 'wpbootstrap') . ': <strong>' . $curlevel->bonus_number . '</strong>'; ?>
                     </div>
-                    <?php
-                    if ($userRating > 0) { ?>
-                        <script>var rated = true;</script>
-                    <?php 
-                    } else { ?>
-                        <script>var rated = false;</script>
-                    <?php } ?>
-                    <div class="span2" id="level-rate">
-                        <div class="rating" data-average="<?php echo ($avgRating == null) ? 0 : $avgRating; ?>" data-id="1"></div>
+                    <div class="span2">
+                        <div class="rating" id="level-rate" data-average="<?php echo ($avgRating == null) ? 0 : $avgRating; ?>" data-id="1"></div>
                     </div>
                 </div>              
             </legend>
