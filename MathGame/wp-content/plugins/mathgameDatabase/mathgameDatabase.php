@@ -93,7 +93,7 @@ function mathgameDatabase_activate() {
               level_ID BIGINT(20) UNSIGNED NOT NULL ,
               user_ID BIGINT(20) NOT NULL ,
               PRIMARY KEY (level_ID, user_ID) ,
-              CONSTRAINT fk_" . $wpdb->prefix . "level_rating_" . $wpdb->prefix . "level1
+              CONSTRAINT fk_" . $table_name . "_" . $wpdb->prefix . "level1
                 FOREIGN KEY (level_ID )
                 REFERENCES " . $wpdb->prefix . "level (ID )
                 ON DELETE NO ACTION
@@ -154,6 +154,55 @@ function mathgameDatabase_activate() {
 
         add_option('mathgame_score_database_version', '1.0');
     }
+
+    // Level revision
+    $table_name = $wpdb->prefix . 'level_revision';
+    if ($wpdb->get_var('SHOW TABLES LIKE ' . $table_name) != $table_name) {
+        $sql = "CREATE TABLE IF NOT EXISTS " . $table_name . "(
+              revision_level BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT ,
+              level_ID BIGINT(20) UNSIGNED NOT NULL ,
+              PRIMARY KEY (revision_level, level_ID) ,
+              INDEX fk_" . $table_name . "_" . $wpdb->prefix . "level1_idx (level_ID ASC) ,
+              CONSTRAINT fk_" . $table_name . "_" . $wpdb->prefix . "level1
+                FOREIGN KEY (level_ID )
+                REFERENCES " . $wpdb->prefix . "level (ID )
+                ON DELETE NO ACTION
+                ON UPDATE NO ACTION)
+            ENGINE = InnoDB;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta( $sql );
+
+        add_option('mathgame_level-revision_database_version', '1.0');
+    }
+
+    // Level fraction
+    $table_name = $wpdb->prefix . 'level_fraction';
+    if ($wpdb->get_var('SHOW TABLES LIKE ' . $table_name) != $table_name) {
+        $sql = "CREATE TABLE IF NOT EXISTS " . $table_name . "(
+              fraction_ID INT(10) UNSIGNED NOT NULL ,
+              level_ID BIGINT(20) UNSIGNED NOT NULL ,
+              PRIMARY KEY (fraction_ID, level_ID) ,
+              INDEX fk_" . $table_name . "_" . $wpdb->prefix . "lev_idx (level_ID ASC) ,
+              INDEX fk_" . $table_name . "_" . $wpdb->prefix . "fr_idx (fraction_ID ASC) ,
+              CONSTRAINT fk_" . $table_name . "_" . $wpdb->prefix . "frac1
+                FOREIGN KEY (fraction_ID )
+                REFERENCES " . $wpdb->prefix . "fraction (ID )
+                ON DELETE NO ACTION
+                ON UPDATE NO ACTION,
+              CONSTRAINT fk_" . $table_name . "_" . $wpdb->prefix . "level1
+                FOREIGN KEY (level_ID )
+                REFERENCES " . $wpdb->prefix . "level (ID )
+                ON DELETE NO ACTION
+                ON UPDATE NO ACTION)
+            ENGINE = InnoDB;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta( $sql );
+
+        add_option('mathgame_level-fraction_database_version', '1.0');
+    }
+
 }
 
 function br_trigger_error($message, $errno) {

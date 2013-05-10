@@ -144,14 +144,14 @@ add_action('wp_ajax_deleteLevel', 'deleteLevelFunction');  // Only logged in use
 function addTables()
 {
     global $wpdb;
-    $wpdb->level            = $wpdb->prefix . '_level';
-    $wpdb->bridge           = $wpdb->prefix . '_bridge';
-    $wpdb->group_level      = $wpdb->prefix . '_group_level';
-    $wpdb->level_revision   = $wpdb->prefix . '_level_revision';
-    $wpdb->fraction         = $wpdb->prefix . '_fraction';
-    $wpdb->level_fraction   = $wpdb->prefix . '_level_fraction';
-    $wpdb->level_rating     = $wpdb->prefix . '_level_rating';
-    $wpdb->score            = $wpdb->prefix . '_score';
+    $wpdb->level            = $wpdb->prefix . 'level';
+    $wpdb->bridge           = $wpdb->prefix . 'bridge';
+    $wpdb->group_level      = $wpdb->prefix . 'group_level';
+    $wpdb->level_revision   = $wpdb->prefix . 'level_revision';
+    $wpdb->fraction         = $wpdb->prefix . 'fraction';
+    $wpdb->level_fraction   = $wpdb->prefix . 'level_fraction';
+    $wpdb->level_rating     = $wpdb->prefix . 'level_rating';
+    $wpdb->score            = $wpdb->prefix . 'score';
 }
 
 add_action('init', 'addTables');
