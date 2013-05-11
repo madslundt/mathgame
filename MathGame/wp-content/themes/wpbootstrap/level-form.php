@@ -164,19 +164,34 @@ $max_speed          = 10;
                 } else if (ui.values[0] == ui.values[1]) {
                     ui.values[1]++;
                 }
+                if (ui.values[0] == 0) {
+                    ui.values[0]--;
+                }
+                if (ui.values[1] == 0) {
+                    ui.values[1]++;
+                }
                 $( "#numbersBetween" ).val(ui.values[ 0 ] + " : " + ui.values[ 1 ] );
                 $( "#numbersBetweenLabel" ).text(ui.values[ 0 ] + " : " + ui.values[ 1 ] );
                 $( "#slider-bonus-number" ).slider("option", "min", $( "#slider-number-range" ).slider( "values", 0 ));
                 $( "#slider-bonus-number" ).slider("option", "max", $( "#slider-number-range" ).slider( "values", 1 ));
-                if ($( "#slider-bonus-number" ).slider("value") < $( "#slider-number-range" ).slider( "values", 0 )) {
-                    $( "#slider-bonus-number" ).slider({ value: $( "#slider-number-range" ).slider( "values", 0 ) });
-                } else if ($( "#slider-bonus-number" ).slider("value") > $( "#slider-number-range" ).slider( "values", 1 )) {
-                    $( "#slider-bonus-number" ).slider({ value: $( "#slider-number-range" ).slider( "values", 1 ) });
+                if ($( "#slider-bonus-number" ).slider("value") < ui.values[0] && ui.values[0] != 0) {
+                    $( "#slider-bonus-number" ).slider("value",  ui.values[0]);
+                } else if ($( "#slider-bonus-number" ).slider("value") > ui.values[1] && ui.values[1] != 0) {
+                    $( "#slider-bonus-number" ).slider("value", ui.values[1]);
                 }
-                $( "#bonusNumber" ).val($( "#slider-bonus-number" ).slider( "value" ));
-                $( "#bonusNumberLabel" ).text($( "#slider-bonus-number" ).slider( "value" ));
+                if (ui.values[0] != 0 && ui.values[1] != 0) {
+                    $( "#bonusNumber" ).val($( "#slider-bonus-number" ).slider( "value" ));
+                    $( "#bonusNumberLabel" ).text($( "#slider-bonus-number" ).slider( "value" ));
+                }
             }
         });
+        if ($( "#slider-number-range" ).slider( "values", 0 ) == 0) {
+            $( "#slider-number-range" ).slider( "values", 0, -1 );
+        }
+        if ($( "#slider-number-range" ).slider( "values", 1 ) == 0) {
+            $( "#slider-number-range" ).slider( "values", 1, 1 );
+        }
+
         $( "#numbersBetween" ).val( $( "#slider-number-range" ).slider( "values", 0 ) +
             " : " + $( "#slider-number-range" ).slider( "values", 1 ) );
         $( "#numbersBetweenLabel" ).text( $( "#slider-number-range" ).slider( "values", 0 ) +
@@ -284,6 +299,11 @@ $max_speed          = 10;
                 $( "#slider-bonus-number" ).slider("option", "max", $( "#slider-number-range" ).slider( "values", 1 ))
             }
         });
+        if ($( "#slider-bonus-number" ).slider( "value" ) == 0 && $( "#slider-number-range" ).slider( "values", 1 ) > 0) {
+            $( "#slider-bonus-number" ).slider( "value", +1 );
+        } else if ($( "#slider-bonus-number" ).slider( "value" ) == 0) {
+            $( "#slider-bonus-number" ).slider( "value", -1 );
+        }
 
         $( "#slider-number-bubbles" ).slider({
             value: <?php echo $cur_numberBubbles; ?>,
