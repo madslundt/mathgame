@@ -722,7 +722,7 @@ if (isset($_POST['submit']))
         $wpdb->query($wpdb->prepare(
             "
             INSERT INTO $wpdb->level_revision
-            ( level_revision, level_ID )
+            ( revision_level, level_ID )
             VALUES ( %d, %d )
             ", 
             array(

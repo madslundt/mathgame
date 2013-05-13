@@ -80,6 +80,9 @@ function mathgameExamples_activate() {
             )
         ));
     }
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    
 }
 
 function br2_trigger_error($message, $errno) {

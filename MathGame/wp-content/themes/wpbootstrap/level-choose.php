@@ -2,7 +2,6 @@
 $page = isset($_GET['page']) ? absint($_GET['page']) : 1;
 $limit = 5;
 $offset = ($page - 1) * $limit;
-
 $groups = $wpdb->get_results($wpdb->prepare(
     "
 	SELECT t.name, t.term_id
@@ -18,10 +17,12 @@ foreach ($groups as $group)
 {
     $levels = $wpdb->get_results($wpdb->prepare(
             "
-			SELECT l . * 
+			SELECT DISTINCT l.*, u.user_login AS uname 
 			FROM $wpdb->group_level gl
 			INNER JOIN $wpdb->level l ON gl.level_ID = l.ID
 			LEFT JOIN $wpdb->level_revision r ON l.ID = r.level_ID
+            INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
+            INNER JOIN $wpdb->users u ON g.relationships_object_id = u.ID
 			WHERE r.level_ID IS NULL AND gl.relationships_term_taxonomy_id = %d
 			ORDER BY l.ID	
 			LIMIT %d, %d	
@@ -51,20 +52,22 @@ foreach ($groups as $group)
     <th><?php _e('Bonus number', 'wpbootstrap'); ?></th>
     <th><?php _e('No. of bubbles', 'wpbootstrap'); ?></th>
     <th><?php _e('Bridge length', 'wpbootstrap'); ?></th>
-    <!--<th><?php _e('Rating', 'wpbootstrap'); ?></th>-->
+    <th><?php _e('Creator', 'wpbootstrap'); ?></th>
+    <th><?php _e('Rating', 'wpbootstrap'); ?></th>
     </thead>
     <tbody>
-
     <?php
     foreach ($levels as $level)
     {
         $revisions = $wpdb->get_results($wpdb->prepare(
             "
-			SELECT l.*, r.*
-			FROM $wpdb->level_revision r
-			INNER JOIN $wpdb->level l ON r.level_ID = l.ID
-			WHERE r.level_revision = %d
-			ORDER BY level_ID	
+			SELECT DISTINCT l.*, u.user_login AS uname
+            FROM $wpdb->level_revision r
+            INNER JOIN $wpdb->level l ON r.level_ID = l.ID
+            INNER JOIN $wpdb->group_level g ON r.level_ID = g.level_ID
+            INNER JOIN $wpdb->users u ON g.relationships_object_id = u.ID
+            WHERE r.revision_level = %d
+            ORDER BY r.level_ID 	
 			", $level->ID
         ));
 
@@ -97,7 +100,8 @@ foreach ($groups as $group)
         <td><?php echo $level->bonus_number; ?></td>
         <td><?php echo $level->number_bubbles; ?></td>
         <td><?php echo $bridgeCount; ?></td>
-        <!--<td><div class="ratingRow" data-average="2" data-id="1"></div></td>-->
+        <td><em><?php echo $level->uname; ?></em></td>
+        <td><div class="rating" data-average="<?php echo isset($avgRating) ? $avgRating : 0; ?>" data-id="<?php echo $level->ID; ?>"></div></td>
         </tr>
         <?php
         foreach ($revisions as $revision)
@@ -108,8 +112,17 @@ foreach ($groups as $group)
 				SELECT COUNT(*)
 				FROM $wpdb->bridge
 				WHERE level_ID = %d
-				", $revision->ID
+				", $revision->revision_level
             ));
+
+            $avgRating = $wpdb->get_var($wpdb->prepare(
+                "
+                SELECT AVG(rating)
+                FROM $wpdb->level_rating
+                WHERE level_ID = %d
+                ", $revision->revision_level
+            ));
+
             echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '\'">';
             ?>
             <td><?php echo $revision->name; ?></td>
@@ -121,7 +134,8 @@ foreach ($groups as $group)
             <td><?php echo $revision->bonus_number; ?></td>
             <td><?php echo $revision->number_bubbles; ?></td>
             <td><?php echo $bridgeCountr; ?></td>
-            <!--<td></td>-->
+            <td><em><?php echo $revision->uname; ?></em></td>
+            <td><div class="rating" data-average="<?php echo isset($avgRating) ? $avgRating : 0; ?>" data-id="<?php echo $revision->revision_level; ?>"></div></td>
             </tr>
         <?php
         }
@@ -152,57 +166,6 @@ foreach ($groups as $group)
     }
 }
 ?>
-
 <script>
-    /*$(document).ready(function(){
-        $(".ratingRow").jRating({
-                step:true,
-                showRateInfo: false,
-                isDisabled: true,
-                length: 5,
-                rateMax: 5,
-                decimalLength: 0
-        });
-});*/
+    rated = true;
 </script>
-
-
-<!--<table class="table table-bordered">
-        <thead>
-                <tr>
-                        <th>#</th>
-                        <th><?php _e('Name', 'wpbootstrap'); ?></th>
-                        <th><?php _e('Car time', 'wpbootstrap'); ?></th>
-                        <th><?php _e('Build time', 'wpbootstrap'); ?></th>
-                        <th><?php _e('Min. number', 'wpbootstrap'); ?></th>
-                        <th><?php _e('Max. number', 'wpbootstrap'); ?></th>
-                        <th><?php _e('Car speed', 'wpbootstrap'); ?></th>
-                        <th><?php _e('Bonus number', 'wpbootstrap'); ?></th>
-                        <th><?php _e('No. of bubbles', 'wpbootstrap'); ?></th>
-                </tr>
-        </thead>
-        <tbody>
-                <tr>
-                        <td rowspan="2">1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                </tr>
-                <tr>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@TwBootstrap</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td colspan="2">Larry the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-        </tbody>
-        </table>-->
