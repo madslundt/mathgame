@@ -21,7 +21,7 @@ function mathgameDatabase_activate() {
     if ($wpdb->get_var('SHOW TABLES LIKE ' . $table_name) != $table_name) 
     {
         $sql = "CREATE TABLE " . $table_name . "(
-              ID BIGINT(20) UNSIGNED NOT NULL ,
+              ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT ,
               name VARCHAR(45) NULL ,
               car_time INT NOT NULL ,
               build_time INT NOT NULL ,
