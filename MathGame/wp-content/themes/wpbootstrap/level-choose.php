@@ -61,7 +61,7 @@ foreach ($groups as $group)
     {
         $revisions = $wpdb->get_results($wpdb->prepare(
             "
-			SELECT DISTINCT l.*, u.user_login AS uname
+			SELECT DISTINCT l.*, r.*, u.user_login AS uname
             FROM $wpdb->level_revision r
             INNER JOIN $wpdb->level l ON r.level_ID = l.ID
             INNER JOIN $wpdb->group_level g ON r.level_ID = g.level_ID
@@ -122,7 +122,7 @@ foreach ($groups as $group)
                 WHERE level_ID = %d
                 ", $revision->revision_level
             ));
-
+            
             echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '\'">';
             ?>
             <td><?php echo $revision->name; ?></td>

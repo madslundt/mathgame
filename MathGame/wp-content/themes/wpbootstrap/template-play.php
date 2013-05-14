@@ -92,7 +92,16 @@ else: ?>
             isDisabled: rated,
             length: 5,
             rateMax: 5,
-            decimalLength: 0
+            decimalLength: 0,
+            onSuccess : function(){
+                jSuccess('Success : your rate has been saved :)',{
+                    HorizontalPosition:'center',
+                    VerticalPosition:'top'
+                });
+            },
+            onError : function(){
+                jError('Error : please retry');
+            }
         });
     });
 
@@ -238,7 +247,7 @@ else: ?>
                     e.preventDefault();
                     var rate = getNote(newWidth);
                     average.width(newWidth);
-                    if (isset($level)) {
+                    <?php if (isset($level)) { ?>
                         jQuery.ajax({  
                             type: 'POST',
                             cache: false,  
@@ -255,7 +264,7 @@ else: ?>
                                 alert("<?php _e('Could not rate the level.', 'wpbootstrap'); ?>");  
                             }  
                         });
-                    }
+                    <?php } ?>
                 }
             });
 

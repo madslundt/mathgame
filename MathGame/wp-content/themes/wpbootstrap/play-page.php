@@ -35,9 +35,9 @@ else
 
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 $game = "/webplayer/webplayer.unity3d";
-if (preg_match('/Chrome/i', $user_agent)) {
+/*if (preg_match('/Chrome/i', $user_agent)) {
     $game = "/chromeWebplayer/chromeWebplayer.unity3d";
-}
+}*/
 ?>
 <script type="text/javascript">
     
