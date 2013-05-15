@@ -1,6 +1,7 @@
 <?php
 $level = -1;
 $page = 1;
+$ajax_nonce = wp_create_nonce("asdk121das%€!");
 if ($_GET['level'])
 {
     $level = $_GET['level'];
@@ -141,7 +142,8 @@ $max_speed          = 10;
                 cache: false,  
                 url: "<?php echo home_url() . '/wp-admin/admin-ajax.php'; ?>",  
                 data: {  
-                    action: 'deleteLevel',  
+                    action: 'deleteLevel',
+                    security: '<?php echo $ajax_nonce; ?>',
                     level: <?php echo $level; ?>
                 },
                 success: function(data, textStatus, XMLHttpRequest) {

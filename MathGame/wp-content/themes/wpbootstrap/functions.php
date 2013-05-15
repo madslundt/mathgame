@@ -4,6 +4,7 @@
 function addScoreToLevelFunction()
 {
     global $wpdb;
+    check_ajax_referer( 'asdk121das%€!', 'security' );
     $wpdb->query($wpdb->prepare(
         "
 		INSERT INTO $wpdb->score
@@ -40,6 +41,7 @@ add_action('init', 'init_sessions');
 function addRatingToLevelFunction()
 {
     global $wpdb;
+    check_ajax_referer( 'asdk121das%€!', 'security' );
     $wpdb->query($wpdb->prepare(
         "
 		INSERT INTO $wpdb->level_rating
@@ -62,6 +64,7 @@ add_action('wp_ajax_addRatingToLevel', 'addRatingToLevelFunction');  // Only log
 function deleteLevelFunction()
 {
     global $wpdb; // Access to database $level
+    check_ajax_referer( 'asdk121das%€!', 'security' );
     $rev = $wpdb->get_col($wpdb->prepare(
         "
 		SELECT level_ID

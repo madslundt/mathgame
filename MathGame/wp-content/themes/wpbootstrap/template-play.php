@@ -4,6 +4,7 @@ Template Name: Play game template
  */
 get_header();
 $avgRating = 0;
+$ajax_nonce = wp_create_nonce("asdk121das%€!");
 if ($_GET['level'])
 {
     $level = $_GET['level'];
@@ -253,7 +254,8 @@ else: ?>
                             cache: false,  
                             url: "<?php echo home_url() . '/wp-admin/admin-ajax.php'; ?>",  
                             data: {  
-                                action: 'addRatingToLevel',  
+                                action: 'addRatingToLevel',
+                                security: '<?php echo $ajax_nonce; ?>',
                                 level: <?php echo isset($level) ? $level : 0; ?>,
                                 rating: rate
                             },

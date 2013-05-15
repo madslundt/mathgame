@@ -1,4 +1,5 @@
 <?php
+$ajax_nonce = wp_create_nonce("asdk121das%€!");
 if (!is_user_logged_in())
 {
     wp_redirect(get_option('siteurl'));
@@ -125,6 +126,7 @@ $game = "/webplayer/webplayer.unity3d";
                             data: {  
                                 action: 'addScoreToLevel',  
                                 level: <?php echo $level; ?>,
+                                security: '<?php echo $ajax_nonce; ?>',
                                 point: points,
                                 error: errors,
                                 time: playtime,
