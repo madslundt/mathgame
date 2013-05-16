@@ -1,3 +1,9 @@
+<?php
+/*
+Template Name: Level form template
+ */
+?>
+
 <?php get_header(); ?>
 	<div class="row">
 		<div class="span8">

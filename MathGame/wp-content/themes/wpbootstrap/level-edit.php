@@ -94,8 +94,8 @@ foreach ($groups as $group)
         ));
 
         $count = count($revisions) + 1;
-        echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink(30) . '&level=' . $level->ID . '\'">';
-        echo '<td rowspan="' . $count . '"><p class="lead"><a href="' . get_permalink(30) . '&level=' . $level->ID . '">' . $level->ID . '</a></p></td>';
+        echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $level->ID . '\'">';
+        echo '<td rowspan="' . $count . '"><p class="lead"><a href="' . get_permalink($page->ID) . '&level=' . $level->ID . '">' . $level->ID . '</a></p></td>';
         ?>
             <td><?php echo $level->name; ?></td>
             <td><?php echo $level->car_time; ?></td>
