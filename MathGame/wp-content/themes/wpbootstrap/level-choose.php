@@ -112,7 +112,7 @@ foreach ($groups as $group)
 				SELECT COUNT(*)
 				FROM $wpdb->bridge
 				WHERE level_ID = %d
-				", $revision->revision_level
+				", $revision->level_ID
             ));
 
             $avgRating = $wpdb->get_var($wpdb->prepare(
@@ -120,7 +120,7 @@ foreach ($groups as $group)
                 SELECT AVG(rating)
                 FROM $wpdb->level_rating
                 WHERE level_ID = %d
-                ", $revision->revision_level
+                ", $revision->level_ID
             ));
             
             echo '<tr id="rowClick" onClick="document.location = \'' . get_permalink($page->ID) . '&level=' . $revision->level_ID . '\'">';
@@ -135,7 +135,7 @@ foreach ($groups as $group)
             <td><?php echo $revision->number_bubbles; ?></td>
             <td><?php echo $bridgeCountr; ?></td>
             <td><em><?php echo $revision->uname; ?></em></td>
-            <td><div class="rating" data-average="<?php echo isset($avgRating) ? $avgRating : 0; ?>" data-id="<?php echo $revision->revision_level; ?>"></div></td>
+            <td><div class="rating" data-average="<?php echo isset($avgRating) ? $avgRating : 0; ?>" data-id="<?php echo $revision->level_ID; ?>"></div></td>
             </tr>
         <?php
         }
