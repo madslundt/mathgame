@@ -67,7 +67,7 @@ if ($_GET['view'] == 'group')
         {
             if (strtotime($g->date) < strtotime('-5 days'))
             {
-                $date = date(__('Y-m-d', 'bootstrap'), $g->date);
+                $date = date(__(get_option('date_format'), 'bootstrap'), strtotime($g->date));
             }
             else
             {
@@ -118,7 +118,7 @@ if ($_GET['view'] == 'group')
           echo '<tbody>';
           foreach ($groups as $g) {
           if (strtotime($u->date) < strtotime('-5 days')) {
-          $date = date(__('Y-m-d', 'bootstrap'), $u->date);
+          $date = date(__(get_option('date_format'), 'bootstrap'), $u->date);
           } else {
           $date = human_time_diff( strtotime($u->date)) . ' ' . __('ago', 'wpbootstrap');
           }
@@ -177,7 +177,7 @@ else if ($_GET['view'] == 'user')
         {
             if (strtotime($u->date) < strtotime('-5 days'))
             {
-                $date = date(__('Y-m-d', 'bootstrap'), $u->date);
+                $date = date(__(get_option('date_format'), 'bootstrap'), strtotime($u->date));
             }
             else
             {
@@ -242,7 +242,7 @@ else if ($_GET['view'] == 'user')
         {
             if (strtotime($u->date) < strtotime('-5 days'))
             {
-                $date = date(__('Y-m-d', 'bootstrap'), $u->date);
+                $date = date(__(get_option('date_format'), 'bootstrap'), strtotime($u->date));
             }
             else
             {
@@ -313,7 +313,7 @@ else
         {
             if (strtotime($l->date) < strtotime('-5 days'))
             {
-                $date = date(__('Y-m-d', 'bootstrap'), $l->date);
+                $date = date(__(get_option('date_format'), 'bootstrap'), strtotime($l->date));
             }
             else
             {

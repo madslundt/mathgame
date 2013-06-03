@@ -52,12 +52,12 @@ function mathgameDatabase_activate() {
               PRIMARY KEY (relationships_object_id, relationships_term_taxonomy_id, level_ID) ,
               INDEX fk_" . $wpdb->prefix . "term_relationships_has_" . $wpdb->prefix . "level_wp_m_idx (level_ID ASC) ,
               INDEX fk_" . $wpdb->prefix . "term_relationships_has_" . $wpdb->prefix . "level_wp_m_idx1 (relationships_object_id ASC, relationships_term_taxonomy_id ASC) ,
-              CONSTRAINT fk_" . $wpdb->prefix . "term_relationships_has_" . $wpdb->prefix . "level_wp_mat
+              CONSTRAINT fk_" . $wpdb->prefix . "term_relationships_has_" . $wpdb->prefix . "level_mat
                 FOREIGN KEY (relationships_object_id , relationships_term_taxonomy_id )
                 REFERENCES " . $wpdb->prefix . "term_relationships (object_id , term_taxonomy_id )
                 ON DELETE NO ACTION
                 ON UPDATE NO ACTION,
-              CONSTRAINT fk_" . $wpdb->prefix . "term_relationships_has_" . $wpdb->prefix . "level_wp_mat1
+              CONSTRAINT fk_" . $wpdb->prefix . "term_relationships_has_" . $wpdb->prefix . "level_mat1
                 FOREIGN KEY (level_ID )
                 REFERENCES " . $wpdb->prefix . "level (ID )
                 ON DELETE NO ACTION

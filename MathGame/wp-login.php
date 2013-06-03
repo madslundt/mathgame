@@ -10,7 +10,6 @@
 
 /** Make sure that the WordPress bootstrap has run before continuing. */
 require( dirname(__FILE__) . '/wp-load.php' );
-$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'login';
 
 // Redirect to https login if forced to use SSL
 if ( force_ssl_admin() && ! is_ssl() ) {
@@ -22,6 +21,7 @@ if ( force_ssl_admin() && ! is_ssl() ) {
 		exit();
 	}
 }
+
 /**
  * Outputs the header for the login page.
  *
@@ -46,6 +46,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 
 	if ( empty($wp_error) )
 		$wp_error = new WP_Error();
+
 	// Shake it!
 	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
 	$shake_error_codes = apply_filters( 'shake_error_codes', $shake_error_codes );
@@ -122,12 +123,10 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 					$errors .= '	' . $error . "<br />\n";
 			}
 		}
-		if ( !empty($errors) ) {
+		if ( !empty($errors) )
 			echo '<div id="login_error">' . apply_filters('login_errors', $errors) . "</div>\n";
-		}
-		if ( !empty($messages) ) {
+		if ( !empty($messages) )
 			echo '<p class="message">' . apply_filters('login_messages', $messages) . "</p>\n";
-		}
 	}
 } // End of login_header()
 
@@ -354,14 +353,14 @@ function register_new_user( $user_login, $user_email ) {
 // Main
 //
 
-
+$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'login';
 $errors = new WP_Error();
 
 if ( isset($_GET['key']) )
 	$action = 'resetpass';
 
 // validate action so as to default to the login screen
-if ( !in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'loginheader' ), true ) && false === has_filter( 'login_form_' . $action ) )
+if ( !in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login' ), true ) && false === has_filter( 'login_form_' . $action ) )
 	$action = 'login';
 
 nocache_headers();
@@ -416,6 +415,7 @@ break;
 
 case 'lostpassword' :
 case 'retrievepassword' :
+
 	if ( $http_post ) {
 		$errors = retrieve_password();
 		if ( !is_wp_error($errors) ) {
@@ -516,7 +516,6 @@ login_footer('user_pass');
 break;
 
 case 'register' :
-	
 	if ( is_multisite() ) {
 		// Multisite uses wp-signup.php
 		wp_redirect( apply_filters( 'wp_signup_location', network_site_url('wp-signup.php') ) );
@@ -569,46 +568,6 @@ case 'register' :
 <?php
 login_footer('user_login');
 break;
-
-case 'loginheader' :
-	$secure_cookie = '';
-	$interim_login = isset($_REQUEST['interim-login']);
-	$customize_login = isset( $_REQUEST['customize-login'] );
-	if ( $customize_login )
-		wp_enqueue_script( 'customize-base' );
-
-	// If the user wants ssl but the session is not ssl, force a secure cookie.
-	if ( !empty($_POST['log']) && !force_ssl_admin() ) {
-		$user_name = sanitize_user($_POST['log']);
-		if ( $user = get_user_by('login', $user_name) ) {
-			if ( get_user_option('use_ssl', $user->ID) ) {
-				$secure_cookie = true;
-				force_ssl_admin(true);
-			}
-		}
-	}
-
-	if ( isset( $_REQUEST['redirect_to'] ) ) {
-		$redirect_to = $_REQUEST['redirect_to'];
-		// Redirect to https if user wants ssl
-		if ( $secure_cookie && false !== strpos($redirect_to, 'wp-admin') )
-			$redirect_to = preg_replace('|^http://|', 'https://', $redirect_to);
-	} else {
-		$redirect_to = $_REQUEST['redirect_to'];
-	}
-	
-	$reauth = empty($_REQUEST['reauth']) ? false : true;
-
-	// If the user was redirected to a secure login form from a non-secure admin page, and secure login is required but secure admin is not, then don't use a secure
-	// cookie and redirect back to the referring non-secure admin page. This allows logins to always be POSTed over SSL while allowing the user to choose visiting
-	// the admin via http or https.
-	if ( !$secure_cookie && is_ssl() && force_ssl_login() && !force_ssl_admin() && ( 0 !== strpos($redirect_to, 'https') ) && ( 0 === strpos($redirect_to, 'http') ) )
-		$secure_cookie = false;
-
-	$user = wp_signon('', $secure_cookie);
-	
-	wp_redirect($redirect_to);
-	break;
 
 case 'login' :
 default:

@@ -147,7 +147,7 @@ $max_speed          = 10;
                     level: <?php echo $level; ?>
                 },
                 success: function(data, textStatus, XMLHttpRequest) {
-                    window.location.href = "<?php echo get_permalink($page->ID); ?>";
+                    window.location.href = "<?php echo get_permalink(); ?>";
                 },  
                 error: function(MLHttpRequest, textStatus, errorThrown) {
                     alert("<?php _e('There was an error deleting the level. Level was not removed.', 'wpbootstrap'); ?>");  

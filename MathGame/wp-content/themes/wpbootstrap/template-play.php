@@ -74,9 +74,7 @@ if (have_posts()) : while (have_posts()) : the_post();
         }
         else
         {
-            echo '<div class="row">';
             get_template_part('level-choose');
-            echo '</div>';
         }
         ?>
     <?php endwhile;

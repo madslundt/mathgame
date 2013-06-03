@@ -206,7 +206,7 @@ class wpdb {
 	 * @var array
 	 */
 	var $tables = array( 'posts', 'comments', 'links', 'options', 'postmeta',
-		'terms', 'term_taxonomy', 'term_relationships', 'commentmeta');
+		'terms', 'term_taxonomy', 'term_relationships', 'commentmeta' );
 
 	/**
 	 * List of deprecated WordPress tables
