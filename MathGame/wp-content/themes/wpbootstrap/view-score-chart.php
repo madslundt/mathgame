@@ -169,7 +169,7 @@ $points = json_encode($points);
 $errors = json_encode($errors);
 $time = json_encode($time);
 ?>
-<div id="scoreChart" style="width: 90%; height: 70%;"></div>
+<div id="scoreChart" class="span11"></div>
 <script>
 $(function () {
         $('#scoreChart').highcharts({

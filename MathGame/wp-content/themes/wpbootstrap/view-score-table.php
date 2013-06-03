@@ -286,16 +286,14 @@ else
 
         $total = $wpdb->get_var($wpdb->prepare(
             "
-            SELECT COUNT(s.ID)
+            SELECT DISTINCT COUNT(s.ID)
             FROM $wpdb->level l
-            INNER JOIN $wpdb->group_level g ON l.ID = g.level_ID
-            INNER JOIN $wpdb->terms t ON g.relationships_term_taxonomy_id = t.term_id
             INNER JOIN $wpdb->score s ON l.ID = s.level_ID
-            INNER JOIN $wpdb->users u ON s.user_ID = u.ID
-            WHERE l.ID = %d" 
-            . $finish . "
-            ", $cur_find
-        ));        
+            WHERE l.ID = %d" . $finish
+			, $cur_find
+        ));
+		
+		echo "total " . $total;
         ?>
         <table class="table table-hover" id="tablesorter">
         <thead>
