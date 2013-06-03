@@ -50,7 +50,7 @@ $game = "/webplayer/webplayer.unity3d";
 </script>
 <script type="text/javascript">
     var config = {
-        width: window.innerWidth * 0.8, 
+        width: window.innerWidth * 0.98, 
         height: window.innerHeight * 0.8,
         params: { enableDebugging:"0" }
 				
@@ -147,14 +147,13 @@ $game = "/webplayer/webplayer.unity3d";
 </script>
 <style type="text/css">
     .unityplayer {
-        position: relative;
-        float: left;
-        left: 10%;
-        margin-left:auto;
-        margin-right:auto;
+		position: fixed;
+		max-width: 90%;
         padding-bottom: 5%;
-        height: 70%;
-        width: 90%;
+		left:1%;
+		margin-right: auto;
+		margin-left: auto;
+		float: left !important;
     }
 </style>
 <div class="unityplayer">

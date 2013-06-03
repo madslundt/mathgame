@@ -54,13 +54,13 @@ if (have_posts()) : while (have_posts()) : the_post();
                 <a href="<?php echo the_permalink(); ?>" id="nolink">&laquo; <?php the_title(); ?></a>
 
                 <div class="pull-right">
-                    <div class="span2">
+                    <div class="span3 pull-right">
                         <?php echo __('Numbers', 'wpbootstrap') . ': <strong>' . $curlevel->min_number . ' - ' . $curlevel->max_number . '</strong>'; ?>
                     </div>
-                    <div class="span2">
+                    <div class="span3 pull-right">
                         <?php echo __('Car speed', 'wpbootstrap') . ': <strong>' . $curlevel->car_speed . '</strong>'; ?>
                     </div>
-                    <div class="span2">
+                    <div class="span3 pull-right">
                         <?php echo __('Bonus number', 'wpbootstrap') . ': <strong>' . $curlevel->bonus_number . '</strong>'; ?>
                     </div>
                     <div class="span2">
