@@ -105,11 +105,12 @@ $cur_finish = !empty($_SESSION['onlyfinished' . $_GET['view']]) ? $_SESSION['onl
 								WHERE r.revision_level = %d
 								ORDER BY level_ID
 								", $level->ID
-                            ));
+							));
+							
                             echo '<option value="' . $level->ID . '" ' . (($cur_find == $level->ID) ? 'selected' : '') . '>' . $level->name . '</option>';
                             foreach ($revisions as $revision)
                             {
-                                echo '<option value="' . $revision->ID . '" ' . (($cur_find == $revision->ID) ? 'selected' : '') . '> --' . $revision->name . '</option>';
+                                echo '<option value="' . $revision->ID . '" ' . (($cur_find == $revision->ID) ? 'selected' : '') . '>  - ' . $revision->name . '</option>';
                             }
                         }
                         echo '</select>';
