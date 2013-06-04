@@ -293,7 +293,6 @@ else
 			, $cur_find
         ));
 		
-		echo "total " . $total;
         ?>
         <table class="table table-hover" id="tablesorter">
         <thead>
