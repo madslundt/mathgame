@@ -12,10 +12,10 @@
 
 @import url('bootstrap/css/bootstrap.min.css');
 @import url('bootstrap/css/bootstrap-responsive.min.css');
-@import url('Styles/jquery-ui.css');
+@import url('Styles/jquery-ui-1.10.0.custom.css');
 @import url('Styles/jRating.jquery.css');
-@media (min-width: 979px) {
 	body {
+lo@media (min-width: 979px) {
 		padding-bottom: 40px;
 	}
 }
